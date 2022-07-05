@@ -1,4 +1,4 @@
-# Grupo4 - Don't Escape
+# Grupo 4 - Don't Escape
 
 <img src="assets/logo.png" />
 
@@ -20,6 +20,6 @@ Repositório para desenvolvimento do projeto Dont Escape da disciplina SBD1.
 
 ## Módulo 1
 
-[Video da Apresentação]()
+[Video da Apresentação](https://github.com/SBD1/Grupo4-DontEscape/blob/master/apresentacoes/modulo1.mp4)
 
 <hr>
