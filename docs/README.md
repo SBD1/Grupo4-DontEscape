@@ -23,3 +23,11 @@ Repositório para desenvolvimento do projeto Dont Escape da disciplina SBD1.
 [Video da Apresentação](https://github.com/SBD1/Grupo4-DontEscape/blob/main/apresentacoes/modulo1.mp4)
 
 <hr>
+
+<hr>
+
+## Módulo 2
+
+[Video da Apresentação](https://github.com/SBD1/Grupo4-DontEscape/blob/main/apresentacoes/modulo2.mp4)
+
+<hr>
