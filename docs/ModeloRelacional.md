@@ -1,11 +1,16 @@
-# Modelo Entidade-Relacionamento
+# Modelo Relacional
 
 ## Histórico de versão
 
-|    Data    | Versão | Descrição | Autor |
-| :---: | :----: | :---: | :---: |
-| 04/07/2022 | 0.1 | Criação do documento | Erick Melo |
+|    Data    | Versão |       Descrição       |      Autor      |
+| :--------: | :----: | :-------------------: | :-------------: |
+| 04/07/2022 |  0.1   | Criação do documento  |   Erick Melo    |
+| 01/08/2022 |  0.2   | Atualização do Modelo | Brenno Oliveira |
 
-## Mapeamento
+## Modelo Relacional v0.2
 
-![image](https://user-images.githubusercontent.com/48844857/177230893-facf0289-e3b2-4ed6-8e7c-cd11828a29bd.png)
+![Modelo Relacional](../assets/ModeloRelacionalV0.2.jpg)
+
+## Modelo Relacional v0.1
+
+![Modelo Relacional](../assets/ModeloRelacionalV0.1.png)

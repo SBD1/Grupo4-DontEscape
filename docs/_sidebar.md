@@ -1,1 +1,4 @@
 - [Home](README.md)
+- _Módulo 1_
+  - [Modelo Entidade Relacionamento](MER.md)
+  - [Modelo Relacional](ModeloRelacional.md)
