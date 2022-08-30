@@ -2,3 +2,7 @@
 - _Módulo 1_
   - [Modelo Entidade Relacionamento](MER.md)
   - [Modelo Relacional](ModeloRelacional.md)
+- _Módulo 2_
+-- Scripts Queries
+  - [DDL](DDL.md)
+  - [Modelo Relacional](ModeloRelacional.md)
