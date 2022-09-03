@@ -3,6 +3,7 @@
   - [Modelo Entidade Relacionamento](MER.md)
   - [Modelo Relacional](ModeloRelacional.md)
 - _Módulo 2_
--- Scripts Queries
   - [DDL](DDL.md)
-  - [Modelo Relacional](ModeloRelacional.md)
+  - [DML](DML.md)
+- _Módulo 3_
+  - [Triggers](Triggers.md)

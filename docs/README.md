@@ -1,6 +1,6 @@
 # Grupo 4 - Don't Escape
 
-<img src="../assets/logo.png">
+<img src="./assets/logo.png">
 
 ## Alunos
 
