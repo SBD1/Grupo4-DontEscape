@@ -99,34 +99,6 @@ INSERT INTO Coletavel (IdColetavel, Lugar) VALUES
 (25, 'No chão'),
 (26, 'Nas árvores');
 
-INSERT INTO InstanciaColetavel (IdItem, FoiColetado, Jogador) VALUES
-(1, false, 5),
-(2, false, 5),
-(3, false, 5),
-(4, false, 5),
-(5, false, 5),
-(6, false, 5),
-(7, false, 5),
-(8, false, 5),
-(9, false, 5),
-(10, false, 5),
-(11, false, 5),
-(12, false, 5),
-(13, false, 5),
-(14, false, 5),
-(15, false, 5),
-(16, false, 5),
-(17, false, 5),
-(18, false, 5),
-(19, false, 5),
-(20, false, 5),
-(21, false, 5),
-(22, false, 5),
-(23, false, 5),
-(24, false, 5),
-(25, false, 5),
-(26, false, 5);
-
 --conferir pontuação correta
 INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Uma porta resistente aberta', 0), --1--
@@ -162,8 +134,6 @@ INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Agora posso pegar um pouco de gasolina dele', 0), --31--
 ('Não tem mais gasolia para eu pegar aqui', 0); --32--
 
--- SELECT IdItem FROM Item WHERE  Tipo = 'coletavel';
-
 INSERT INTO Interavel (IdInteravel, EstadoInicial) VALUES
 (27, 1),
 (28, 4),
@@ -175,18 +145,6 @@ INSERT INTO Interavel (IdInteravel, EstadoInicial) VALUES
 (34, 26),
 (35, 28),
 (36, 30);
-
--- INSERT INTO InstanciaInteravel (IdItem, EstadoAtual, Jogador) VALUES
--- (27, 1, 5),
--- (28, 4, 5),
--- (29, 6, 5),
--- (30, 12, 5),
--- (31, 14, 5),
--- (32, 17, 5),
--- (33, 20, 5),
--- (34, 26, 5),
--- (35, 28, 5),
--- (36, 30, 5);
 
 INSERT INTO Personagem (Personagem) VALUES 
 ('inimigo'),

@@ -2,3 +2,8 @@
 - _Módulo 1_
   - [Modelo Entidade Relacionamento](MER.md)
   - [Modelo Relacional](ModeloRelacional.md)
+- _Módulo 2_
+  - [DDL](DDL.md)
+  - [DML](DML.md)
+- _Módulo 3_
+  - [Triggers](Triggers.md)

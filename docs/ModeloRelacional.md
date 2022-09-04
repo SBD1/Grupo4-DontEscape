@@ -6,7 +6,8 @@
 | :--------: | :----: | :-------------------: | :-------------: |
 | 04/07/2022 |  0.1   | Criação do documento  |   Erick Melo    |
 | 01/08/2022 |  0.2   | Atualização do Modelo | Brenno Oliveira |
-| 04/08/2022 |  0.3   | Atualização do Modelo |   Erick Melo    |
+| 03/09/2022 |  0.3   | Correção das imagens  | Brenno Oliveira |
+| 04/08/2022 |  0.4   | Atualização do Modelo |   Erick Melo    |
 
 ## Modelo Relacional v0.3
 
