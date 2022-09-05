@@ -11,12 +11,12 @@
 
 ## Modelo Relacional v0.3
 
-![Modelo Relacional](../assets/ModeloRelacionalV0.3.jpg)
+<img src="./assets/ModeloRelacionalV0.3.jpg">
 
 ## Modelo Relacional v0.2
 
-![Modelo Relacional](../assets/ModeloRelacionalV0.2.jpg)
+<img src="./assets/ModeloRelacionalV0.2.jpg">
 
 ## Modelo Relacional v0.1
 
-![Modelo Relacional](../assets/ModeloRelacionalV0.1.png)
+<img src="./assets/ModeloRelacionalV0.1.png">
