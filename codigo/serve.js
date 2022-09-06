@@ -1,11 +1,11 @@
 const pg = require('pg').Client;
 const input = require('prompt-sync')({sigint: true});
-const playerComodoInicial = 10;
+const playerComodoInicial = 13;
 
 const client = new pg({
     user: 'postgres',
     host: 'localhost',
-    database: 'Dont',
+    database: 'DontEscapeBD',
     password: "Verao19*",
     port: '5432'
 });
@@ -19,7 +19,7 @@ const postPlayerName = async (name, partida, comodo) => {
         resultados = results.rows
     })
     return resultados;
-}
+};
 
 const getLocalidades = async () => {
     let resultados = ""
@@ -28,7 +28,7 @@ const getLocalidades = async () => {
         resultados = results.rows
     })
     return resultados;
-}
+};
 
 const getPlayerLocalidade = async (comodoInical) => {
     let resultados = ""
@@ -38,7 +38,7 @@ const getPlayerLocalidade = async (comodoInical) => {
     })
       
     return resultados[0];
-}
+};
 
 const openMap = async (localidade) => {
     let resultados = ""
@@ -48,7 +48,7 @@ const openMap = async (localidade) => {
     })
 
     return resultados[0];
-}
+};
 
 const opcoes = {
     1: "saidadireita",
@@ -82,6 +82,7 @@ async function Game () {
     map["idcomodo"] = playerComodoIncial["comodoinicial"];
 
     let abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
+    
     while (abrirMapa.toLowerCase() == "s" || abrirMapa.toLowerCase() == "sim" ) {
         map = await openMap(map["idcomodo"])  
         console.table(map);

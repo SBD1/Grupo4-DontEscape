@@ -215,9 +215,9 @@ INSERT INTO Npc (IdNpc, Nome, Comodo, AjudaEmTempo, FalaInicial, FalaAjuda, Fala
 (3, 'Bill', 3, 0, 'A dor... não consigo suportar a dor', 'Obrigado, não sinto mais dor. Mas ainda estou infectado', null, null),
 (4, 'Jeremy', 15, 50, 'Oi, me chamo Jeremy. Me desculpe, não consigo ver perfeitamente, eu perdi meus óculos. Eu posso te ajudar se você encontrá-los para mim. Perdi eles em algum lugar dentro da loja', 'Obrigado, agora consigo ver perfeitamente', 'Desculpe, mas acho que não poderei te ajudar muito com meus óculos assim', 17);
 
-INSERT INTO Jogador (IdJogador, Nome, Partida, Comodo) VALUES 
-(5, 'Arthur', 2, 8),
-(6, 'Paulo', 2, 8);
+INSERT INTO Jogador (Nome, Partida, Comodo) VALUES 
+('Arthur', 2, 8),
+('Paulo', 2, 8);
 
 -- Apos inserir itens
 INSERT INTO MaquinaDeEstados(IdEstado, IdEstadoPossivel, Acao) VALUES
@@ -270,26 +270,26 @@ INSERT INTO Tarefa (IdItemInterador, IdItemInteragido, Tempo) VALUES
 (26, 32, 120);
 
 INSERT INTO InteracaoJogador (IdInstanciaInteravel, IdJogador) VALUES
-(1, 5),
-(2, 5),
-(3, 5),
-(4, 5),
-(5, 5),
-(6, 5),
-(7, 5),
-(8, 5),
-(9, 5),
-(10, 5),
-(11, 6),
-(12, 6),
-(13, 6),
-(14, 6),
-(15, 6),
-(16, 6),
-(17, 6),
-(18, 6),
-(19, 6),
-(20, 6);
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 2),
+(12, 2),
+(13, 2),
+(14, 2),
+(15, 2),
+(16, 2),
+(17, 2),
+(18, 2),
+(19, 2),
+(20, 2);
 
 -- Adicionando comodos adjacentes
 UPDATE Comodo SET SaidaDireita = 3, SaidaEsquerda = 4 WHERE IdComodo = 1;

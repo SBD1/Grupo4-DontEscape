@@ -127,7 +127,7 @@ CREATE TABLE Npc (
 );
 
 CREATE TABLE Jogador (
-    IdJogador INTEGER,
+    IdJogador SERIAL,
     Nome VARCHAR(20) NOT NULL,
     Partida INTEGER NOT NULL,
     Comodo INTEGER NOT NULL,
