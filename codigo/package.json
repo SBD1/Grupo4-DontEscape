@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "sucrase-node ./view/Main.ts",
+    "server": "sucrase-node ./src/view/Main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "pg": "^8.8.0",
     "prompt-sync": "^4.2.0",
