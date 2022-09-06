@@ -1,13 +1,14 @@
 const pg = require('pg').Client;
 const input = require('prompt-sync')({sigint: true});
 const playerComodoInicial = 10;
+require('dotenv').config();
 
 const client = new pg({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'Dont',
-    password: "Verao19*",
-    port: '5432'
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.PORT
 });
 
 client.connect();
