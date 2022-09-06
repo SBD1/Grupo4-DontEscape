@@ -1,13 +1,11 @@
 const input = require('prompt-sync')({sigint: true});
-
-
 import Postgree from "../api/index";
-import ConsoleMethods from "./ConsoleMethods";
+import Console from "./Console";
 
 async function Main () {
 
     const playerComodoInicial = 8;
-    ConsoleMethods.consoleName();
+    Console.consoleName();
 
     const pg : Postgree = new Postgree();
     const name: string = String(input("Digite seu nome: "));
@@ -20,28 +18,37 @@ async function Main () {
 
     console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
 
-    type Map = {
-        idcomodo: Number
-    };
 
-    let map : Map = {
-        idcomodo: 0
+
+    let map = {
+        nome: "",
+        idcomodo: comodoInicial["comodoinicial"],
+        saidadireita: 0,
+        saidaesquerda: 0,
+        saidameio: 0,
     };
 
     map["idcomodo"] = comodoInicial["comodoinicial"];
 
     let abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
 
-    // while (abrirMapa.toLowerCase() == "s" || abrirMapa.toLowerCase() == "sim" ) {
-    //     map["idcomodo"] = await pg.openMap(map["idcomodo"])  
-    //     console.table(map);
-    //     console.log("Ir para \n1) Saida da direita \n2) Saída da esquerda\n3) Saída do meio\n");
-    //     const decisao = input("");
-        
-    //     map = await openMap(map[opcoes[decisao]]);
-    //     console.log(`O comodo que você se encontra é : ${map["nome"]}`);
-    //     abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
-    // }
+    while (abrirMapa.toLowerCase() == "s" || abrirMapa.toLowerCase() == "sim" ) {
+        map = await pg.openMap(map["idcomodo"]);
+        Console.consoleMap(map)
+
+        console.log("Ir para \n1) Saida da direita \n2) Saída da esquerda\n3) Saída do meio\n");
+        let decisao = input("");
+
+        if (decisao == "1") 
+            map = await pg.openMap(map["saidadireita"]);
+        if (decisao == "2") 
+            map = await pg.openMap(map["saidaesquerda"]);
+        if (decisao == "3") 
+            map = await pg.openMap(map["saidameio"]);
+ 
+        console.log(`O comodo que você se encontra é : ${map["nome"]}`);
+        abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
+    }
 }
 
 Main();

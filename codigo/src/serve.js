@@ -1,15 +1,5 @@
 const pg = require('pg').Client;
 const input = require('prompt-sync')({sigint: true});
-<<<<<<< HEAD
-const playerComodoInicial = 13;
-
-const client = new pg({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'DontEscapeBD',
-    password: "Verao19*",
-    port: '5432'
-=======
 const playerComodoInicial = 10;
 require('dotenv').config();
 
@@ -19,7 +9,6 @@ const client = new pg({
     database: process.env.DATABASE,
     password: process.env.PASSWORD,
     port: process.env.PORT
->>>>>>> a22f87dba170b7b6f7f338f0bc22da52d17ce345
 });
 
 client.connect();
@@ -77,9 +66,9 @@ async function Game () {
     console.log('------------------------------------------------------')
     console.log()
 
-    const name = input("Digite seu nome: ")
-    const response = await postPlayerName(name, 1, playerComodoInicial);
-    console.log("Jogador Criado com sucesso !");
+    // const name = input("Digite seu nome: ")
+    // const response = await postPlayerName(name, 1, playerComodoInicial);
+    // console.log("Jogador Criado com sucesso !");
 
     const responseLocalidade = await getLocalidades();
     console.table(responseLocalidade);

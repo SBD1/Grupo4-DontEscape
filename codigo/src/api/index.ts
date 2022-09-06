@@ -1,3 +1,5 @@
+import { Console } from "console";
+
 const pg = require('pg').Client;
 require("dotenv").config();
 class Postgree {
@@ -32,9 +34,9 @@ class Postgree {
         return resultados;
     };
     
-    public getPlayerLocalidade = async (comodoInical: number) : Promise<{nome: string, comodoinicial: Number}> => {
+    public getPlayerLocalidade = async (comodoInical: number) : Promise<{nome: string, comodoinicial: number}> => {
 
-        let resultados: Array<{nome: string, comodoinicial: Number}> = [];
+        let resultados: Array<{nome: string, comodoinicial: number}> = [];
 
         await this.client.query(`SELECT nome, ComodoInicial FROM Localidade WHERE Localidade.ComodoInicial = ${comodoInical}`)
         .then((results: any) => {
@@ -44,13 +46,13 @@ class Postgree {
         return resultados[0];
     };
     
-    public openMap = async (localidade: number) => {
-        let resultados = ""
+    public openMap = async (localidade: number): Promise<any>=> {
+        let resultados : Array<any> = []
         await this.client.query(`SELECT nome, idcomodo, SaidaDireita, SaidaEsquerda, SaidaMeio FROM Comodo WHERE Comodo.IdComodo = ${localidade}`)
         .then((results: any) => {
             resultados = results.rows
         })
-    
+        // console.log(resultados[0])
         return resultados[0];
     };
 
