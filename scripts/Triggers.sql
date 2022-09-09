@@ -59,45 +59,45 @@ EXECUTE PROCEDURE verifica_coletado();
 CREATE OR REPLACE FUNCTION cria_Instancias() RETURNS trigger AS $cria_Instancias$
 BEGIN
 
-INSERT INTO InstanciaInteravel (IdItem, EstadoAtual, Jogador) VALUES 
-(27, 1, NEW.IdJogador),
-(28, 4, NEW.IdJogador),
-(29, 6, NEW.IdJogador),
-(30, 12, NEW.IdJogador),
-(31, 14, NEW.IdJogador),
-(32, 17, NEW.IdJogador),
-(33, 20, NEW.IdJogador),
-(34, 26, NEW.IdJogador),
-(35, 28, NEW.IdJogador),
-(36, 30, NEW.IdJogador);
+    INSERT INTO InstanciaInteravel (IdItem, EstadoAtual, Jogador) VALUES 
+    (27, 1, NEW.IdJogador),
+    (28, 4, NEW.IdJogador),
+    (29, 6, NEW.IdJogador),
+    (30, 12, NEW.IdJogador),
+    (31, 14, NEW.IdJogador),
+    (32, 17, NEW.IdJogador),
+    (33, 20, NEW.IdJogador),
+    (34, 26, NEW.IdJogador),
+    (35, 28, NEW.IdJogador),
+    (36, 30, NEW.IdJogador);
 
-INSERT INTO InstanciaColetavel (IdItem, FoiColetado, Jogador) VALUES
-(1, false, NEW.IdJogador),
-(2, false, NEW.IdJogador),
-(3, false, NEW.IdJogador),
-(4, false, NEW.IdJogador),
-(5, false, NEW.IdJogador),
-(6, false, NEW.IdJogador),
-(7, false, NEW.IdJogador),
-(8, false, NEW.IdJogador),
-(9, false, NEW.IdJogador),
-(10, false, NEW.IdJogador),
-(11, false, NEW.IdJogador),
-(12, false, NEW.IdJogador),
-(13, false, NEW.IdJogador),
-(14, false, NEW.IdJogador),
-(15, false, NEW.IdJogador),
-(16, false, NEW.IdJogador),
-(17, false, NEW.IdJogador),
-(18, false, NEW.IdJogador),
-(19, false, NEW.IdJogador),
-(20, false, NEW.IdJogador),
-(21, false, NEW.IdJogador),
-(22, false, NEW.IdJogador),
-(23, false, NEW.IdJogador),
-(24, false, NEW.IdJogador),
-(25, false, NEW.IdJogador),
-(26, false, NEW.IdJogador);
+    INSERT INTO InstanciaColetavel (IdItem, FoiColetado, Jogador) VALUES
+    (1, false, NEW.IdJogador),
+    (2, false, NEW.IdJogador),
+    (3, false, NEW.IdJogador),
+    (4, false, NEW.IdJogador),
+    (5, false, NEW.IdJogador),
+    (6, false, NEW.IdJogador),
+    (7, false, NEW.IdJogador),
+    (8, false, NEW.IdJogador),
+    (9, false, NEW.IdJogador),
+    (10, false, NEW.IdJogador),
+    (11, false, NEW.IdJogador),
+    (12, false, NEW.IdJogador),
+    (13, false, NEW.IdJogador),
+    (14, false, NEW.IdJogador),
+    (15, false, NEW.IdJogador),
+    (16, false, NEW.IdJogador),
+    (17, false, NEW.IdJogador),
+    (18, false, NEW.IdJogador),
+    (19, false, NEW.IdJogador),
+    (20, false, NEW.IdJogador),
+    (21, false, NEW.IdJogador),
+    (22, false, NEW.IdJogador),
+    (23, false, NEW.IdJogador),
+    (24, false, NEW.IdJogador),
+    (25, false, NEW.IdJogador),
+    (26, false, NEW.IdJogador);
 
     RETURN NEW;
 END;
@@ -247,18 +247,18 @@ DECLARE
     
 BEGIN
     IF IdItem = 23 OR IdItem = 24 OR IdItem = 25 THEN
-        INSERT INTO Enfrenta (idJogador, idInimigo, Tempo) VALUES (New.idJogador, NEW.idInimigo, 0);
+        NEW.Tempo := 0;
     ELSIF IdItem = 6 THEN
-        INSERT INTO Enfrenta (idJogador, idInimigo, Tempo) VALUES (New.idJogador, NEW.idInimigo, 10);
+        NEW.Tempo := 10;
     ELSIF IdItem = 1 THEN
-        INSERT INTO Enfrenta (idJogador, idInimigo, Tempo) VALUES (New.idJogador, NEW.idInimigo, 30);
+        NEW.Tempo := 30;
         UPDATE Jogador SET Situacao = 'fraco' WHERE IdJogador = New.idJogador;
     ELSE
-        INSERT INTO Enfrenta (idJogador, idInimigo, Tempo) VALUES (New.idJogador, NEW.idInimigo, 60);
+        NEW.Tempo := 60;
         UPDATE Jogador SET Situacao = 'critico' WHERE IdJogador = New.idJogador;
     END IF;
 
-    RETURN NULL;
+    RETURN NEW;
 END;
 $enfrentamento$ LANGUAGE plpgsql;
 
@@ -266,8 +266,7 @@ DROP TRIGGER IF EXISTS enfrentamento ON Enfrenta;
 
 CREATE TRIGGER enfrentamento 
 BEFORE INSERT OR UPDATE 
-ON Enfrenta FOR EACH ROW 
-WHEN (pg_trigger_depth() = 0) 
+ON Enfrenta FOR EACH ROW  
 EXECUTE PROCEDURE enfrentamento();
 
 -- Atualiza o estado da caixa de areia quando a janela muda para o estado bloqueado

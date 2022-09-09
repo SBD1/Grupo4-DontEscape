@@ -74,14 +74,14 @@ CREATE TABLE Coletavel (
 CREATE TABLE Estado (
     IdEstado SERIAL,
 	Descricao VARCHAR(100) NOT NULL,
-    Pontos INTEGER,
+    Pontos INTEGER NOT NULL,
     
     CONSTRAINT Estado_pk PRIMARY KEY(IdEstado)
 );
 
 CREATE TABLE Interavel (
     IdInteravel INTEGER,
-    EstadoInicial INTEGER,
+    EstadoInicial INTEGER NOT NULL,
     
     CONSTRAINT id_interavel_pk PRIMARY KEY (IdInteravel),
     CONSTRAINT id_interavel_fk FOREIGN KEY(IdInteravel) REFERENCES Item(IdItem),
@@ -119,9 +119,9 @@ CREATE TABLE Jogador (
 
 CREATE TABLE InstanciaColetavel (
     IdInstanciaColetavel SERIAL,
-    IdItem INTEGER,
-    FoiColetado BOOL,
-	Jogador INTEGER,
+    IdItem INTEGER NOT NULL,
+    FoiColetado BOOL NOT NULL,
+	Jogador INTEGER NOT NULL,
     
     CONSTRAINT id_instanciaColetavel_pk PRIMARY KEY (IdInstanciaColetavel),
     CONSTRAINT id_item_fk FOREIGN KEY(IdItem) REFERENCES Item(IdItem),
@@ -130,9 +130,9 @@ CREATE TABLE InstanciaColetavel (
 
 CREATE TABLE InstanciaInteravel (
     IdInstanciaInteravel SERIAL,
-    IdItem INTEGER,
-    EstadoAtual INTEGER,
-    Jogador INTEGER,
+    IdItem INTEGER NOT NULL,
+    EstadoAtual INTEGER NOT NULL,
+    Jogador INTEGER NOT NULL,
     
     CONSTRAINT id_instancia_interavel_pk PRIMARY KEY (IdInstanciaInteravel),
     CONSTRAINT id_item_fk FOREIGN KEY(IdItem) REFERENCES Item(IdItem),
@@ -141,7 +141,7 @@ CREATE TABLE InstanciaInteravel (
 );
 
 CREATE TABLE Inimigo (
-    IdInimigo INT,
+    IdInimigo INTEGER,
     Nome VARCHAR(20) NOT NULL,
     Comodo INTEGER NOT NULL,
     ItemProtegido INTEGER,
@@ -158,7 +158,7 @@ CREATE TABLE Npc (
     Comodo INTEGER NOT NULL,
     AjudaEmTempo INTEGER CHECK(AjudaEmTempo >= 0 AND AjudaEmTempo <= 100),
 	FalaInicial VARCHAR(200) NOT NULL,
-	FalaAjuda VARCHAR(200),
+	FalaAjuda VARCHAR(200) NOT NULL,
 	FalaAtrapalha VARCHAR(200),
     ItemBloqueado INTEGER,
     
@@ -172,8 +172,8 @@ CREATE TABLE Npc (
 CREATE TABLE Amizade (
     IdJogador INTEGER,
     IdNpc INTEGER,
-    Acao VARCHAR(100),
-    Relacao BOOL,
+    Acao VARCHAR(100) NOT NULL,
+    Relacao BOOL NOT NULL,
     
     CONSTRAINT amizade_pk PRIMARY KEY(IdJogador, IdNpc),
     CONSTRAINT id_Jogador_fk FOREIGN KEY(IdJogador) REFERENCES Jogador(IdJogador),
@@ -211,9 +211,9 @@ CREATE TABLE Inventario (
 
 CREATE TABLE Tarefa (
     IdTarefa SERIAL,
-    IdItemInterador INTEGER,
-    IdItemInteragido INTEGER,
-	Tempo INTEGER,
+    IdItemInterador INTEGER NOT NULL,
+    IdItemInteragido INTEGER NOT NULL,
+	Tempo INTEGER NOT NULL,
     
     CONSTRAINT tarefa_pk PRIMARY KEY(idTarefa),
     CONSTRAINT id_item_interador FOREIGN KEY(IdItemInterador) REFERENCES Item(IdItem),

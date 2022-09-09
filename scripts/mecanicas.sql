@@ -46,4 +46,5 @@ SELECT *
 -- INSERT INTO inventário (Jogador, InstanciaColetavel) VALUE
 -- (5, 8);
 	
-	
+-- enfrenamento entre jogador e inimigo
+INSERT INTO Enfrenta(idJogador, idInimigo, Arma) VALUES (5, 1, 24);
