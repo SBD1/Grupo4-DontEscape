@@ -11,14 +11,21 @@ async function Main () {
     const name: string = String(input("Digite seu nome: "));
     // const response = await pg.postPlayerName(name, 2, playerComodoInicial);
 
+    let inventario = await pg.getInventarioJogador(1);
+    console.log("Seu inventario");
+    console.table(inventario);
+
+    // const responsePostInventario = await pg.postInventarioJogador(1, 1);
+    // console.log("Seu inventario");
+    // inventario = await pg.getInventarioJogador(1);
+
+
     const localidades = await pg.getLocalidades();
     console.table(localidades);
 
     const comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
 
     console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
-
-
 
     let map = {
         nome: "",
@@ -28,7 +35,7 @@ async function Main () {
         saidameio: 0,
     };
 
-    map["idcomodo"] = comodoInicial["comodoinicial"];
+    // map["idcomodo"] = comodoInicial["comodoinicial"];
 
     let abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
 
@@ -49,7 +56,10 @@ async function Main () {
         console.log(`O comodo que você se encontra é : ${map["nome"]}`);
         abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
     }
+
+    console.log("Fim do jogo");
 }
 
 Main();
 // client.end();
+
