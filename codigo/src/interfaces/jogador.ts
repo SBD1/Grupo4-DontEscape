@@ -1,5 +1,5 @@
 export interface Jogador {
-    idJogador: Number,
+    idjogador: Number,
     nome: String,
     partida: Number,
     comodo: Number,

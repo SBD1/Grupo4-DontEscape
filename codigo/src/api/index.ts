@@ -50,14 +50,14 @@ class Postgree {
 
     public getComodo = async (Jogador: Jogador) : Promise<Comodo> => {
 
-        let resultado: Comodo = {} as Comodo;
+        let resultado: Comodo [] = [];
 
         await this.client.query(`SELECT * FROM Comodo WHERE idComodo = ${Jogador.comodo}`)
         .then((results: any) => {
             resultado = results.rows
         });
         
-        return resultado;
+        return resultado[0];
     };
     
     

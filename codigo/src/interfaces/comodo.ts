@@ -1,8 +1,8 @@
 export interface Comodo {
-    idComodo: Number,
+    idcomodo: Number,
     nome: String,
     descricao: String,
-    saidaDireita?: Number,
-    saidaEsquerda?: Number,
-    saidaMeio?: Number
+    saidadireita?: Number,
+    saidaesquerda?: Number,
+    saidameio?: Number
 }

@@ -24,13 +24,21 @@ class Console {
     }
 
     static consoleMenu(comodoJogador: Comodo) {
+        console.log(comodoJogador);
+        const isComodoInicial: Boolean = comodoJogador.idcomodo == 7 
+                                      || comodoJogador.idcomodo == 8 
+                                      || comodoJogador.idcomodo == 10 
+                                      || comodoJogador.idcomodo == 13
+                                      || comodoJogador.idcomodo == 16;
+
         let i=1;
         console.log(`\nO que você deseja fazer?`)
         console.log(`${i++}) Inspecionar o cômodo`)
         console.log(`${i++}) Abrir o inventário`)
-        if(comodoJogador.saidaDireita) console.log(`${i++}) Sair para a direita`)
-        if(comodoJogador.saidaEsquerda) console.log(`${i++}) Sair para a esquerda`)
-        if(comodoJogador.saidaMeio) console.log(`${i++}) Sair para o meio`)
+        if(comodoJogador.saidadireita) console.log(`${i++}) Sair para a direita`)
+        if(comodoJogador.saidaesquerda) console.log(`${i++}) Sair para a esquerda`)
+        if(comodoJogador.saidameio) console.log(`${i++}) Sair para o meio`)
+        if(isComodoInicial) console.log(`${i++}) Abrir o mapa`)
         console.log(`0) Sair do jogo`)
     }
 
