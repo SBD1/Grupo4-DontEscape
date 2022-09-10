@@ -1,5 +1,6 @@
 import { Comodo } from "../interfaces/comodo"
 import { Inimigo } from "../interfaces/inimigo"
+import { Item } from "../interfaces/item"
 import { Npc } from "../interfaces/npc"
 
 class Console {
@@ -15,6 +16,18 @@ class Console {
         console.log('------------------------------------------------------')
         console.log('------------------------------------------------------')
         console.log()
+    }
+
+    static consoleStart() {
+        console.log('\nQuando os zumbis atacaram, nós não estávamos preparados.');
+        console.log('Pensando bem, nós nunca estivemos realmente preparados para isso.');
+        console.log('O surto começou duas semanas atrás e foi piorando a cada dia.');
+        console.log('Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa...');
+        console.log('Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.');
+        console.log('Precisamos descansar e dormir.');
+        console.log('Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.');
+        console.log('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n');
+ 
     }
 
     static consoleMenu(comodoJogador: Comodo, inimigo?: Inimigo, npc?:Npc) {
@@ -60,6 +73,15 @@ class Console {
             console.log("\nNão há nenhum lugar para ser inspecionado aqui");
         }
     }
+
+    static consoleColetaveis(itens: Item[]) {
+            console.log("\nVocê encontrou os seguintes itens:");
+            itens.forEach((item, i) => {
+                console.log(`\t${i + 1}) ${item.nome}`);
+            })
+            console.log("Selecione o item que deseja coletar");
+    }
+
 
     static consoleListArmas(idJogador: number) {
         //Listar coletaveis do jogador que sejam armas

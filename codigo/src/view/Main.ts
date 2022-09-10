@@ -13,13 +13,15 @@ async function Main() {
     let jogador: Jogador = {
         idjogador: 5,
         nome: 'a',
-        comodo: 12,
+        comodo: 8,
         partida: 2,
         situacao: 'normal'
     }
 
     const pg: Postgree = new Postgree();
     const name: string = String(input("Digite seu nome: "));
+
+    Console.consoleStart();
     // const response = await pg.postPlayerName(name, 2, playerComodoInicial);
 
     //onst comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
@@ -31,7 +33,7 @@ async function Main() {
     let acao = input(Console.consoleMenu(comodoJogador));
     while (acao != 0) {
         if (acao == 1)
-            await inspecionaComodo(pg, jogador, input);
+            await inspecionaComodo(pg, jogador, comodoJogador, input);
         else if (acao == 2)
             console.log("Abrir o inventário");
         else if (acao == 3)

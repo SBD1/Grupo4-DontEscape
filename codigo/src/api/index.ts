@@ -1,5 +1,7 @@
 import { Console } from "console";
+import { Coletavel } from "../interfaces/coletavel";
 import { Comodo } from "../interfaces/comodo";
+import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
 
 const pg = require('pg').Client;
@@ -82,18 +84,29 @@ class Postgree {
         return resultados;
     }
 
-    public getColetaveis = async (jogador?: Jogador): Promise<String[]> => {
-        let resultados: String[] = [];
-        let comodo;
-        if (jogador) comodo = this.getComodo(jogador);
-        await this.client.query(`SELECT C.lugar 
-                                    from (SELECT I.idItem, I.tipo FROM Item I join Jogador p on I.Comodo = p.Comodo 
+    public getColetaveis = async (jogador: Jogador, lugar: String): Promise<Coletavel[]> => {
+        let resultados: Coletavel[] = [];
+        await this.client.query(`SELECT * 
+                                    from (
+                                        SELECT C.idColetavel, C.lugar 
+                                        from (SELECT I.idItem, I.tipo FROM Item I WHERE I.Comodo = ${jogador.comodo} 
                                             Group by I.idItem HAVING I.tipo='coletavel') n1 
-                                    join Coletavel C on C.idColetavel = n1.idItem; `)
+                                        join Coletavel C on C.idColetavel = n1.idItem
+                                    ) n2 
+                                    join Item I on (I.idItem = n2.IdColetavel and n2.lugar = '${lugar}');`)
             .then((results: any) => {
                 resultados = results.rows
             })
         return resultados;
+    }
+
+    public getItemById = async (itemid: Number): Promise<Item> => {
+        let resultados: Item[] = [];
+        await this.client.query(`SELECT * FROM Item WHERE idItem = ${itemid}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
     }
 
     public getInventarioJogador = async (idJogador: number): Promise<any> => {
