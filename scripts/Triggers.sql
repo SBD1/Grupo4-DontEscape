@@ -248,6 +248,7 @@ DECLARE
 BEGIN
     IF IdItem = 23 OR IdItem = 24 OR IdItem = 25 THEN
         NEW.Tempo := 0;
+        DELETE FROM Inventario WHERE Inventario.InstanciaColetavel = NEW.Arma AND Inventario.Jogador = New.idJogador;
     ELSIF IdItem = 6 THEN
         NEW.Tempo := 10;
     ELSIF IdItem = 1 THEN

@@ -30,8 +30,7 @@ class Console {
  
     }
 
-    static consoleMenu(comodoJogador: Comodo, inimigo?: Inimigo, npc?:Npc) {
-        
+    static consoleMenu(comodoJogador: Comodo, npc?: Npc) {
         this.consoleComodo(comodoJogador);
 
         const isComodoInicial: Boolean = comodoJogador.idcomodo == 7
@@ -47,7 +46,8 @@ class Console {
         if (comodoJogador.saidaesquerda) console.log(`4) Ir para a esquerda`)
         if (comodoJogador.saidameio) console.log(`5) Ir para o meio`)
         if (isComodoInicial) console.log(`6) Abrir o mapa`)
-        if (inimigo) console.log(`7) Atacar ${inimigo.nome}`)
+        console.log(`7) Procurar inimigos`)
+        console.log(`8) Procurar npcs`)
         console.log(`0) Sair do jogo`)
     }
 
@@ -81,11 +81,24 @@ class Console {
             })
             console.log("Selecione o item que deseja coletar");
     }
-
-
-    static consoleListArmas(idJogador: number) {
-        //Listar coletaveis do jogador que sejam armas
+    
+    //Listar coletaveis do jogador que sejam armas
+    static consoleListArmas(armas: any[]) {
+        console.log("Escolha sua arma:")
+        armas.forEach((arma, i) => console.log(`${i}) ${arma.nome}`));
+        console.log(`${armas.length}) Nenhuma`)
     }
+
+    static consoleOpcoesEnfrentamento(inimigo: Inimigo, itemProtegido: Item) {
+        console.table({
+            "Inimigo": inimigo.nome,
+            "Item sendo protegido": itemProtegido ? itemProtegido.nome : "Nenhum",
+        });
+
+        console.log("1) Atacar");
+        console.log("2) Ignorar");
+    }
+
 }
 
 export default Console;

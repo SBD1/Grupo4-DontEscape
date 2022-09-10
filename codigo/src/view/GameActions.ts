@@ -5,7 +5,7 @@ import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
 
-export async function inspecionaComodo(pg:Postgree, jogador: Jogador, comodo: Comodo, input: any) {
+export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: any) {
     let locais: String[] = [];
     (await pg.getLugares(jogador)).forEach(lugar => {
         lugar = Object.values(lugar).toString()
@@ -19,7 +19,7 @@ export async function inspecionaComodo(pg:Postgree, jogador: Jogador, comodo: Co
         let itens: Item[] = [];
 
         coletaveis.forEach(async coletavel => {
-            itens.push(await pg.getItemById(coletavel.idcoletavel))
+            itens.push(await pg.getItem(coletavel.idcoletavel))
         })
         input(Console.consoleColetaveis(itens));
     }
@@ -28,16 +28,28 @@ export async function inspecionaComodo(pg:Postgree, jogador: Jogador, comodo: Co
     
 }
 
-export async function enfrentaInimigo(pg: Postgree, jogador: Jogador, input: any) {
-    const inimigo: Inimigo  = await pg.getInimigoNoComodo(jogador.comodo);
+export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any) {
+    const inimigo: Inimigo = await pg.getInimigo(jogador.comodo);
+    let embate;
+    if (inimigo) embate = await pg.getEnfrenta(jogador.idjogador, inimigo.idinimigo);
 
-    let arma: any = input(Console.consoleListArmas(jogador.idjogador));
+    let acao, armas;
 
-    await pg.postEnfrentamento(jogador.idjogador, inimigo.idInimigo, arma.idInstanciaColetavel ? arma.idInstanciaColetavel : null);
+    if (inimigo && !embate) {
+        const instanciaColetavel = await pg.getInstanciaColetavel(inimigo.itemprotegido, jogador.idjogador);
+        const itemProtegido: Item = await pg.getItem(instanciaColetavel.iditem);
 
-    if (arma.idItem == 23 || arma.idItem == 24 || arma.idItem == 25) {
-        //Remover item do inventário
-        //Inserir pistola com menos bala
+        acao = input(Console.consoleOpcoesEnfrentamento(inimigo, itemProtegido));
+
+        if (acao == 1) {
+            armas = await pg.getArmaInventarioJogador(jogador.idjogador);
+
+            let arma: any = input(Console.consoleListArmas(armas));
+
+            await pg.postEnfrentamento(jogador.idjogador, inimigo.idinimigo, armas[arma] ? armas[arma].instanciacoletavel : null);
+
+            if (armas[arma].iditem == 23 || armas[arma].iditem == 24 || armas[arma].iditem == 25)
+                await pg.postInventarioJogador(jogador.idjogador, armas[arma].iditem - 1);
+        }
     }
-        
 }
