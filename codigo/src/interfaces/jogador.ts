@@ -1,7 +1,7 @@
 export interface Jogador {
-    idjogador: Number,
+    idjogador: number,
     nome: String,
-    partida: Number,
-    comodo: Number,
+    partida: number,
+    comodo: number,
     situacao: ('normal' | 'fraco' | 'critico'),
 }

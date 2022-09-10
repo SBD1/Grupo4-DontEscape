@@ -48,3 +48,6 @@ SELECT *
 	
 -- enfrenamento entre jogador e inimigo
 INSERT INTO Enfrenta(idJogador, idInimigo, Arma) VALUES (5, 1, 24);
+
+-- selecionar inimigo de um comodo
+SELECT * FROM Inimigo WHERE Comodo = 12;
