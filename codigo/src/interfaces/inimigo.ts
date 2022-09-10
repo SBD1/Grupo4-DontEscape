@@ -1,6 +1,6 @@
 export interface Inimigo {
-    idInimigo: number,
+    idinimigo: number,
     nome: String,
     comodo: number,
-    itemProtegido?: number,
+    itemprotegido: number,
 }

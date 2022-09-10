@@ -1,10 +1,10 @@
 export interface Npc {
-    idNpc: number,
+    idnpc: number,
     nome: String,
     comodo: number,
-    ajudaEmTempo: number,
-    falaInicial: number,
-    falaAjuda: number,
-    falaAtrapalha?: number,
-    itemBloqueado?: number,
+    ajudaemtempo: number,
+    falainicial: number,
+    falaajuda: number,
+    falaatrapalha?: number,
+    itembloqueado?: number,
 }

@@ -1,7 +1,7 @@
 import Postgree from "../api/index";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
-import { enfrentaInimigo, inspecionaComodo } from "./GameActions";
+import { procurarInimigo, inspecionaComodo } from "./GameActions";
 
 const input = require('prompt-sync')({ sigint: true });
 
@@ -13,7 +13,7 @@ async function Main() {
     let jogador: Jogador = {
         idjogador: 5,
         nome: 'a',
-        comodo: 12,
+        comodo: 15,
         partida: 2,
         situacao: 'normal'
     }
@@ -43,7 +43,7 @@ async function Main() {
         else if (acao == 6)
             console.log("Abrir o mapa");
         else if (acao == 7)
-            await enfrentaInimigo(pg, jogador, input);
+            await procurarInimigo(pg, jogador, input);
 
         acao = input(Console.consoleMenu(comodoJogador));
     }
