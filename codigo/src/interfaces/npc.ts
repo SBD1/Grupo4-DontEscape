@@ -6,5 +6,6 @@ export interface Npc {
     falainicial: number,
     falaajuda: number,
     falaatrapalha?: number,
-    itembloqueado?: number,
+    itembloqueado: number,
+    itemdesejado: number,
 }
