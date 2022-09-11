@@ -1,4 +1,4 @@
-import { Console } from "console";
+import { env } from "process";
 import { Coletavel } from "../interfaces/coletavel";
 import { Comodo } from "../interfaces/comodo";
 import { Inimigo } from "../interfaces/inimigo";
@@ -11,11 +11,11 @@ require("dotenv").config();
 
 class Postgree {
     client = new pg({
-        user: "postgres",
-        host: "localhost",
-        database: "dontEscape",
-        password: "1423asd",
-        port: "5432"
+        user: env.USER,
+        host: env.HOST,
+        database: env.DATABASE,
+        password: env.PASSWORD,
+        port: env.PORT
     });
 
     constructor() {
@@ -23,13 +23,22 @@ class Postgree {
         console.log("connected")
     }
 
-    public postPlayerName = async (name: string, partida: number, comodo: number) => {
-        let resultados = ""
-        await this.client.query(`INSERT INTO Jogador VALUES ('${name}', ${partida}, ${comodo})`)
+    public postLogin = async (name: string, partida: number, comodo: number) => {
+        let resultados :string = "";
+        await this.client.query(`INSERT INTO public.jogador(nome, partida, comodo) VALUES ('${name}', ${partida}, ${comodo})`)
+        .then((results: any) => {
+            resultados = results.rows
+        })
+        return resultados[0];
+    };
+
+    public getLogin = async (name: string) => {
+        let response : Array<Jogador> = [];
+        await this.client.query(`SELECT * FROM Jogador WHERE nome = '${name}'`)
             .then((results: any) => {
-                resultados = results.rows
+                response = results.rows
             })
-        return resultados;
+        return response[0];
     };
 
     public getLocalidades = async () => {
@@ -249,6 +258,7 @@ class Postgree {
             })
         return resultados[0];
     }
+
 }
 
 export default Postgree;

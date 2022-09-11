@@ -1,6 +1,6 @@
 export interface Jogador {
     idjogador: number,
-    nome: String,
+    nome: string,
     partida: number,
     comodo: number,
     situacao: ('normal' | 'fraco' | 'critico'),
