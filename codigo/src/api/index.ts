@@ -10,12 +10,13 @@ const pg = require('pg').Client;
 require("dotenv").config();
 
 class Postgree {
+
     client = new pg({
-        user: env.USER,
-        host: env.HOST,
-        database: env.DATABASE,
-        password: env.PASSWORD,
-        port: env.PORT
+        user: process.env.USER,
+        host: process.env.HOST,
+        database: process.env.DATABASE,
+        password: process.env.PASSWORD,
+        port: process.env.PORT
     });
 
     constructor() {
@@ -249,10 +250,10 @@ class Postgree {
         return resultados;
     }
 
-    public postAmizade = async (idJogador: number, idNpc: number, acao: string, relacao: boolean): Promise<any> => {
+    public postAmizade = async (idJogador: number, idNpc: number): Promise<any> => {
         let resultados: Array<any> = [];
         await this.client.query(`
-            INSERT INTO Amizade(idJogador, IdNpc, Relacao, Acao) VALUES (${idJogador}, ${idNpc}, ${relacao}, ${acao})`)
+            INSERT INTO Amizade(idJogador, IdNpc) VALUES (${idJogador}, ${idNpc})`)
             .then((results: any) => {
                 resultados = results.rows
             })
