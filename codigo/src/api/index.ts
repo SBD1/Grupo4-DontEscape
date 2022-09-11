@@ -4,17 +4,18 @@ import { Comodo } from "../interfaces/comodo";
 import { Inimigo } from "../interfaces/inimigo";
 import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
+import { Npc } from "../interfaces/npc";
 
 const pg = require('pg').Client;
 require("dotenv").config();
 
 class Postgree {
     client = new pg({
-        user: process.env.USER,
-        host: process.env.HOST,
-        database: process.env.DATABASE,
-        password: process.env.PASSWORD,
-        port: process.env.PORT
+        user: "postgres",
+        host: "localhost",
+        database: "dontEscape",
+        password: "1423asd",
+        port: "5432"
     });
 
     constructor() {
@@ -157,6 +158,17 @@ class Postgree {
         return resultados[0];
     }
 
+    public getNpc = async (idComodo: number): Promise<Npc> => {
+        let resultados: Npc[] = [];
+
+        await this.client.query(`
+        SELECT * FROM Npc WHERE Comodo = ${idComodo}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
     public getInstanciaColetavel = async (idColetavel: number, idJogador: number): Promise<any> => {
         let resultados: Array<any> = [];
         await this.client.query(`
@@ -183,7 +195,7 @@ class Postgree {
         await this.client.query(`
             SELECT Item.nome, Item.IdItem, Inventario.InstanciaColetavel FROM Item
 	            JOIN InstanciaColetavel
-	            ON InstanciaColetavel.IdItem = Item.IdItem
+	            ON InstanciaColetavel.IdItem = Item.IdItem AND InstanciaColetavel.Jogador = ${idJogador}
 	            JOIN Inventario
 	            ON Inventario.InstanciaColetavel = InstanciaColetavel.IdItem
 	            WHERE Inventario.Jogador = ${idJogador} AND (InstanciaColetavel.IdItem = 23 OR InstanciaColetavel.IdItem = 24 OR InstanciaColetavel.IdItem = 25 OR InstanciaColetavel.IdItem = 6 OR InstanciaColetavel.IdItem = 1)`)
@@ -197,6 +209,41 @@ class Postgree {
         let resultados: Array<any> = [];
         await this.client.query(`
             SELECT * FROM Enfrenta WHERE Enfrenta.idJogador = ${idJogador} AND Enfrenta.idInimigo = ${idInimigo}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public getAmizade = async (idJogador: number, idNpc: number): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            SELECT * FROM Amizade WHERE Amizade.idJogador = ${idJogador} AND Amizade.idNpc = ${idNpc}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public getItemInventarioJogador = async (idJogador: number, idItem: number): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            SELECT Item.nome, Item.IdItem, Inventario.InstanciaColetavel FROM Item
+	            JOIN InstanciaColetavel
+	            ON InstanciaColetavel.IdItem = Item.IdItem AND InstanciaColetavel.Jogador = ${idJogador}
+	            JOIN Inventario
+	            ON Inventario.InstanciaColetavel = InstanciaColetavel.IdItem
+	            WHERE Inventario.Jogador = ${idJogador} AND InstanciaColetavel.IdItem = ${idItem}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public postAmizade = async (idJogador: number, idNpc: number, acao: string, relacao: boolean): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            INSERT INTO Amizade(idJogador, IdNpc, Relacao, Acao) VALUES (${idJogador}, ${idNpc}, ${relacao}, ${acao})`)
             .then((results: any) => {
                 resultados = results.rows
             })

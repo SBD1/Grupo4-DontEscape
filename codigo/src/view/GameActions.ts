@@ -3,6 +3,7 @@ import { Comodo } from "../interfaces/comodo";
 import { Inimigo } from "../interfaces/inimigo";
 import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
+import { Npc } from "../interfaces/npc";
 import Console from "./Console";
 
 export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: any) {
@@ -44,7 +45,7 @@ export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any
         if (acao == 1) {
             armas = await pg.getArmaInventarioJogador(jogador.idjogador);
 
-            let arma: any = input(Console.consoleListArmas(armas));
+            let arma: any = input(Console.consoleListItems(armas));
 
             await pg.postEnfrentamento(jogador.idjogador, inimigo.idinimigo, armas[arma] ? armas[arma].instanciacoletavel : null);
 
@@ -52,4 +53,53 @@ export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any
                 await pg.postInventarioJogador(jogador.idjogador, armas[arma].iditem - 1);
         }
     }
+    else
+        input(console.log("Nenhum inimigo encontrado. Aperte qualquer botão para voltar"));
+}
+
+export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
+    const npc: Npc = await pg.getNpc(jogador.comodo);
+    let amizade;
+    if (npc) amizade = await pg.getAmizade(jogador.idjogador, npc.idnpc);
+
+    let acao, items;
+
+    let itemBloqueado: Item = {
+        iditem: 0,
+        nome: "",
+        descricao: "",
+        comodo: 0,
+        tipo: "coletavel"
+    };
+
+    if (npc) {
+        const instanciaColetavel = await pg.getInstanciaColetavel(npc.itembloqueado, jogador.idjogador);
+        if (instanciaColetavel) itemBloqueado = await pg.getItem(instanciaColetavel.iditem);
+
+        acao = input(Console.consoleOpcoesNpc(npc, itemBloqueado));
+
+        if (acao == 1 && !amizade) {
+            Console.consoleFalaNpc(npc);
+
+            items = await pg.getItemInventarioJogador(jogador.idjogador, npc.itemdesejado);
+
+            let item: any = input(Console.consoleListItems(items));
+
+            if(item != items.length) {
+                await pg.postAmizade(jogador.idjogador, npc.idnpc, "''", true);
+                Console.consoleFalaNpc(npc, true);
+
+                if (npc.itembloqueado)
+                    await pg.postInventarioJogador(jogador.idjogador, instanciaColetavel.idinstanciacoletavel);
+                    
+                input(console.log("Aperte qualquer botão para voltar"));
+            }
+        }
+        else if (acao == 1 && amizade) {
+            Console.consoleFalaNpc(npc, amizade.relacao);
+            input(console.log("Aperte qualquer botão para voltar"));
+        }
+    }
+    else
+        input(console.log("Nenhum Npc encontrado. Aperte qualquer botão para voltar"));
 }

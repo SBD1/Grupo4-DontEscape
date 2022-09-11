@@ -160,11 +160,13 @@ CREATE TABLE Npc (
 	FalaInicial VARCHAR(200) NOT NULL,
 	FalaAjuda VARCHAR(200) NOT NULL,
 	FalaAtrapalha VARCHAR(200),
+    ItemDesejado INTEGER NOT NULL,
     ItemBloqueado INTEGER,
     
     CONSTRAINT npc_pk PRIMARY KEY(IdNpc),
     CONSTRAINT id_Comodo_fk FOREIGN KEY(Comodo) REFERENCES Comodo(IdComodo),
     CONSTRAINT id_presonagem_fk FOREIGN KEY(IdNpc) REFERENCES Personagem(IdPersonagem),
+    CONSTRAINT id_ItemDesejado_fk FOREIGN KEY(ItemDesejado) REFERENCES Coletavel(IdColetavel),
     CONSTRAINT id_itemBloqueado_fk FOREIGN KEY(ItemBloqueado) REFERENCES Coletavel(IdColetavel)
 
 );

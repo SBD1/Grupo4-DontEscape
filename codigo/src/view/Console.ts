@@ -4,7 +4,6 @@ import { Item } from "../interfaces/item"
 import { Npc } from "../interfaces/npc"
 
 class Console {
-
     constructor() {
 
     }
@@ -81,6 +80,12 @@ class Console {
             })
             console.log("Selecione o item que deseja coletar");
     }
+
+    static consoleListItems(itens: any[]) {
+        console.log("Escolha um item:")
+        itens.forEach((item, i) => console.log(`${i}) ${item.nome}`));
+        console.log(`${itens.length}) Nenhum`)
+    }
     
     //Listar coletaveis do jogador que sejam armas
     static consoleListArmas(armas: any[]) {
@@ -99,6 +104,27 @@ class Console {
         console.log("2) Ignorar");
     }
 
+    static consoleOpcoesNpc(npc: Npc, itemBloqueado: Item) {
+        console.table({
+            "Npc": npc.nome,
+            "Item sendo bloqueado": itemBloqueado.nome != "" ? itemBloqueado.nome : "Nenhum",
+        });
+
+        console.log("1) Falar");
+        console.log("2) Ignorar");
+    }
+
+    static consoleFalaNpc(npc: Npc, amizade?: any) {
+        if (!amizade) {
+            console.table({"Fala": npc.falainicial,});
+        }
+        else if (amizade == 1) {
+            console.table({ "Fala": npc.falaajuda,});
+        }
+        else {
+            console.table({ "Fala": npc.falaatrapalha,});
+        }
+    }
 }
 
 export default Console;

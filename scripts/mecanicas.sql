@@ -43,7 +43,7 @@ SELECT *
 	join Item I on (I.idItem = n2.IdColetavel and n2.lugar = 'No chão');
 	
 
--- INSERT INTO inventário (Jogador, InstanciaColetavel) VALUE
+-- INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUE
 -- (5, 8);
 	
 -- enfrenamento entre jogador e inimigo

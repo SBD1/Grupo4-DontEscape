@@ -270,6 +270,29 @@ BEFORE INSERT OR UPDATE
 ON Enfrenta FOR EACH ROW  
 EXECUTE PROCEDURE enfrentamento();
 
+-- Procedure de amizade
+CREATE OR REPLACE FUNCTION confereAmizade() RETURNS trigger AS $confereAmizade$
+DECLARE
+    idDesejadoNpc INTEGER := (SELECT itemDesejado FROM Npc WHERE IdNpc = NEW.idNpc);
+    instanciaDeletada INTEGER := (SELECT IdInstanciaColetavel FROM Item
+			JOIN InstanciaColetavel
+	        ON InstanciaColetavel.IdItem = Item.IdItem AND InstanciaColetavel.Jogador = NEW.idJogador
+	        JOIN Inventario
+	        ON Inventario.InstanciaColetavel = InstanciaColetavel.IdItem
+	        WHERE Inventario.Jogador = NEW.idJogador AND InstanciaColetavel.IdItem = idDesejadoNpc);
+BEGIN
+    DELETE FROM Inventario WHERE Inventario.InstanciaColetavel = instanciaDeletada AND Inventario.Jogador = New.idJogador;
+    RETURN NEW;
+END;
+$confereAmizade$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS confereAmizade ON Amizade;
+
+CREATE TRIGGER confereAmizade 
+BEFORE INSERT
+ON Amizade FOR EACH ROW  
+EXECUTE PROCEDURE confereAmizade();
+
 -- Atualiza o estado da caixa de areia quando a janela muda para o estado bloqueado
 CREATE OR REPLACE FUNCTION limpa_caixa_de_areia() RETURNS trigger AS $limpa_caixa_de_areia$
 BEGIN
