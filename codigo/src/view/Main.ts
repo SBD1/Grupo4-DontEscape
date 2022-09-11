@@ -13,7 +13,7 @@ async function Main() {
     let jogador: Jogador = {
         idjogador: 5,
         nome: 'a',
-        comodo: 9,
+        comodo: 8,
         partida: 2,
         situacao: 'normal'
     }
@@ -28,7 +28,7 @@ async function Main() {
     //console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
 
     let comodoJogador = await pg.getComodo(jogador);
-    //console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
 
     let acao = input(Console.consoleMenu(comodoJogador));
     while (acao != 0) {

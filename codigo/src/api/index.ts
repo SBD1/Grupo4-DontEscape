@@ -10,12 +10,13 @@ const pg = require('pg').Client;
 require("dotenv").config();
 
 class Postgree {
+
     client = new pg({
-        user: "postgres",
-        host: "localhost",
-        database: "dontEscape",
-        password: "1423asd",
-        port: "5432"
+        user: process.env.USER,
+        host: process.env.HOST,
+        database: process.env.DATABASE,
+        password: process.env.PASSWORD,
+        port: process.env.PORT
     });
 
     constructor() {

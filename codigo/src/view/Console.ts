@@ -30,7 +30,7 @@ class Console {
     }
 
     static consoleMenu(comodoJogador: Comodo, npc?: Npc) {
-        this.consoleComodo(comodoJogador);
+        // this.consoleComodo(comodoJogador);
 
         const isComodoInicial: Boolean = comodoJogador.idcomodo == 7
             || comodoJogador.idcomodo == 8
@@ -43,7 +43,9 @@ class Console {
         console.log(`2) Abrir o inventário`)
         if (comodoJogador.saidadireita) console.log(`3) Ir para a direita`)
         if (comodoJogador.saidaesquerda) console.log(`4) Ir para a esquerda`)
+        console.log(`4) Ir para a esquerda Indisponivel`)
         if (comodoJogador.saidameio) console.log(`5) Ir para o meio`)
+        console.log("5) Ir para o meio Indisponivel")
         if (isComodoInicial) console.log(`6) Abrir o mapa`)
         console.log(`7) Procurar inimigos`)
         console.log(`8) Procurar npcs`)
