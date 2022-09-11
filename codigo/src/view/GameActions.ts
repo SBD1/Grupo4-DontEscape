@@ -83,10 +83,10 @@ export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
 
             items = await pg.getItemInventarioJogador(jogador.idjogador, npc.itemdesejado);
 
-            let item: any = input(Console.consoleListItems(items));
+            let itemEscolhido: any = input(Console.consoleListItems(items));
 
-            if(item != items.length) {
-                await pg.postAmizade(jogador.idjogador, npc.idnpc, "''", true);
+            if(itemEscolhido != items.length) {
+                await pg.postAmizade(jogador.idjogador, npc.idnpc);
                 Console.consoleFalaNpc(npc, true);
 
                 if (npc.itembloqueado)

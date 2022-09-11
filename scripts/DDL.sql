@@ -159,7 +159,6 @@ CREATE TABLE Npc (
     AjudaEmTempo INTEGER CHECK(AjudaEmTempo >= 0 AND AjudaEmTempo <= 100),
 	FalaInicial VARCHAR(200) NOT NULL,
 	FalaAjuda VARCHAR(200) NOT NULL,
-	FalaAtrapalha VARCHAR(200),
     ItemDesejado INTEGER NOT NULL,
     ItemBloqueado INTEGER,
     
@@ -174,8 +173,6 @@ CREATE TABLE Npc (
 CREATE TABLE Amizade (
     IdJogador INTEGER,
     IdNpc INTEGER,
-    Acao VARCHAR(100) NOT NULL,
-    Relacao BOOL NOT NULL,
     
     CONSTRAINT amizade_pk PRIMARY KEY(IdJogador, IdNpc),
     CONSTRAINT id_Jogador_fk FOREIGN KEY(IdJogador) REFERENCES Jogador(IdJogador),

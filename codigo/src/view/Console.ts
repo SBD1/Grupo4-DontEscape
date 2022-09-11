@@ -118,11 +118,8 @@ class Console {
         if (!amizade) {
             console.table({"Fala": npc.falainicial,});
         }
-        else if (amizade == 1) {
-            console.table({ "Fala": npc.falaajuda,});
-        }
         else {
-            console.table({ "Fala": npc.falaatrapalha,});
+            console.table({ "Fala": npc.falaajuda,});
         }
     }
 }

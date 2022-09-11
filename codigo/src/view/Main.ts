@@ -13,7 +13,7 @@ async function Main() {
     let jogador: Jogador = {
         idjogador: 5,
         nome: 'a',
-        comodo: 8,
+        comodo: 9,
         partida: 2,
         situacao: 'normal'
     }

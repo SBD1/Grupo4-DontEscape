@@ -240,10 +240,10 @@ class Postgree {
         return resultados;
     }
 
-    public postAmizade = async (idJogador: number, idNpc: number, acao: string, relacao: boolean): Promise<any> => {
+    public postAmizade = async (idJogador: number, idNpc: number): Promise<any> => {
         let resultados: Array<any> = [];
         await this.client.query(`
-            INSERT INTO Amizade(idJogador, IdNpc, Relacao, Acao) VALUES (${idJogador}, ${idNpc}, ${relacao}, ${acao})`)
+            INSERT INTO Amizade(idJogador, IdNpc) VALUES (${idJogador}, ${idNpc})`)
             .then((results: any) => {
                 resultados = results.rows
             })
