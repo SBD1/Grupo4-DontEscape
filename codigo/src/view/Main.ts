@@ -3,7 +3,6 @@ import Auth from "../model/Auth.js";
 import { Jogador } from "../interfaces/jogador.js";
 import Console from "./Console.js";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa, finalizarPartida } from "./GameActions.js";
-import Login from "../model/Login.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
 import ChalkAnimation from "chalk-animation";
@@ -51,7 +50,7 @@ async function Main() {
     Console.consoleMenu(comodoJogador);
     let acao = Number(input(""));
 
-    while (acao != 0) {
+    while (acao != 0 && acao != 10) {
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
         
@@ -82,8 +81,9 @@ async function Main() {
         Console.consoleMenu(comodoJogador)
         acao = Number(input(""));
     }
-
-    console.log("Fim do jogo");
+    
+    if (acao == 10)
+        await finalizarPartida(pg, jogador);
     /*
         let inventario = await pg.getInventarioJogador(1);
         console.log("Seu inventario");

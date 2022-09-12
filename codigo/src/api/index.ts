@@ -12,6 +12,7 @@ import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
 import { Partida } from "../interfaces/partida.js";
+import { Amizade } from 'src/interfaces/amizade.js';
 
 const PgClient = Pg.Client;
 dotenv.config();
@@ -274,8 +275,8 @@ class Postgree {
         return resultados;
     }
 
-    public getAmizadeNpc = async (idJogador: number, idNpc: number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public getAmizadeNpc = async (idJogador: number, idNpc: number): Promise<Amizade> => {
+        let resultados: Array<Amizade> = [];
         await this.client.query(`
             SELECT * FROM Amizade WHERE Amizade.idJogador = ${idJogador} AND Amizade.idNpc = ${idNpc}`)
             .then((results: any) => {
@@ -284,10 +285,12 @@ class Postgree {
         return resultados[0];
     }
 
-    public getAmizade = async (idJogador: number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public getAmizade = async (idJogador: number): Promise<Amizade[]> => {
+        let resultados: Array<Amizade> = [];
         await this.client.query(`
-            SELECT * FROM Amizade WHERE Amizade.idJogador = ${idJogador}`)
+            SELECT * FROM NPC
+                JOIN AMIZADE
+                ON NPC.IdNpc = AMIZADE.IdNpc AND AMIZADE.IdJogador = ${idJogador}`)
             .then((results: any) => {
                 resultados = results.rows
             })
@@ -349,6 +352,18 @@ class Postgree {
                 resultados = results.rows
             })
         return resultados;
+    }
+
+    public getPartidaJogador = async (idJogador: number): Promise<Partida> => {
+        let resultados: Array<Partida> = [];
+        await this.client.query(`
+            SELECT Partida.idPartida, Partida.tempoTotal, Partida.qtdZumbis, Partida.DificuldadePartida FROM Partida
+                JOIN Jogador
+                ON Jogador.Partida = Partida.IdPartida AND Jogador.IdJogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
     }
 }
 

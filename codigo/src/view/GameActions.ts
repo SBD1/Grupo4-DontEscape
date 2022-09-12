@@ -8,6 +8,8 @@ import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
 import Console from "./Console.js";
+import { Amizade } from "src/interfaces/amizade.js";
+import { Partida } from "src/interfaces/partida.js";
 
 export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: any) {
     let locais: String[] = [];
@@ -86,7 +88,7 @@ export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any
 
 export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
     const npc: Npc = await pg.getNpc(jogador.comodo);
-    let amizade;
+    let amizade: Amizade;
     if (npc) amizade = await pg.getAmizadeNpc(jogador.idjogador, npc.idnpc);
 
     let acao, items;
@@ -123,7 +125,7 @@ export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
             }
         }
         else if (acao == 1 && amizade) {
-            Console.consoleFalaNpc(npc, amizade.relacao);
+            Console.consoleFalaNpc(npc, amizade);
             input(console.log("Aperte qualquer botão para voltar"));
         }
     }
@@ -185,13 +187,15 @@ export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
 }
 
 export async function finalizarPartida(pg: Postgree, jogador: Jogador) {
+    console.clear();
+
     const inventario: any[] = await pg.getInventarioJogador(jogador.idjogador);
     const estados: Estado[] = await pg.getEstadosJogador(jogador.idjogador);
     const enfrentamentos:any[] = await pg.getEnfrenta(jogador.idjogador);
-    const amizades: any[] = await pg.getAmizade(jogador.idjogador);
+    const amizades: Amizade[] = await pg.getAmizade(jogador.idjogador);
+    const partidaJogador: Partida = await pg.getPartidaJogador(jogador.idjogador);
+    let qtdZumbis: number = partidaJogador.qtdzumbis;
 
-    let qtdZumbis: number = 50;
-    
     estados.forEach(estado => {
         if (estado.pontos > 0 && qtdZumbis > 0) {
             console.log(`${estado.descricao}, ${estado.pontos} zumbis morreram`);
@@ -233,10 +237,15 @@ export async function finalizarPartida(pg: Postgree, jogador: Jogador) {
         }
     })
 
+    amizades.forEach(amizade => {
+        console.log(`${amizade.nome} lutou bravamente contra 1 zumbi para te proteger`);
+        qtdZumbis = qtdZumbis - 1;
+    })
+
     if (qtdZumbis <= 0) 
         Console.consoleFinalVencedor();
     else 
-        Console.consoleFinalPerdedor();
+        Console.consoleFinalPerdedor(qtdZumbis);
 
     /*
     console.log(inventario);
