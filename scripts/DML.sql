@@ -24,9 +24,9 @@ INSERT INTO Localidade (ComodoInicial, nome) VALUES
 (16, 'Rodovia');
 
 INSERT INTO Partida (TempoTotal, Qtdzumbis, DificuldadePartida) VALUES 
-(540, 40, 'Fácil'),
+(600, 50, 'Fácil'),
 (480, 50, 'Médio'),
-(420, 60, 'Difícil');
+(390, 82, 'Difícil');
 
 INSERT INTO Item (Nome, Descricao, Comodo, Tipo) VALUES 
 ('Pá', 'Uma pá', 1, 'coletavel'), 
@@ -102,10 +102,10 @@ INSERT INTO Coletavel (IdColetavel, Lugar) VALUES
 --conferir pontuação correta
 INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Uma porta resistente aberta', 0), --1--
-('Uma porta resistente fechada', 0), --2--
-('A porta está trancada', 0), --3--
+('Uma porta resistente fechada', 5), --2--
+('A porta está trancada', 10), --3--
 ('Uma janela quebrada', 0), --4--
-('A janela está bloqueada', 0), --5--
+('A janela está bloqueada', 10), --5--
 ('Tem um pouco de areia aqui dentro', 0), --6--
 ('Tem um pouco de areia e água aqui dentro', 0), --7--
 ('Tem um pouco de areia e cimento aqui dentro', 0), --8--
@@ -116,18 +116,18 @@ INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Quebrado', 0), --13--
 ('Está trancado', 0), --14--
 ('Esse alçapão aberto não me protejeria muito', 0), --15--
-('Agora está fechado', 0), --16--
+('Agora está fechado', 5), --16--
 ('Preciso achar algo para colocar aqui', 0), --17--
-('Um buraco deve atrasá-los um pouco', 0), --18--
-('Essa armadilha deve atrasá-los um pouco', 0), --19--
+('Um buraco deve atrasá-los um pouco', 15), --18--
+('Essa armadilha deve atrasá-los um pouco', 15), --19--
 ('O gerador não está funcionando', 0), --20--
 ('O gerador está conectado mas ainda está sem combustível', 0), --21--
 ('O gerador está desligado', 0), --22--
 ('O gerador está conectado mas ainda está desligado', 0), --23--
 ('O gerador está ligado', 0), --24--
-('O gerador está ligado e agora a cerca também está eletrificada', 0), --25--
+('O gerador está ligado e agora a cerca também está eletrificada', 5), --25--
 ('Uma cerca quebrada', 0), --26--
-('Essa cerca não vai segurá-los por muito tempo', 0), --27--
+('Essa cerca não vai segurá-los por muito tempo', 15), --27--
 ('Posso conseguir alguns gravetos com essas árvores', 0), --28--
 ('Já peguei algumas varas aqui', 0), --29--
 ('O tanque de gasolina está cheio', 0), --30--
@@ -150,9 +150,7 @@ INSERT INTO Personagem (Personagem) VALUES
 ('inimigo'),
 ('npc'),
 ('npc'),
-('npc'),
-('jogador'),
-('jogador');
+('npc');
 
 INSERT INTO Inimigo (IdInimigo, Nome, Comodo, ItemProtegido) VALUES 
 (1, 'Aranha Gigante', 15, 21);
@@ -161,10 +159,6 @@ INSERT INTO Npc (IdNpc, Nome, Comodo, AjudaEmTempo, FalaInicial, FalaAjuda, Item
 (2, 'Padre Bernardo', 9, 50, 'Eu perdi minha fé, não há esperança para nenhum de nós. Apenas me deixe só para morrer', 'Vamos sair logo daqui', null, 18),
 (3, 'Bill', 3, 0, 'A dor... não consigo suportar a dor', 'Obrigado, não sinto mais dor. Mas ainda estou infectado', null, 14),
 (4, 'Jeremy', 15, 50, 'Oi, me chamo Jeremy. Me desculpe, não consigo ver perfeitamente, eu perdi meus óculos. Eu posso te ajudar se você encontrá-los para mim. Perdi eles em algum lugar dentro da loja', 'Obrigado, agora consigo ver perfeitamente', 17, 21);
-
-INSERT INTO Jogador (IdJogador, Nome, Partida, Comodo) VALUES 
-(5, 'Arthur', 2, 8),
-(6, 'Paulo', 2, 8);
 
 -- Apos inserir itens
 INSERT INTO MaquinaDeEstados(IdEstado, IdEstadoPossivel, Acao) VALUES
