@@ -1,4 +1,5 @@
 import { Estado } from "src/interfaces/estado.js";
+import chalk from "chalk";
 import Postgree from "../api/index.js";
 import { Comodo } from "../interfaces/comodo.js";
 import { Inimigo } from "../interfaces/inimigo.js";
@@ -31,8 +32,15 @@ export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: an
             if(resposta != 0){
                 let inventario = await pg.postInventarioJogador(jogador.idjogador, instanciaColetaveis[resposta-1].idinstanciacoletavel)
                 console.log();
+                console.log(chalk.green(itens[resposta-1].descricao));
                 if(inventario == 1) console.log("Item coletado!");
-                console.log(itens[resposta-1].descricao);
+                else{
+                    console.log(chalk.green("Não posso pegar isso"));
+                    if(itens[resposta-1].iditem == 17)
+                        console.log(chalk.green("Jeremy está bloqueando este item, talvez eu consiga pegá-lo se eu ajudar ele"));
+                    if(itens[resposta-1].iditem == 21) 
+                        console.log(chalk.green("Tenho que matar esta aranha antes de pegar os óculos"));
+                }
             } 
             locais = [];
             (await pg.getLugares(jogador)).forEach(lugar => {

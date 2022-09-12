@@ -15,6 +15,7 @@ class Auth {
 
             if (jogador) {
                 console.log(chalk.greenBright.bold("Jogador Conectado!, Bem vindo " + jogador.nome));
+                console.clear();
                 return jogador;
             }
             else

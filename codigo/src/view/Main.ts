@@ -35,7 +35,7 @@ async function Main() {
     else 
         jogador = await Auth.register(input, pg);
 
-    Console.consoleStart();
+    await Console.consoleStart(sleep);
     //jogador.comodo=8;
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
@@ -45,7 +45,7 @@ async function Main() {
     }
     //console.log(interaveis);
     
-    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
     Console.consoleInteraveis(estados);
 
     Console.consoleMenu(comodoJogador);
@@ -75,15 +75,12 @@ async function Main() {
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
-        else if (acao == 10)
-            await finalizarPartida(pg, jogador);
 
-        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
-        Console.consoleMenu(comodoJogador)
-        acao = Number(input(""));
-        
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
+        console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
+        Console.consoleMenu(comodoJogador)
+        acao = Number(input(""));
     }
 
     console.log("Fim do jogo");

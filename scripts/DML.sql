@@ -1,8 +1,8 @@
 INSERT INTO Comodo (Nome, Descricao, SaidaDireita, SaidaEsquerda, SaidaMeio) VALUES 
-('Fundo da garagem', 'Cômodo pequeno com um poço', null, null, null),
-('Entrada da garagem', 'Cômodo com grande entrada e com mofo no teto', null, null, null),
-('Meio da garagem', 'Cômodo com paredes descascadas e vigas aparentes', null, null, null),
-('Porão da garagem', 'Lugar estreito com bastante sujeira', null, null, null),
+('Fundo da garagem da base', 'Cômodo pequeno com um poço', null, null, null),
+('Entrada da garagem da base', 'Cômodo com grande entrada e com mofo no teto', null, null, null),
+('Meio da garagem da base', 'Cômodo com paredes descascadas e vigas aparentes', null, null, null),
+('Porão da garagem da base', 'Lugar estreito com bastante sujeira', null, null, null),
 ('Exterior Frontal da base', 'Chão com grama seca com vista para uma floresta', null, null, null),
 ('Exterior Lateral da base', 'Uma parede que já esteve em melhores condições', null, null, null),
 ('Saída da base', 'Local rodeado por altas cercas', null, null, null),
