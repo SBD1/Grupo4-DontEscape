@@ -250,6 +250,16 @@ class Postgree {
             })
         return resultados[0];
     }
+
+    public putJogador = async (oldIdJogador: number, idComodo: Number): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            UPDATE Jogador SET comodo = ${idComodo} WHERE IdJogador = ${oldIdJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
 }
 
 export default Postgree;

@@ -103,3 +103,20 @@ export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
     else
         input(console.log("Nenhum Npc encontrado. Aperte qualquer botão para voltar"));
 }
+
+
+export async function mudaComodo(pg: Postgree, jogador: Jogador, acao: Number) {
+    let comodo, novoComodo: Number | undefined;
+
+    comodo = await pg.getComodo(jogador);
+
+    if (acao == 3) 
+        novoComodo = comodo.saidadireita;
+    else if (acao == 4)
+        novoComodo = comodo.saidaesquerda;
+    else if (acao == 5)
+        novoComodo = comodo.saidameio;
+        
+    if(novoComodo)
+    pg.putJogador(jogador.idjogador, novoComodo);
+}

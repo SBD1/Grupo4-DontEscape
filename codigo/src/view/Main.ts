@@ -1,7 +1,7 @@
 import Postgree from "../api/index";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
-import { procurarInimigo, inspecionaComodo, procurarNpc } from "./GameActions";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo } from "./GameActions";
 
 const input = require('prompt-sync')({ sigint: true });
 
@@ -11,7 +11,7 @@ async function Main() {
     Console.consoleName();
 
     let jogador: Jogador = {
-        idjogador: 5,
+        idjogador: 6,
         nome: 'a',
         comodo: 8,
         partida: 2,
@@ -28,20 +28,21 @@ async function Main() {
     //console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
 
     let comodoJogador = await pg.getComodo(jogador);
-    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    
 
     let acao = input(Console.consoleMenu(comodoJogador));
     while (acao != 0) {
+        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
         else if (acao == 2)
             console.log("Abrir o inventário");
         else if (acao == 3)
-            console.log("Ir para a direita");
+            await mudaComodo(pg, jogador, acao);
         else if (acao == 4)
-            console.log("Ir para a esquerda");
+            await mudaComodo(pg, jogador, acao);
         else if (acao == 5)
-            console.log("Ir para o meio");
+            await mudaComodo(pg, jogador, acao);
         else if (acao == 6)
             console.log("Abrir o mapa");
         else if (acao == 7)
