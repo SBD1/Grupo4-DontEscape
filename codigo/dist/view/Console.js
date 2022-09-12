@@ -1,3 +1,4 @@
+import chalk from "chalk";
 class Console {
     constructor() {
     }
@@ -10,14 +11,14 @@ class Console {
         console.log();
     }
     static consoleStart() {
-        console.log('\nQuando os zumbis atacaram, nós não estávamos preparados.');
-        console.log('Pensando bem, nós nunca estivemos realmente preparados para isso.');
-        console.log('O surto começou duas semanas atrás e foi piorando a cada dia.');
-        console.log('Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa...');
-        console.log('Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.');
-        console.log('Precisamos descansar e dormir.');
-        console.log('Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.');
-        console.log('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n');
+        console.log(chalk.green('\nQuando os zumbis atacaram, nós não estávamos preparados.'));
+        console.log(chalk.green('Pensando bem, nós nunca estivemos realmente preparados para isso.'));
+        console.log(chalk.green('O surto começou duas semanas atrás e foi piorando a cada dia.'));
+        console.log(chalk.green('Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa...'));
+        console.log(chalk.green('Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.'));
+        console.log(chalk.green('Precisamos descansar e dormir.'));
+        console.log(chalk.green('Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.'));
+        console.log(chalk.green('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n'));
     }
     static consoleMenu(comodoJogador, npc) {
         const isComodoInicial = comodoJogador.idcomodo == 7
@@ -32,19 +33,19 @@ class Console {
         if (comodoJogador.saidadireita)
             console.log(`4) Ir para a direita`);
         else
-            console.log(`4) Ir para a direita (Indisponivel)`);
+            console.log(chalk.gray(`4) Ir para a direita (Indisponivel)`));
         if (comodoJogador.saidaesquerda)
             console.log(`5) Ir para a esquerda`);
         else
-            console.log(`5) Ir para a esquerda (Indisponivel)`);
+            console.log(chalk.gray(`5) Ir para a esquerda (Indisponivel)`));
         if (comodoJogador.saidameio)
             console.log(`6) Ir para o meio`);
         else
-            console.log("6) Ir para o meio (Indisponivel)");
+            console.log(chalk.gray("6) Ir para o meio (Indisponivel)"));
         if (isComodoInicial)
             console.log(`7) Abrir o mapa`);
         else
-            console.log(`7) Abrir o mapa (Indisponivel)`);
+            console.log(chalk.gray(`7) Abrir o mapa (Indisponivel)`));
         console.log(`8) Procurar inimigos`);
         console.log(`9) Procurar npcs`);
         console.log(`0) Sair do jogo`);

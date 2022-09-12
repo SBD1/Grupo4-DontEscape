@@ -29,7 +29,7 @@ async function Main() {
     for (let i = 0; i < interaveis.length; i++) {
         estados[i] = await pg.getEstado(interaveis[i].estadoatual);
     }
-    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
     Console.consoleInteraveis(estados);
     Console.consoleMenu(comodoJogador);
     let acao = Number(input(""));
@@ -51,12 +51,14 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador);
+            await abrirMapa(pg, jogador, input);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
-        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+        jogador = await pg.getLogin(jogador.nome);
+        comodoJogador = await pg.getComodo(jogador);
+        console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));
     }
