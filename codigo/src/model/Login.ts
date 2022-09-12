@@ -1,4 +1,4 @@
-import { Jogador } from "../interfaces/jogador";
+import { Jogador } from "../interfaces/jogador.js";
 
 class Login {
 
