@@ -1,20 +1,20 @@
 INSERT INTO Comodo (Nome, Descricao, SaidaDireita, SaidaEsquerda, SaidaMeio) VALUES 
-('Fundo da garagem', '', null, null, null),
-('Entrada da garagem', '', null, null, null),
-('Meio da garagem', '', null, null, null),
-('Porão da garagem', '', null, null, null),
-('Exterior Frontal da base', '', null, null, null),
-('Exterior Lateral da base', '', null, null, null),
-('Saída da base', '', null, null, null),
-('Exterior da igreja', '', null, null, null),
-('Interior da igreja', '', null, null, null),
-('Entrada do posto de gasolina', '', null, null, null),
-('Exterior do posto de gasolina', '', null, null, null),
-('Escritório do posto de gasolina', '', null, null, null),
-('Exterior da loja', '', null, null, null),
-('Interior da loja', '', null, null, null),
-('Buraco extranho na loja', '', null, null, null),
-('Cruzamento da rodovia', '', null, null, null);
+('Fundo da garagem', 'Cômodo pequeno com um poço', null, null, null),
+('Entrada da garagem', 'Cômodo com grande entrada e com mofo no teto', null, null, null),
+('Meio da garagem', 'Cômodo com paredes descascadas e vigas aparentes', null, null, null),
+('Porão da garagem', 'Lugar estreito com bastante sujeira', null, null, null),
+('Exterior Frontal da base', 'Chão com grama seca com vista para uma floresta', null, null, null),
+('Exterior Lateral da base', 'Uma parede que já esteve em melhores condições', null, null, null),
+('Saída da base', 'Local rodeado por altas cercas', null, null, null),
+('Exterior da igreja', 'Local bem arrumado para o fim do mundo, posso ver uma estátua de anjo', null, null, null),
+('Interior da igreja', 'O reflexo do sol nos vitrais geram uma atmosfera sombria', null, null, null),
+('Entrada do posto de gasolina', 'Três cheias e solitárias bombas de gasolina', null, null, null),
+('Exterior do posto de gasolina', 'As prateleiras que um foram cheias, estão vazias', null, null, null),
+('Escritório do posto de gasolina', 'Local bem arrumado cum uma poltrona e livros ao fundo', null, null, null),
+('Exterior da loja', 'Uma grande área pavimentada com uma loja ao fundo', null, null, null),
+('Interior da loja', 'Local escuro com grandes prateleiras vazias', null, null, null),
+('Buraco extranho na loja', 'Local que um dia foi utilizado para guardar estoque', null, null, null),
+('Cruzamento da rodovia', 'Cruzamento de três vias com dois carros colididos no meio', null, null, null);
 
 INSERT INTO Localidade (ComodoInicial, nome) VALUES 
 (7, 'Base'),
@@ -24,9 +24,9 @@ INSERT INTO Localidade (ComodoInicial, nome) VALUES
 (16, 'Rodovia');
 
 INSERT INTO Partida (TempoTotal, Qtdzumbis, DificuldadePartida) VALUES 
-(540, 40, 'F'),
-(480, 50, 'M'),
-(420, 60, 'D');
+(600, 50, 'Fácil'),
+(480, 50, 'Médio'),
+(390, 82, 'Difícil');
 
 INSERT INTO Item (Nome, Descricao, Comodo, Tipo) VALUES 
 ('Pá', 'Uma pá', 1, 'coletavel'), 
@@ -102,10 +102,10 @@ INSERT INTO Coletavel (IdColetavel, Lugar) VALUES
 --conferir pontuação correta
 INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Uma porta resistente aberta', 0), --1--
-('Uma porta resistente fechada', 0), --2--
-('A porta está trancada', 0), --3--
+('Uma porta resistente fechada', 5), --2--
+('A porta está trancada', 10), --3--
 ('Uma janela quebrada', 0), --4--
-('A janela está bloqueada', 0), --5--
+('A janela está bloqueada', 10), --5--
 ('Tem um pouco de areia aqui dentro', 0), --6--
 ('Tem um pouco de areia e água aqui dentro', 0), --7--
 ('Tem um pouco de areia e cimento aqui dentro', 0), --8--
@@ -116,18 +116,18 @@ INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Quebrado', 0), --13--
 ('Está trancado', 0), --14--
 ('Esse alçapão aberto não me protejeria muito', 0), --15--
-('Agora está fechado', 0), --16--
+('Agora está fechado', 5), --16--
 ('Preciso achar algo para colocar aqui', 0), --17--
-('Um buraco deve atrasá-los um pouco', 0), --18--
-('Essa armadilha deve atrasá-los um pouco', 0), --19--
+('Um buraco deve atrasá-los um pouco', 15), --18--
+('Essa armadilha deve atrasá-los um pouco', 15), --19--
 ('O gerador não está funcionando', 0), --20--
 ('O gerador está conectado mas ainda está sem combustível', 0), --21--
 ('O gerador está desligado', 0), --22--
 ('O gerador está conectado mas ainda está desligado', 0), --23--
 ('O gerador está ligado', 0), --24--
-('O gerador está ligado e agora a cerca também está eletrificada', 0), --25--
+('O gerador está ligado e agora a cerca também está eletrificada', 5), --25--
 ('Uma cerca quebrada', 0), --26--
-('Essa cerca não vai segurá-los por muito tempo', 0), --27--
+('Essa cerca não vai segurá-los por muito tempo', 15), --27--
 ('Posso conseguir alguns gravetos com essas árvores', 0), --28--
 ('Já peguei algumas varas aqui', 0), --29--
 ('O tanque de gasolina está cheio', 0), --30--
@@ -150,9 +150,7 @@ INSERT INTO Personagem (Personagem) VALUES
 ('inimigo'),
 ('npc'),
 ('npc'),
-('npc'),
-('jogador'),
-('jogador');
+('npc');
 
 INSERT INTO Inimigo (IdInimigo, Nome, Comodo, ItemProtegido) VALUES 
 (1, 'Aranha Gigante', 15, 21);
@@ -161,10 +159,6 @@ INSERT INTO Npc (IdNpc, Nome, Comodo, AjudaEmTempo, FalaInicial, FalaAjuda, Item
 (2, 'Padre Bernardo', 9, 50, 'Eu perdi minha fé, não há esperança para nenhum de nós. Apenas me deixe só para morrer', 'Vamos sair logo daqui', null, 18),
 (3, 'Bill', 3, 0, 'A dor... não consigo suportar a dor', 'Obrigado, não sinto mais dor. Mas ainda estou infectado', null, 14),
 (4, 'Jeremy', 15, 50, 'Oi, me chamo Jeremy. Me desculpe, não consigo ver perfeitamente, eu perdi meus óculos. Eu posso te ajudar se você encontrá-los para mim. Perdi eles em algum lugar dentro da loja', 'Obrigado, agora consigo ver perfeitamente', 17, 21);
-
-INSERT INTO Jogador (IdJogador, Nome, Partida, Comodo) VALUES 
-(5, 'Arthur', 2, 8),
-(6, 'Paulo', 2, 8);
 
 -- Apos inserir itens
 INSERT INTO MaquinaDeEstados(IdEstado, IdEstadoPossivel, Acao) VALUES
