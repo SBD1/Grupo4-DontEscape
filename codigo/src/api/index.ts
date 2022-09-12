@@ -1,6 +1,7 @@
 import { env } from "process";
 import { Coletavel } from "../interfaces/coletavel";
 import { Comodo } from "../interfaces/comodo";
+import { Estado } from "../interfaces/estado";
 import { Inimigo } from "../interfaces/inimigo";
 import { InstanciaColetavel } from "../interfaces/instanciaColetavel";
 import { Inventario } from "../interfaces/inventario";
@@ -123,14 +124,25 @@ class Postgree {
         return resultados;
     }
 
-    /*public getItemById = async (itemid: Number): Promise<Item> => {
-        let resultados: Item[] = [];
-        await this.client.query(`SELECT * FROM Item WHERE idItem = ${itemid}`)
+    public getInteraveis = async (jogador: Jogador): Promise<any[]> => {
+        let resultados: any[] = [];
+        await this.client.query(`SELECT n1.nome, idInstanciaInteravel,  II.idItem, estadoAtual, jogador FROM
+                                (SELECT * FROM Item I WHERE I.Comodo = ${jogador.comodo} AND I.tipo = 'interavel') n1
+                                join InstanciaInteravel II on II.Jogador = ${jogador.idjogador} AND n1.idItem = II.idItem`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public getEstado = async (idEstado: Number): Promise<Estado> => {
+        let resultados: Estado[] = [];
+        await this.client.query(`SELECT * FROM Estado WHERE idestado = ${(idEstado)};`)
             .then((results: any) => {
                 resultados = results.rows
             })
         return resultados[0];
-    }*/
+    }
 
     public getInventarioJogador = async (idJogador: number): Promise<any> => {
         let resultados: Array<any> = [];

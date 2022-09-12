@@ -1,6 +1,8 @@
 import { Comodo } from "../interfaces/comodo"
+import { Estado } from "../interfaces/estado"
 import { Inimigo } from "../interfaces/inimigo"
 import { Item } from "../interfaces/item"
+import { Jogador } from "../interfaces/jogador"
 import { Npc } from "../interfaces/npc"
 
 class Console {
@@ -70,6 +72,7 @@ class Console {
             locais.forEach((local, i) => {
                 console.log(`\t${i + 1}) ${local}`);
             })
+            console.log("\t0) Voltar");
             console.log("Qual deseja inspecionar primeiro?");
         }
         else {
@@ -132,6 +135,14 @@ class Console {
         console.table({
             "Nome": locais.nome,
         });
+    }
+
+    static consoleInteraveis(estados: Estado[]) {
+        console.log("Itens interáveis:");
+        estados.forEach(estado=>{
+            console.log(`\t- ${estado.descricao}`);    
+        })
+        console.log();
     }
 
 }

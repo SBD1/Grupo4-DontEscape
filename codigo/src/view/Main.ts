@@ -44,9 +44,16 @@ async function Main() {
     Console.consoleStart();
 
     let comodoJogador = await pg.getComodo(jogador);
+    let interaveis = await pg.getInteraveis(jogador);
+    let estados = []
+    for(let i=0; i<interaveis.length; i++){
+        estados[i] = await pg.getEstado(interaveis[i].estadoatual);
+    }
+    //console.log(interaveis);
     
-
     console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    Console.consoleInteraveis(estados);
+
     let acao = input(Console.consoleMenu(comodoJogador));
 
     while (acao != 0) {
@@ -70,7 +77,7 @@ async function Main() {
             await procurarInimigo(pg, jogador, input);
         else if (acao == 8)
             await procurarNpc(pg, jogador, input);
-        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+        console.log(`\nVocê está no cômodo : ${comodoJogador.nome}`);
         acao = input(Console.consoleMenu(comodoJogador));
     }
 
