@@ -1,6 +1,6 @@
 export interface Partida {
-    idpartida: Number,
-    tempototal: Number,
-    qtdzumbis: Number,
-    dificuldadepartida: ('F' | 'M' | 'D'),
+    idpartida: number,
+    tempototal: number,
+    qtdzumbis: number,
+    dificuldadepartida: ('Facil' | 'Médio' | 'Difícil'),
 }

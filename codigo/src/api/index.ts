@@ -12,6 +12,7 @@ import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
 import { Partida } from "../interfaces/partida.js";
+import { Amizade } from 'src/interfaces/amizade.js';
 
 const PgClient = Pg.Client;
 dotenv.config();
@@ -217,6 +218,16 @@ class Postgree {
         return resultados[0];
     }
 
+    public getInstanciaColetavelJogador = async (idInstancia: Number, idJogador: Number): Promise<InstanciaColetavel> => {
+        let resultados: Array<InstanciaColetavel> = [];
+        await this.client.query(`
+            SELECT * FROM InstanciaColetavel WHERE IdInstanciaColetavel = ${idInstancia} AND Jogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
     public getItem = async (idItem: Number): Promise<Item> => {
         let resultados: Item[] = [];
 
@@ -244,7 +255,7 @@ class Postgree {
         return resultados;
     }
 
-    public getEnfrenta = async (idJogador: number, idInimigo: number): Promise<any> => {
+    public getEnfrentaInimigo = async (idJogador: number, idInimigo: number): Promise<any> => {
         let resultados: Array<any> = [];
         await this.client.query(`
             SELECT * FROM Enfrenta WHERE Enfrenta.idJogador = ${idJogador} AND Enfrenta.idInimigo = ${idInimigo}`)
@@ -254,14 +265,36 @@ class Postgree {
         return resultados[0];
     }
 
-    public getAmizade = async (idJogador: number, idNpc: number): Promise<any> => {
+    public getEnfrenta = async (idJogador: number): Promise<any> => {
         let resultados: Array<any> = [];
+        await this.client.query(`
+            SELECT * FROM Enfrenta WHERE Enfrenta.idJogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public getAmizadeNpc = async (idJogador: number, idNpc: number): Promise<Amizade> => {
+        let resultados: Array<Amizade> = [];
         await this.client.query(`
             SELECT * FROM Amizade WHERE Amizade.idJogador = ${idJogador} AND Amizade.idNpc = ${idNpc}`)
             .then((results: any) => {
                 resultados = results.rows
             })
         return resultados[0];
+    }
+
+    public getAmizade = async (idJogador: number): Promise<Amizade[]> => {
+        let resultados: Array<Amizade> = [];
+        await this.client.query(`
+            SELECT * FROM NPC
+                JOIN AMIZADE
+                ON NPC.IdNpc = AMIZADE.IdNpc AND AMIZADE.IdJogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
     }
 
     public getItemInventarioJogador = async (idJogador: number, idItem: number): Promise<any> => {
@@ -307,6 +340,30 @@ class Postgree {
                 resultados = results.rows
             })
         return resultados;
+    }
+
+    public getEstadosJogador = async (idJogador: number): Promise<Estado[]> => {
+        let resultados: Array<Estado> = [];
+        await this.client.query(`
+            SELECT Estado.idEstado, Estado.descricao, Estado.pontos FROM Estado
+                JOIN InstanciaInteravel
+                ON InstanciaInteravel.EstadoAtual = Estado.IdEstado AND InstanciaInteravel.Jogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public getPartidaJogador = async (idJogador: number): Promise<Partida> => {
+        let resultados: Array<Partida> = [];
+        await this.client.query(`
+            SELECT Partida.idPartida, Partida.tempoTotal, Partida.qtdZumbis, Partida.DificuldadePartida FROM Partida
+                JOIN Jogador
+                ON Jogador.Partida = Partida.IdPartida AND Jogador.IdJogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
     }
 }
 

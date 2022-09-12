@@ -1,3 +1,4 @@
+import { Estado } from "src/interfaces/estado.js";
 import chalk from "chalk";
 import Postgree from "../api/index.js";
 import { Comodo } from "../interfaces/comodo.js";
@@ -7,6 +8,8 @@ import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
 import Console from "./Console.js";
+import { Amizade } from "src/interfaces/amizade.js";
+import { Partida } from "src/interfaces/partida.js";
 
 export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: any) {
     let locais: String[] = [];
@@ -58,7 +61,7 @@ export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: an
 export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any) {
     const inimigo: Inimigo = await pg.getInimigo(jogador.comodo);
     let embate;
-    if (inimigo) embate = await pg.getEnfrenta(jogador.idjogador, inimigo.idinimigo);
+    if (inimigo) embate = await pg.getEnfrentaInimigo(jogador.idjogador, inimigo.idinimigo);
 
     let acao, armas;
 
@@ -85,8 +88,8 @@ export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any
 
 export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
     const npc: Npc = await pg.getNpc(jogador.comodo);
-    let amizade;
-    if (npc) amizade = await pg.getAmizade(jogador.idjogador, npc.idnpc);
+    let amizade: Amizade;
+    if (npc) amizade = await pg.getAmizadeNpc(jogador.idjogador, npc.idnpc);
 
     let acao, items;
 
@@ -122,7 +125,7 @@ export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
             }
         }
         else if (acao == 1 && amizade) {
-            Console.consoleFalaNpc(npc, amizade.relacao);
+            Console.consoleFalaNpc(npc, amizade);
             input(console.log("Aperte qualquer botão para voltar"));
         }
     }
@@ -171,5 +174,83 @@ export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
     } else {
         console.log("Mapa Indisponivel, você precisa estar em um cômodo inicial\n");
     }
+
+    // mapa.forEach(le => {
+    //     if(comodoAtual.idcomodo == le.comodoinicial) {
+    //         console.log("Mapa indisponivel, você precisa estar em um campo inicial");
+    //         return;
+    //     }
+    //     })
+
+    // Console.consoleMapa(mapa);
+
+}
+
+export async function finalizarPartida(pg: Postgree, jogador: Jogador) {
+    console.clear();
+
+    const inventario: any[] = await pg.getInventarioJogador(jogador.idjogador);
+    const estados: Estado[] = await pg.getEstadosJogador(jogador.idjogador);
+    const enfrentamentos:any[] = await pg.getEnfrenta(jogador.idjogador);
+    const amizades: Amizade[] = await pg.getAmizade(jogador.idjogador);
+    const partidaJogador: Partida = await pg.getPartidaJogador(jogador.idjogador);
+    let qtdZumbis: number = partidaJogador.qtdzumbis;
+
+    estados.forEach(estado => {
+        if (estado.pontos > 0 && qtdZumbis > 0) {
+            console.log(`${estado.descricao}, ${estado.pontos} zumbis morreram`);
+            qtdZumbis = qtdZumbis - estado.pontos;
+        }
+    });
+
+    if (qtdZumbis <= 0)  {
+        Console.consoleFinalVencedor();
+        return;
+    }
+
+    for (let index = 0; index < inventario.length && qtdZumbis > 0; index++) {
+        if (inventario[index].iditem == 6 || inventario[index].iditem == 23) {
+            qtdZumbis = qtdZumbis - 1;
+            console.log(`Você usou ${inventario[index].nome} e matou 1 zumbi`);
+        }
+        else if (inventario[index].iditem == 24) {
+            qtdZumbis = qtdZumbis - 2;
+            console.log(`Você usou ${inventario[index].nome} e matou 2 zumbis`);
+        }
+        else if (inventario[index].iditem == 25) {
+            qtdZumbis = qtdZumbis - 3;
+            console.log(`Você usou ${inventario[index].nome} e matou 3 zumbis`);
+        }
+    }
+
+    if (qtdZumbis <= 0) {
+        Console.consoleFinalVencedor();
+        return;
+    }
+    
+    let arma;
+    enfrentamentos.forEach(async enfrenta => {
+        arma = await pg.getInstanciaColetavelJogador(enfrenta.arma, jogador.idjogador);
+        if (jogador.situacao == "normal" && (arma.iditem == 23 || arma.iditem == 24 || arma.iditem == 25)) {
+            console.log("Você derrotou a Aranha Gigante com uma pistola e isso chamou a atenção de 5 zumbis");
+            qtdZumbis = qtdZumbis + 5;
+        }
+    })
+
+    amizades.forEach(amizade => {
+        console.log(`${amizade.nome} lutou bravamente contra 1 zumbi para te proteger`);
+        qtdZumbis = qtdZumbis - 1;
+    })
+
+    if (qtdZumbis <= 0) 
+        Console.consoleFinalVencedor();
+    else 
+        Console.consoleFinalPerdedor(qtdZumbis);
+
+    /*
+    console.log(inventario);
+    console.log(estados);
+    console.log(enfrentamentos);
+    console.log(amizades);*/
 
 }
