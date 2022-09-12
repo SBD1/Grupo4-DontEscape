@@ -1,5 +1,6 @@
 import Pg from 'pg';
 import dotenv from 'dotenv';
+import chalk from "chalk";
 const PgClient = Pg.Client;
 dotenv.config();
 class Postgree {
@@ -12,7 +13,7 @@ class Postgree {
     });
     constructor() {
         this.client.connect();
-        console.log("connected");
+        console.log(chalk.green.bold("Conected"));
     }
     postRegister = async (name, partida, comodo) => {
         let resultados = "";

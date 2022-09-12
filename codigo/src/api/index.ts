@@ -1,5 +1,6 @@
 import Pg from 'pg';
 import dotenv from 'dotenv';
+import chalk from "chalk";
 
 import { Coletavel } from "../interfaces/coletavel.js";
 import { Comodo } from "../interfaces/comodo.js";
@@ -24,10 +25,10 @@ class Postgree {
         password: process.env.PASSWORD,
         port: process.env.PORT
     });
-
+    
     constructor() {
         this.client.connect();
-        console.log("connected")
+        console.log(chalk.green.bold("Conected"));
     }
 
     public postRegister = async (name: string, partida: number, comodo: number) => {

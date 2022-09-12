@@ -5,10 +5,10 @@ import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa }
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
 const input = PromptSync({ sigint: true });
+const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
-    console.log(chalk.blueBright("Bem vindo ao jogo!"));
     const playerComodoInicial = 7;
-    Console.consoleName();
+    await Console.consoleName(sleep);
     let jogador = {
         idjogador: 6,
         nome: '',
@@ -64,4 +64,4 @@ async function Main() {
     }
     console.log("Fim do jogo");
 }
-Main();
+await Main();

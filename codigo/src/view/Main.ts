@@ -6,14 +6,17 @@ import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa }
 import Login from "../model/Login.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
+import ChalkAnimation from "chalk-animation";
 
 const input = PromptSync({ sigint: true });
 
-async function Main() {
+const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
-    console.log(chalk.blueBright("Bem vindo ao jogo!"));
+async function Main() {
+    
     const playerComodoInicial = 7;
-    Console.consoleName();
+
+    await Console.consoleName(sleep);
 
     let jogador: Jogador = {
         idjogador: 6,
@@ -24,7 +27,6 @@ async function Main() {
     };
 
     const pg: Postgree = new Postgree();
-
 
     let possuiConta = input("Você já possui uma conta? (s/n) ");
 
@@ -134,5 +136,8 @@ async function Main() {
         console.log("Fim do jogo");*/
 }
 
-Main();
 // client.end();
+await Main();
+
+
+
