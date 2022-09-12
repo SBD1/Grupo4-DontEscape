@@ -16,7 +16,7 @@ async function Main() {
     
     const playerComodoInicial = 7;
 
-    await Console.consoleName(sleep);
+    // await Console.consoleName(sleep);
 
     let jogador: Jogador = {
         idjogador: 6,
@@ -35,7 +35,7 @@ async function Main() {
     else 
         jogador = await Auth.register(input, pg);
 
-    Console.consoleStart();
+    await Console.consoleStart(sleep);
     //jogador.comodo=8;
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);

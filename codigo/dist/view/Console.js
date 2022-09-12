@@ -1,9 +1,10 @@
 import ChalkAnimation from "chalk-animation";
+import chalk from "chalk";
 class Console {
     constructor() {
     }
     static async consoleName(sleep) {
-        const t1 = `  
+        const text = `  
         /$$$$$$$                           /$$           /$$$$$$$$                                                         / $$
        | $$__  $                          | $$          | $$_____/                                                         | $$
        | $$  \  $    /$$$$$$   /$$$$$$$   /$$$$$$        | $$         /$$$$$$$   /$$$$$$$   /$$$$$$    /$$$$$$    /$$$$$$   | $$
@@ -15,20 +16,32 @@ class Console {
                                                                                                     | $$                       
                                                                                                     | $$                     
                                                                                                     |__/`;
-        const tittle = ChalkAnimation.radar(t1);
+        const tittle = ChalkAnimation.radar(text);
         await sleep(10000);
         tittle.stop();
         console.clear();
     }
-    static consoleStart() {
-        console.log('\nQuando os zumbis atacaram, nós não estávamos preparados.');
-        console.log('Pensando bem, nós nunca estivemos realmente preparados para isso.');
-        console.log('O surto começou duas semanas atrás e foi piorando a cada dia.');
-        console.log('Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa...');
-        console.log('Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.');
-        console.log('Precisamos descansar e dormir.');
-        console.log('Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.');
-        console.log('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n');
+    static async consoleStart(sleep) {
+        let str = 'Loading';
+        const loading = ChalkAnimation.karaoke(str);
+        setInterval(() => {
+            loading.replace(str += '.');
+        }, 500);
+        await sleep(2500);
+        console.clear();
+        const text = `  
+        Quando os zumbis atacaram, nós não estávamos preparados.  \n
+        Pensando bem, nós nunca estivemos realmente preparados para isso.  \n
+        O surto começou duas semanas atrás e foi piorando a cada dia.  \n
+        Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa..  \n
+        Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.  \n
+        Precisamos descansar e dormir \n
+        Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.  \n
+        Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.  \n`;
+        const tittle = ChalkAnimation.neon(chalk.redBright(text));
+        await sleep(30000);
+        tittle.stop();
+        console.clear();
     }
     static consoleMenu(comodoJogador, npc) {
         const isComodoInicial = comodoJogador.idcomodo == 7

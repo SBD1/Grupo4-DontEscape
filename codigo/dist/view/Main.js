@@ -7,7 +7,6 @@ const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
     const playerComodoInicial = 7;
-    await Console.consoleName(sleep);
     let jogador = {
         idjogador: 6,
         nome: '',
@@ -21,7 +20,7 @@ async function Main() {
         jogador = await Auth.login(input, pg);
     else
         jogador = await Auth.register(input, pg);
-    Console.consoleStart();
+    await Console.consoleStart(sleep);
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = [];
