@@ -1,4 +1,5 @@
 import Postgree from "../api/index.js";
+import Auth from "../model/Auth.js";
 import { Jogador } from "../interfaces/jogador.js";
 import Console from "./Console.js";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
@@ -16,42 +17,28 @@ async function Main() {
 
     let jogador: Jogador = {
         idjogador: 6,
-        nome: 'a',
-        comodo: 9,
+        nome: '',
+        comodo: 11,
         partida: 2,
         situacao: 'normal'
     };
 
     const pg: Postgree = new Postgree();
 
+
     let possuiConta = input("Você já possui uma conta? (s/n) ");
-    if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') {
-        while (true) {
-            jogador.nome = String(input("Digite seu nome: "));
-            const acharJogador = await pg.getLogin(jogador.nome);
-            const response = Login.validateLogin(acharJogador);
-            if (typeof response === "object") {
-                jogador = response;
-                break;
-            }
-            else {
-                console.log(response);
-            }
-        }
-    }
-    else {
-        jogador.nome = String(input("Digite seu nome: "));
-        const response = await pg.postLogin(jogador.nome, 2, playerComodoInicial);
-        console.log("Jogador criado com sucesso");
-    }
+
+    if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') 
+        jogador = await Auth.login(input, pg); 
+    else 
+        jogador = await Auth.register(input, pg);
 
     Console.consoleStart();
 
     let comodoJogador = await pg.getComodo(jogador);
-    
-
     console.log(`Você está no cômodo : ${comodoJogador.nome}`);
-    let acao = Number(input(Console.consoleMenu(comodoJogador)));
+    Console.consoleMenu(comodoJogador)
+    let acao = Number(input(""));
 
     while (acao != 0) {
         if (acao == 1)
@@ -75,7 +62,8 @@ async function Main() {
         else if (acao == 8)
             await procurarNpc(pg, jogador, input);
         console.log(`Você está no cômodo : ${comodoJogador.nome}`);
-        acao = Number(input(Console.consoleMenu(comodoJogador)));
+        Console.consoleMenu(comodoJogador)
+        acao = Number(input(""));
     }
 
     console.log("Fim do jogo");

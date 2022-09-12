@@ -24,7 +24,7 @@ DROP TYPE TipoItem CASCADE;
 DROP TYPE TipoSituacao CASCADE;
 
 
-CREATE TYPE Dificuldade AS ENUM('F', 'M', 'D');
+CREATE TYPE Dificuldade AS ENUM('Fácil', 'Médio', 'Difícil');
 CREATE TYPE TipoPersonagem AS ENUM('inimigo', 'npc', 'jogador');
 CREATE TYPE TipoItem AS ENUM('coletavel', 'interavel');
 CREATE TYPE TipoSituacao AS ENUM('normal', 'fraco', 'critico');

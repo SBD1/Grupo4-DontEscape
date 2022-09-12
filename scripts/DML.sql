@@ -1,20 +1,20 @@
 INSERT INTO Comodo (Nome, Descricao, SaidaDireita, SaidaEsquerda, SaidaMeio) VALUES 
-('Fundo da garagem', '', null, null, null),
-('Entrada da garagem', '', null, null, null),
-('Meio da garagem', '', null, null, null),
-('Porão da garagem', '', null, null, null),
-('Exterior Frontal da base', '', null, null, null),
-('Exterior Lateral da base', '', null, null, null),
-('Saída da base', '', null, null, null),
-('Exterior da igreja', '', null, null, null),
-('Interior da igreja', '', null, null, null),
-('Entrada do posto de gasolina', '', null, null, null),
-('Exterior do posto de gasolina', '', null, null, null),
-('Escritório do posto de gasolina', '', null, null, null),
-('Exterior da loja', '', null, null, null),
-('Interior da loja', '', null, null, null),
-('Buraco extranho na loja', '', null, null, null),
-('Cruzamento da rodovia', '', null, null, null);
+('Fundo da garagem', 'Cômodo pequeno com um poço', null, null, null),
+('Entrada da garagem', 'Cômodo com grande entrada e com mofo no teto', null, null, null),
+('Meio da garagem', 'Cômodo com paredes descascadas e vigas aparentes', null, null, null),
+('Porão da garagem', 'Lugar estreito com bastante sujeira', null, null, null),
+('Exterior Frontal da base', 'Chão com grama seca com vista para uma floresta', null, null, null),
+('Exterior Lateral da base', 'Uma parede que já esteve em melhores condições', null, null, null),
+('Saída da base', 'Local rodeado por altas cercas', null, null, null),
+('Exterior da igreja', 'Local bem arrumado para o fim do mundo, posso ver uma estátua de anjo', null, null, null),
+('Interior da igreja', 'O reflexo do sol nos vitrais geram uma atmosfera sombria', null, null, null),
+('Entrada do posto de gasolina', 'Três cheias e solitárias bombas de gasolina', null, null, null),
+('Exterior do posto de gasolina', 'As prateleiras que um foram cheias, estão vazias', null, null, null),
+('Escritório do posto de gasolina', 'Local bem arrumado cum uma poltrona e livros ao fundo', null, null, null),
+('Exterior da loja', 'Uma grande área pavimentada com uma loja ao fundo', null, null, null),
+('Interior da loja', 'Local escuro com grandes prateleiras vazias', null, null, null),
+('Buraco extranho na loja', 'Local que um dia foi utilizado para guardar estoque', null, null, null),
+('Cruzamento da rodovia', 'Cruzamento de três vias com dois carros colididos no meio', null, null, null);
 
 INSERT INTO Localidade (ComodoInicial, nome) VALUES 
 (7, 'Base'),
@@ -24,9 +24,9 @@ INSERT INTO Localidade (ComodoInicial, nome) VALUES
 (16, 'Rodovia');
 
 INSERT INTO Partida (TempoTotal, Qtdzumbis, DificuldadePartida) VALUES 
-(540, 40, 'F'),
-(480, 50, 'M'),
-(420, 60, 'D');
+(540, 40, 'Fácil'),
+(480, 50, 'Médio'),
+(420, 60, 'Difícil');
 
 INSERT INTO Item (Nome, Descricao, Comodo, Tipo) VALUES 
 ('Pá', 'Uma pá', 1, 'coletavel'), 

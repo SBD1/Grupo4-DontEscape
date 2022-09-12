@@ -8,16 +8,22 @@ export async function inspecionaComodo(pg, jogador, input) {
     });
     let localEscolhido;
     if (locais[0]) {
-        localEscolhido = input(Console.consoleListLocais(locais));
+        localEscolhido = Number(input(Console.consoleListLocais(locais)));
         let coletaveis = await pg.getColetaveis(jogador, locais[localEscolhido - 1]);
+        let instanciaColetaveis = [];
         let itens = [];
         for (let i = 0; i < coletaveis.length; i++) {
             itens[i] = await pg.getItem(coletaveis[i].idcoletavel);
+            instanciaColetaveis[i] = await pg.getInstanciaColetavel(coletaveis[i].idcoletavel, jogador.idjogador);
         }
-        let resposta = input(Console.consoleColetaveis(itens));
+        let resposta = Number(input(Console.consoleColetaveis(itens)));
         if (resposta != 0) {
-            await pg.postInventarioJogador(jogador.idjogador, coletaveis[resposta - 1].idcoletavel);
+            let teste = await pg.postInventarioJogador(jogador.idjogador, instanciaColetaveis[resposta - 1].idinstanciacoletavel);
+            console.log();
             console.log(itens[resposta - 1].descricao);
+            console.log();
+            if (teste == 1) {
+            }
         }
     }
     else

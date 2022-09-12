@@ -20,33 +20,31 @@ class Console {
         console.log('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n');
     }
     static consoleMenu(comodoJogador, npc) {
-        let print = "";
         const isComodoInicial = comodoJogador.idcomodo == 7
             || comodoJogador.idcomodo == 8
             || comodoJogador.idcomodo == 10
             || comodoJogador.idcomodo == 13
             || comodoJogador.idcomodo == 16;
-        print = `\nO que você deseja fazer? \n`;
-        print = print + `1) Inspecionar o cômodo \n`;
-        print = print + `2) Abrir o inventário \n`;
+        console.log(`\nO que você deseja fazer?`);
+        console.log(`1) Inspecionar o cômodo`);
+        console.log(`2) Abrir o inventário`);
         if (comodoJogador.saidadireita)
-            print = print + `3) Ir para a direita \n`;
+            console.log(`3) Ir para a direita`);
         if (comodoJogador.saidaesquerda)
-            print = print + `4) Ir para a esquerda \n`;
+            console.log(`4) Ir para a esquerda`);
         else
-            print = print + `4) Ir para a esquerda (Indisponivel) \n`;
+            console.log(`4) Ir para a esquerda (Indisponivel)`);
         if (comodoJogador.saidameio)
-            print = `5) Ir para o meio \n`;
+            console.log(`5) Ir para o meio`);
         else
-            print = print + `5) Ir para o meio (Indisponivel) \n`;
+            console.log("5) Ir para o meio (Indisponivel)");
         if (isComodoInicial)
-            print = print + `6) Abrir o mapa \n`;
+            console.log(`6) Abrir o mapa`);
         else
-            print = print + `6) Abrir o mapa (Indisponivel) \n`;
-        print = print + `7) Procurar inimigos \n`;
-        print = print + `8) Procurar npcs \n`;
-        print = print + `0) Sair do jogo`;
-        return print;
+            console.log(`6) Abrir o mapa (Indisponivel)`);
+        console.log(`7) Procurar inimigos`);
+        console.log(`8) Procurar npcs`);
+        console.log(`0) Sair do jogo`);
     }
     static consoleComodo(comodo) {
         console.table({
@@ -114,6 +112,12 @@ class Console {
     static consoleMapa(locais) {
         console.table({
             "Nome": locais.nome,
+        });
+    }
+    static consoleListPartidas(niveisPartida) {
+        console.log("Escolha o nível de dificuldade:");
+        niveisPartida.forEach((partida) => {
+            console.log(`${partida.idpartida}) ${partida.dificuldadepartida}, ${partida.qtdzumbis} zumbis, ${partida.qtdzumbis} minutos`);
         });
     }
 }

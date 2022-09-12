@@ -14,7 +14,7 @@ class Postgree {
         this.client.connect();
         console.log("connected");
     }
-    postLogin = async (name, partida, comodo) => {
+    postRegister = async (name, partida, comodo) => {
         let resultados = "";
         await this.client.query(`
             DO $$
@@ -71,10 +71,12 @@ class Postgree {
     };
     getLugares = async (jogador) => {
         let resultados = [];
-        await this.client.query(`SELECT C.lugar 
-                                    from (SELECT I.idItem, I.tipo FROM Item I WHERE I.Comodo = ${jogador.comodo}
-                                            Group by I.idItem HAVING I.tipo='coletavel') n1 
-                                    join Coletavel C on C.idColetavel = n1.idItem; `)
+        await this.client.query(`SELECT C.lugar FROM
+                                    (SELECT I.idItem
+                                        FROM (SELECT * FROM InstanciaColetavel IC WHERE IC.foiColetado = false AND IC.jogador = ${jogador.idjogador}) n1
+                                        JOIN Item I on I.Comodo = ${jogador.comodo} AND I.idItem = n1.idItem
+                                            GROUP BY I.idItem HAVING I.tipo='coletavel') n2
+                                    JOIN Coletavel C on C.idColetavel = n2.idItem; `)
             .then((results) => {
             resultados = results.rows;
         });
@@ -110,14 +112,19 @@ class Postgree {
         });
         return resultados[0];
     };
-    postInventarioJogador = async (idJogador, idColetavel) => {
+    postInventarioJogador = async (idJogador, idInstanciaColetavel) => {
         let resultados = [];
-        await this.client.query(`
-            INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idColetavel})`)
-            .then((results) => {
-            resultados = results.rows;
-        });
-        return resultados[0];
+        try {
+            await this.client.query(`
+                INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idInstanciaColetavel})`)
+                .then((results) => {
+                resultados = results.rows;
+            });
+        }
+        catch (error) {
+            return 0;
+        }
+        return 1;
     };
     postEnfrentamento = async (idJogador, idInimigo, idArma) => {
         let resultados = [];
@@ -149,7 +156,7 @@ class Postgree {
     getInstanciaColetavel = async (idColetavel, idJogador) => {
         let resultados = [];
         await this.client.query(`
-            SELECT * FROM InstanciaColetavel WHERE IdInstanciaColetavel = ${idColetavel} AND Jogador = ${idJogador}`)
+            SELECT * FROM InstanciaColetavel WHERE IdItem = ${idColetavel} AND Jogador = ${idJogador}`)
             .then((results) => {
             resultados = results.rows;
         });
@@ -227,6 +234,15 @@ class Postgree {
             resultados = results.rows;
         });
         return resultados[0];
+    };
+    getPartidas = async () => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT * FROM Partida`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados;
     };
 }
 export default Postgree;

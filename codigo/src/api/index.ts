@@ -1,16 +1,18 @@
 import Pg from 'pg';
 import dotenv from 'dotenv';
 
-const PgClient = Pg.Client;
-dotenv.config();
-
 import { Coletavel } from "../interfaces/coletavel.js";
 import { Comodo } from "../interfaces/comodo.js";
 import { Inimigo } from "../interfaces/inimigo.js";
+import { InstanciaColetavel } from "../interfaces/instanciaColetavel.js";
 import { Inventario } from "../interfaces/inventario.js";
 import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
+import { Partida } from "../interfaces/partida.js";
+
+const PgClient = Pg.Client;
+dotenv.config();
 
 class Postgree {
 
@@ -27,7 +29,7 @@ class Postgree {
         console.log("connected")
     }
 
-    public postLogin = async (name: string, partida: number, comodo: number) => {
+    public postRegister = async (name: string, partida: number, comodo: number) => {
         let resultados : string = "";
         await this.client.query(`
             DO $$
@@ -96,10 +98,12 @@ class Postgree {
 
     public getLugares = async (jogador: Jogador): Promise<String[]> => {
         let resultados: String[] = [];
-        await this.client.query(`SELECT C.lugar 
-                                    from (SELECT I.idItem, I.tipo FROM Item I WHERE I.Comodo = ${jogador.comodo}
-                                            Group by I.idItem HAVING I.tipo='coletavel') n1 
-                                    join Coletavel C on C.idColetavel = n1.idItem; `)
+        await this.client.query(`SELECT C.lugar FROM
+                                    (SELECT I.idItem
+                                        FROM (SELECT * FROM InstanciaColetavel IC WHERE IC.foiColetado = false AND IC.jogador = ${jogador.idjogador}) n1
+                                        JOIN Item I on I.Comodo = ${jogador.comodo} AND I.idItem = n1.idItem
+                                            GROUP BY I.idItem HAVING I.tipo='coletavel') n2
+                                    JOIN Coletavel C on C.idColetavel = n2.idItem; `)
             .then((results: any) => {
                 resultados = results.rows
             })
@@ -147,14 +151,18 @@ class Postgree {
         return resultados[0];
     }
 
-    public postInventarioJogador = async (idJogador: Number, idColetavel: Number): Promise<Inventario> => {
+    public postInventarioJogador = async (idJogador: Number, idInstanciaColetavel: Number): Promise<Number> => {
         let resultados: Array<Inventario> = [];
-        await this.client.query(`
-            INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idColetavel})`)
-            .then((results: any) => {
-                resultados = results.rows
-            })
-        return resultados[0];
+        try {
+            await this.client.query(`
+                INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idInstanciaColetavel})`)
+                .then((results: any) => {
+                    resultados = results.rows
+                })
+        } catch (error) {
+            return 0;
+        }
+        return 1;
     }
 
     public postEnfrentamento = async (idJogador: number, idInimigo: number, idArma?: number): Promise<any> => {
@@ -189,10 +197,10 @@ class Postgree {
         return resultados[0];
     }
 
-    public getInstanciaColetavel = async (idColetavel: number, idJogador: number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public getInstanciaColetavel = async (idColetavel: Number, idJogador: Number): Promise<InstanciaColetavel> => {
+        let resultados: Array<InstanciaColetavel> = [];
         await this.client.query(`
-            SELECT * FROM InstanciaColetavel WHERE IdInstanciaColetavel = ${idColetavel} AND Jogador = ${idJogador}`)
+            SELECT * FROM InstanciaColetavel WHERE IdItem = ${idColetavel} AND Jogador = ${idJogador}`)
             .then((results: any) => {
                 resultados = results.rows
             })
@@ -281,7 +289,15 @@ class Postgree {
         return resultados[0];
     }
 
-
+    public getPartidas = async (): Promise<Partida[]> => {
+        let resultados: Array<Partida> = [];
+        await this.client.query(`
+            SELECT * FROM Partida`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
 }
 
 export default Postgree;
