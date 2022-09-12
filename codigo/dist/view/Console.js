@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import ChalkAnimation from "chalk-animation";
-import chalk from "chalk";
 class Console {
     constructor() {
     }
@@ -22,7 +21,6 @@ class Console {
         tittle.stop();
         console.clear();
     }
-<<<<<<< HEAD
     static async consoleStart(sleep) {
         let str = 'Loading';
         const loading = ChalkAnimation.karaoke(str);
@@ -44,17 +42,6 @@ class Console {
         await sleep(30000);
         tittle.stop();
         console.clear();
-=======
-    static consoleStart() {
-        console.log(chalk.green('\nQuando os zumbis atacaram, nós não estávamos preparados.'));
-        console.log(chalk.green('Pensando bem, nós nunca estivemos realmente preparados para isso.'));
-        console.log(chalk.green('O surto começou duas semanas atrás e foi piorando a cada dia.'));
-        console.log(chalk.green('Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa...'));
-        console.log(chalk.green('Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.'));
-        console.log(chalk.green('Precisamos descansar e dormir.'));
-        console.log(chalk.green('Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.'));
-        console.log(chalk.green('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n'));
->>>>>>> c8a876276d1a7c6ec62263cd0abf73de21978a82
     }
     static consoleMenu(comodoJogador, npc) {
         const isComodoInicial = comodoJogador.idcomodo == 7

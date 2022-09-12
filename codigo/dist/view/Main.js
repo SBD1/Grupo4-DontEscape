@@ -8,6 +8,7 @@ const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
     const playerComodoInicial = 7;
+    await Console.consoleName(sleep);
     let jogador = {
         idjogador: 6,
         nome: '',

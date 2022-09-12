@@ -4,7 +4,6 @@ import { Inimigo } from "../interfaces/inimigo.js"
 import { Item } from "../interfaces/item.js"
 import { Npc } from "../interfaces/npc.js"
 import { Partida } from "src/interfaces/partida.js"
-import chalk from "chalk"
 import ChalkAnimation from "chalk-animation";
 import chalk from "chalk"
 class Console {

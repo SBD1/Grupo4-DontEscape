@@ -16,7 +16,7 @@ async function Main() {
     
     const playerComodoInicial = 7;
 
-    // await Console.consoleName(sleep);
+    await Console.consoleName(sleep);
 
     let jogador: Jogador = {
         idjogador: 6,
