@@ -34,7 +34,7 @@ async function Main() {
         jogador = await Auth.register(input, pg);
 
     Console.consoleStart();
-
+    //jogador.comodo=8;
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = []
@@ -57,7 +57,7 @@ async function Main() {
             console.log("Iteragir com item")
         }
         else if (acao == 3) {
-            let inventario = await pg.getInventarioJogador(1);
+            let inventario = await pg.getInventarioJogador(jogador.idjogador);
             console.log("Seu inventario");
             console.table(inventario);
         }
