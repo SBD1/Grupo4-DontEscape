@@ -2,6 +2,7 @@ import { Comodo } from "../interfaces/comodo"
 import { Inimigo } from "../interfaces/inimigo"
 import { Item } from "../interfaces/item"
 import { Npc } from "../interfaces/npc"
+import { Partida } from "../interfaces/partida"
 
 class Console {
    
@@ -134,6 +135,13 @@ class Console {
         });
     }
 
+    static consoleListPartidas(niveisPartida: Partida[]) {
+        console.log("Escolha o nível de dificuldade:");
+
+        niveisPartida.forEach((partida) => {
+            console.log(`${partida.idpartida}) ${partida.dificuldadepartida}, ${partida.qtdzumbis} zumbis, ${partida.qtdzumbis} minutos`);
+        });
+    }
 }
 
 export default Console;

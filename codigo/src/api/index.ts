@@ -7,6 +7,7 @@ import { Inventario } from "../interfaces/inventario";
 import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
 import { Npc } from "../interfaces/npc";
+import { Partida } from "../interfaces/partida";
 
 const pg = require('pg').Client;
 require("dotenv").config();
@@ -26,7 +27,7 @@ class Postgree {
         console.log("connected")
     }
 
-    public postLogin = async (name: string, partida: number, comodo: number) => {
+    public postRegister = async (name: string, partida: number, comodo: number) => {
         let resultados : string = "";
         await this.client.query(`
             DO $$
@@ -286,7 +287,15 @@ class Postgree {
         return resultados[0];
     }
 
-
+    public getPartidas = async (): Promise<Partida[]> => {
+        let resultados: Array<Partida> = [];
+        await this.client.query(`
+            SELECT * FROM Partida`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
 }
 
 export default Postgree;

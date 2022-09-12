@@ -2,17 +2,16 @@ import Postgree from "../api/index";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions";
-import Login from "../model/Login";
+import Auth from "../model/Auth";
 const input = require('prompt-sync')({ sigint: true });
 
 async function Main() {
 
-    const playerComodoInicial = 7;
     Console.consoleName();
 
     let jogador: Jogador = {
         idjogador: 6,
-        nome: 'a',
+        nome: '',
         comodo: 11,
         partida: 2,
         situacao: 'normal'
@@ -20,33 +19,19 @@ async function Main() {
 
     const pg: Postgree = new Postgree();
 
+
     let possuiConta = input("Você já possui uma conta? (s/n) ");
-    if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') {
-        while (true) {
-            jogador.nome = String(input("Digite seu nome: "));
-            const acharJogador = await pg.getLogin(jogador.nome);
-            const response = Login.validateLogin(acharJogador);
-            if (typeof response === "object") {
-                jogador = response;
-                break;
-            }
-            else {
-                console.log(response);
-            }
-        }
-    }
-    else {
-        jogador.nome = String(input("Digite seu nome: "));
-        const response = await pg.postLogin(jogador.nome, 2, playerComodoInicial);
-        console.log("Jogador criado com sucesso");
-    }
+
+    if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') 
+        jogador = await Auth.login(input, pg); 
+    else 
+        jogador = await Auth.register(input, pg);
 
     Console.consoleStart();
 
     let comodoJogador = await pg.getComodo(jogador);
-    
-
     console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+
     let acao = input(Console.consoleMenu(comodoJogador));
 
     while (acao != 0) {
