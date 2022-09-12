@@ -108,3 +108,51 @@ export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
     else
         input(console.log("Nenhum Npc encontrado. Aperte qualquer botão para voltar"));
 }
+
+
+export async function mudaComodo(pg: Postgree, jogador: Jogador, acao: Number) {
+    let comodo, novoComodo: Number | undefined;
+
+    comodo = await pg.getComodo(jogador);
+
+    if (acao == 3 && comodo.saidadireita) 
+        novoComodo = comodo.saidadireita;
+    else if (acao == 4  && comodo.saidaesquerda)
+        novoComodo = comodo.saidaesquerda;
+    else if (acao == 5  && comodo.saidameio)
+        novoComodo = comodo.saidameio;
+    else
+        console.log("Função indisponivel, cômodo não existe\n");
+
+    if(novoComodo)
+    pg.putJogador(jogador.idjogador, novoComodo);
+}
+
+
+export async function abrirMapa(pg: Postgree, jogador: Jogador) {
+
+    let mapa = await pg.getLocalidades();
+    let comodoAtual = await pg.getComodo(jogador);
+
+    const isComodoInicial: Boolean = comodoAtual.idcomodo == 7
+            || comodoAtual.idcomodo == 8
+            || comodoAtual.idcomodo == 10
+            || comodoAtual.idcomodo == 13
+            || comodoAtual.idcomodo == 16;
+
+    if (isComodoInicial) {
+        Console.consoleMapa(mapa);
+    } else {
+        console.log("Mapa Indisponivel, você precisa estar em um cômodo inicial\n");
+    }
+
+    // mapa.forEach(le => {
+    //     if(comodoAtual.idcomodo == le.comodoinicial) {
+    //         console.log("Mapa indisponivel, você precisa estar em um campo inicial");
+    //         return;
+    //     }
+    //     })
+
+    // Console.consoleMapa(mapa);
+
+}

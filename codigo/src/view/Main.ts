@@ -1,7 +1,7 @@
 import Postgree from "../api/index";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
-import { procurarInimigo, inspecionaComodo, procurarNpc } from "./GameActions";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions";
 import Login from "../model/Login";
 const input = require('prompt-sync')({ sigint: true });
 
@@ -11,14 +11,15 @@ async function Main() {
     Console.consoleName();
 
     let jogador: Jogador = {
-        idjogador: 5,
+        idjogador: 6,
         nome: 'a',
-        comodo: 8,
+        comodo: 9,
         partida: 2,
         situacao: 'normal'
-    }
+    };
 
     const pg: Postgree = new Postgree();
+
     let possuiConta = input("Você já possui uma conta? (s/n) ");
     if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') {
         while (true) {
@@ -29,7 +30,9 @@ async function Main() {
                 jogador = response;
                 break;
             }
-     
+            else {
+                console.log(response);
+            }
         }
     }
     else {
@@ -37,34 +40,37 @@ async function Main() {
         const response = await pg.postLogin(jogador.nome, 2, playerComodoInicial);
         console.log("Jogador criado com sucesso");
     }
-        Console.consoleStart();
-    // const response = await pg.postPlayerName(name, 2, playerComodoInicial);
 
-    //onst comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
-    //console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
+    Console.consoleStart();
 
     let comodoJogador = await pg.getComodo(jogador);
-    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    
 
+    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
     let acao = input(Console.consoleMenu(comodoJogador));
+
     while (acao != 0) {
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
-        else if (acao == 2)
-            console.log("Abrir o inventário");
+        else if (acao == 2) {
+            let inventario = await pg.getInventarioJogador(1);
+            console.log("Seu inventario");
+            console.table(inventario);
+        }
+
         else if (acao == 3)
-            console.log("Ir para a direita");
+            await mudaComodo(pg, jogador, acao);
         else if (acao == 4)
-            console.log("Ir para a esquerda");
+            await mudaComodo(pg, jogador, acao);
         else if (acao == 5)
-            console.log("Ir para o meio");
+            await mudaComodo(pg, jogador, acao);
         else if (acao == 6)
-            console.log("Abrir o mapa");
+            await abrirMapa(pg, jogador);
         else if (acao == 7)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 8)
             await procurarNpc(pg, jogador, input);
-
+        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         acao = input(Console.consoleMenu(comodoJogador));
     }
 
