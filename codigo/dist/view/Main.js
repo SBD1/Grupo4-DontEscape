@@ -23,7 +23,6 @@ async function Main() {
     else
         jogador = await Auth.register(input, pg);
     Console.consoleStart();
-    jogador.comodo = 8;
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = [];

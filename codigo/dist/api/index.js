@@ -118,7 +118,7 @@ class Postgree {
     getInventarioJogador = async (idJogador) => {
         let resultados = [];
         await this.client.query(`
-            SELECT nome FROM 
+            SELECT I.idItem, instanciacoletavel, nome, descricao, comodo, tipo, jogador FROM 
             (SELECT I.Jogador, instanciaColetavel, idItem 
                  FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = 7 AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
             JOIN Item I ON n1.IdItem = I.idItem`)
