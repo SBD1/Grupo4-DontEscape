@@ -13,7 +13,7 @@ async function Main() {
     let jogador: Jogador = {
         idjogador: 6,
         nome: 'a',
-        comodo: 9,
+        comodo: 8,
         partida: 2,
         situacao: 'normal'
     };
@@ -25,9 +25,11 @@ async function Main() {
         while (true) {
             jogador.nome = String(input("Digite seu nome: "));
             const acharJogador = await pg.getLogin(jogador.nome);
+            console.log("Jogador", acharJogador);
             const response = Login.validateLogin(acharJogador);
             if (typeof response === "object") {
                 jogador = response;
+                console.log("Jogador", jogador);
                 break;
             }
             else {
@@ -57,7 +59,6 @@ async function Main() {
             console.log("Seu inventario");
             console.table(inventario);
         }
-
         else if (acao == 3)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 4)
@@ -65,11 +66,13 @@ async function Main() {
         else if (acao == 5)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 6)
-            await abrirMapa(pg, jogador);
+            await abrirMapa(pg, jogador, input);
         else if (acao == 7)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 8)
             await procurarNpc(pg, jogador, input);
+        jogador = await pg.getLogin(jogador.nome);
+        comodoJogador = await pg.getComodo(jogador);
         console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         acao = input(Console.consoleMenu(comodoJogador));
     }

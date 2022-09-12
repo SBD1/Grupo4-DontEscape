@@ -43,6 +43,7 @@ class Console {
         console.log(`1) Inspecionar o cômodo`)
         console.log(`2) Abrir o inventário`)
         if (comodoJogador.saidadireita) console.log(`3) Ir para a direita`)
+        else console.log(`4) Ir para a direita (Indisponivel)`)
         if (comodoJogador.saidaesquerda) console.log(`4) Ir para a esquerda`)
         else console.log(`4) Ir para a esquerda (Indisponivel)`)
         if (comodoJogador.saidameio) console.log(`5) Ir para o meio`)
@@ -128,10 +129,13 @@ class Console {
         }
     }
 
-    static consoleMapa(locais: any) {
+    static consoleMapa(locais: any[]) {
+        let voltar = { idlocalidade: 0, comodoinicial: 0, nome: 'Voltar' };
+        locais.unshift(voltar)
         console.table({
-            "Nome": locais.nome,
+            "Nome": locais.map(le => le.nome),
         });
+        console.log("Deseja ir para qual local?\n");
     }
 
 }
