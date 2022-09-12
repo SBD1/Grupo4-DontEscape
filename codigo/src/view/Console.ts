@@ -4,6 +4,7 @@ import { Inimigo } from "../interfaces/inimigo.js"
 import { Item } from "../interfaces/item.js"
 import { Npc } from "../interfaces/npc.js"
 import { Partida } from "src/interfaces/partida.js"
+import chalk from "chalk"
 import ChalkAnimation from "chalk-animation";
 import chalk from "chalk"
 class Console {
@@ -74,13 +75,13 @@ class Console {
         console.log(`2) Interagir com item`)
         console.log(`3) Abrir o inventário`)
         if (comodoJogador.saidadireita) console.log(`4) Ir para a direita`)
-        else console.log(`4) Ir para a direita (Indisponivel)`)
+        else console.log(chalk.gray(`4) Ir para a direita (Indisponivel)`))
         if (comodoJogador.saidaesquerda) console.log(`5) Ir para a esquerda`)
-        else console.log(`5) Ir para a esquerda (Indisponivel)`)
+        else console.log(chalk.gray(`5) Ir para a esquerda (Indisponivel)`))
         if (comodoJogador.saidameio) console.log(`6) Ir para o meio`)
-        else console.log("6) Ir para o meio (Indisponivel)")
+        else console.log(chalk.gray("6) Ir para o meio (Indisponivel)"))
         if (isComodoInicial) console.log(`7) Abrir o mapa`)
-        else console.log(`7) Abrir o mapa (Indisponivel)`)
+        else console.log(chalk.gray(`7) Abrir o mapa (Indisponivel)`))
         console.log(`8) Procurar inimigos`)
         console.log(`9) Procurar npcs`)
         console.log(`0) Sair do jogo`)

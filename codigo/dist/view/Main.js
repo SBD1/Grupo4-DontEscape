@@ -3,6 +3,7 @@ import Auth from "../model/Auth.js";
 import Console from "./Console.js";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
 import PromptSync from "prompt-sync";
+import chalk from "chalk";
 const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
@@ -27,7 +28,7 @@ async function Main() {
     for (let i = 0; i < interaveis.length; i++) {
         estados[i] = await pg.getEstado(interaveis[i].estadoatual);
     }
-    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
     Console.consoleInteraveis(estados);
     Console.consoleMenu(comodoJogador);
     let acao = Number(input(""));
@@ -56,7 +57,7 @@ async function Main() {
             await procurarNpc(pg, jogador, input);
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
-        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+        console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));
     }

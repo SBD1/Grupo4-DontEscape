@@ -45,7 +45,7 @@ async function Main() {
     }
     //console.log(interaveis);
     
-    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+    console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
     Console.consoleInteraveis(estados);
 
     Console.consoleMenu(comodoJogador);
@@ -77,7 +77,7 @@ async function Main() {
             await procurarNpc(pg, jogador, input);
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
-        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
+        console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
         Console.consoleMenu(comodoJogador)
         acao = Number(input(""));
     }
