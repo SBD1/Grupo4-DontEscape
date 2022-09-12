@@ -3,27 +3,11 @@ import Auth from "../model/Auth.js";
 import Console from "./Console.js";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
 import PromptSync from "prompt-sync";
-import ChalkAnimation from "chalk-animation";
 const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
     const playerComodoInicial = 7;
-    const t1 = `  
-        /$$$$$$$                           /$$           /$$$$$$$$                                                         / $$
-       | $$__  $                          | $$          | $$_____/                                                         | $$
-       | $$  \  $    /$$$$$$   /$$$$$$$   /$$$$$$        | $$         /$$$$$$$   /$$$$$$$   /$$$$$$    /$$$$$$    /$$$$$$   | $$
-       | $$  | $   /$$__  $$ | $$__  $$ |_  $$_/        | $$$$$     /$$_____/  /$$_____/  |____  $$  /$$__  $$  /$$__  $$  | $$
-       | $$  | $  | $$  \  $$ | $$  \  $$   | $$          | $$__/    |  $$$$$$  | $$         /$$$$$$$ | $$  \  $$ | $$$$$$$$  |__/
-       | $$  | $  | $$  | $$ | $$  | $$   | $$ /$$      | $$        \____  $$  | $$        /$$__  $$ | $$  | $$ | $$_____/      
-       | $$$$$$$  |  $$$$$$/ | $$  | $$   | $$$$/       | $$$$$$$$  /$$$$$$$/ |  $$$$$$$  |$$$$$$$  | $$$$$$$/ |  $$$$$$$   |$$
-       |_______/   \______/   |__/  |__/   |_____/       |________/ |_______/   |_______/  |_______/ | $$____/   |_______/  |__/
-                                                                                                    | $$                       
-                                                                                                    | $$                     
-                                                                                                    |__/`;
-    const tittle = ChalkAnimation.radar(t1);
-    await sleep(10000);
-    tittle.stop();
-    console.clear();
+    await Console.consoleName(sleep);
     let jogador = {
         idjogador: 6,
         nome: '',
