@@ -25,11 +25,18 @@ class Postgree {
     }
 
     public postLogin = async (name: string, partida: number, comodo: number) => {
-        let resultados :string = "";
-        await this.client.query(`INSERT INTO public.jogador(nome, partida, comodo) VALUES ('${name}', ${partida}, ${comodo})`)
+        let resultados : string = "";
+        await this.client.query(`
+            DO $$
+            DECLARE tableId integer;
+            BEGIN
+            INSERT INTO Personagem (Personagem) VALUES ('jogador') RETURNING IdPersonagem INTO tableId;
+            INSERT INTO Jogador (IdJogador, nome, partida, comodo) VALUES (tableId, '${name}', ${partida}, ${comodo});
+            END $$;
+        `)
         .then((results: any) => {
             resultados = results.rows
-        })
+        });
         return resultados[0];
     };
 

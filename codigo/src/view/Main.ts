@@ -16,9 +16,10 @@ async function Main() {
         comodo: 8,
         partida: 2,
         situacao: 'normal'
-    }
+    };
 
     const pg: Postgree = new Postgree();
+
     let possuiConta = input("Você já possui uma conta? (s/n) ");
     if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') {
         while (true) {
@@ -29,7 +30,9 @@ async function Main() {
                 jogador = response;
                 break;
             }
-     
+            else {
+                console.log(response);
+            }
         }
     }
     else {
@@ -37,11 +40,8 @@ async function Main() {
         const response = await pg.postLogin(jogador.nome, 2, playerComodoInicial);
         console.log("Jogador criado com sucesso");
     }
-        Console.consoleStart();
-    // const response = await pg.postPlayerName(name, 2, playerComodoInicial);
 
-    //onst comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
-    //console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
+    Console.consoleStart();
 
     let comodoJogador = await pg.getComodo(jogador);
     console.log(`Você está no cômodo : ${comodoJogador.nome}`);
@@ -50,8 +50,12 @@ async function Main() {
     while (acao != 0) {
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
-        else if (acao == 2)
-            console.log("Abrir o inventário");
+        else if (acao == 2) {
+            let inventario = await pg.getInventarioJogador(1);
+            console.log("Seu inventario");
+            console.table(inventario);
+        }
+
         else if (acao == 3)
             console.log("Ir para a direita");
         else if (acao == 4)
