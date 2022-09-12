@@ -55,6 +55,7 @@ class Console {
         else console.log(`7) Abrir o mapa (Indisponivel)`)
         console.log(`8) Procurar inimigos`)
         console.log(`9) Procurar npcs`)
+        console.log(`10) Terminar preparação`)
         console.log(`0) Sair do jogo`)
     }
 
@@ -156,6 +157,14 @@ class Console {
         niveisPartida.forEach((partida) => {
             console.log(`${partida.idpartida}) ${partida.dificuldadepartida}, ${partida.qtdzumbis} zumbis, ${partida.qtdzumbis} minutos`);
         });
+    }
+
+    static consoleFinalVencedor() {
+        console.log("Venceu");
+    }
+
+    static consoleFinalPerdedor() {
+        console.log("Perdeu");
     }
 }
 

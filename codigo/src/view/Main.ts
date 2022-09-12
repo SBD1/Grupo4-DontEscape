@@ -2,7 +2,7 @@ import Postgree from "../api/index.js";
 import Auth from "../model/Auth.js";
 import { Jogador } from "../interfaces/jogador.js";
 import Console from "./Console.js";
-import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa, finalizarPartida } from "./GameActions.js";
 import Login from "../model/Login.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
@@ -91,11 +91,15 @@ async function Main() {
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
-        jogador = await pg.getLogin(jogador.nome);
-        comodoJogador = await pg.getComodo(jogador);
+        else if (acao == 10)
+            await finalizarPartida(pg, jogador);
+
         console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         Console.consoleMenu(comodoJogador)
         acao = Number(input(""));
+        
+        jogador = await pg.getLogin(jogador.nome);
+        comodoJogador = await pg.getComodo(jogador);
     }
 
     console.log("Fim do jogo");
