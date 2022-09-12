@@ -1,14 +1,13 @@
 import Postgree from "../api/index.js";
 import Auth from "../model/Auth.js";
 import Console from "./Console.js";
-import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa, finalizarPartida } from "./GameActions.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
 const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
     const playerComodoInicial = 7;
-    await Console.consoleName(sleep);
     let jogador = {
         idjogador: 6,
         nome: '',
@@ -22,7 +21,7 @@ async function Main() {
         jogador = await Auth.login(input, pg);
     else
         jogador = await Auth.register(input, pg);
-    await Console.consoleStart(sleep);
+    let partida = await pg.getPartidaJogador(jogador.idjogador);
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = [];
@@ -55,12 +54,21 @@ async function Main() {
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
+        else if (acao == 10) {
+            const horas = Math.floor(partida.tempototal / 60);
+            const min = partida.tempototal % 60;
+            console.log(`Você ainda tem ${horas}h e ${min}min. \nTem certeza que deseja terminar a preparação e esperar pela horda? (s/n)`);
+            let confirmação = input("");
+            if (confirmação.toLowerCase() == 's' || confirmação.toLowerCase() == 'sim') {
+                await finalizarPartida(pg, jogador);
+                break;
+            }
+        }
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
         console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));
     }
-    console.log("Fim do jogo");
 }
 await Main();

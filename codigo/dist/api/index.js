@@ -178,6 +178,15 @@ class Postgree {
         });
         return resultados[0];
     };
+    getInstanciaColetavelJogador = async (idInstancia, idJogador) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT * FROM InstanciaColetavel WHERE IdInstanciaColetavel = ${idInstancia} AND Jogador = ${idJogador}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados[0];
+    };
     getItem = async (idItem) => {
         let resultados = [];
         await this.client.query(`
@@ -201,7 +210,7 @@ class Postgree {
         });
         return resultados;
     };
-    getEnfrenta = async (idJogador, idInimigo) => {
+    getEnfrentaInimigo = async (idJogador, idInimigo) => {
         let resultados = [];
         await this.client.query(`
             SELECT * FROM Enfrenta WHERE Enfrenta.idJogador = ${idJogador} AND Enfrenta.idInimigo = ${idInimigo}`)
@@ -210,7 +219,16 @@ class Postgree {
         });
         return resultados[0];
     };
-    getAmizade = async (idJogador, idNpc) => {
+    getEnfrenta = async (idJogador) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT * FROM Enfrenta WHERE Enfrenta.idJogador = ${idJogador}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados;
+    };
+    getAmizadeNpc = async (idJogador, idNpc) => {
         let resultados = [];
         await this.client.query(`
             SELECT * FROM Amizade WHERE Amizade.idJogador = ${idJogador} AND Amizade.idNpc = ${idNpc}`)
@@ -218,6 +236,17 @@ class Postgree {
             resultados = results.rows;
         });
         return resultados[0];
+    };
+    getAmizade = async (idJogador) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT * FROM NPC
+                JOIN AMIZADE
+                ON NPC.IdNpc = AMIZADE.IdNpc AND AMIZADE.IdJogador = ${idJogador}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados;
     };
     getItemInventarioJogador = async (idJogador, idItem) => {
         let resultados = [];
@@ -259,6 +288,28 @@ class Postgree {
             resultados = results.rows;
         });
         return resultados;
+    };
+    getEstadosJogador = async (idJogador) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT Estado.idEstado, Estado.descricao, Estado.pontos FROM Estado
+                JOIN InstanciaInteravel
+                ON InstanciaInteravel.EstadoAtual = Estado.IdEstado AND InstanciaInteravel.Jogador = ${idJogador}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados;
+    };
+    getPartidaJogador = async (idJogador) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT Partida.idPartida, Partida.tempoTotal, Partida.qtdZumbis, Partida.DificuldadePartida FROM Partida
+                JOIN Jogador
+                ON Jogador.Partida = Partida.IdPartida AND Jogador.IdJogador = ${idJogador}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados[0];
     };
 }
 export default Postgree;

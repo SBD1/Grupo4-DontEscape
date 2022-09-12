@@ -160,10 +160,10 @@ class Console {
         });
     }
     static consoleFinalVencedor() {
-        console.log("Venceu");
+        console.log(`E então... houve silêncio.\nVocê sobreviveu a noite.\nÉ hora de seguir em frente e sair desse lugar.`);
     }
-    static consoleFinalPerdedor() {
-        console.log("Perdeu");
+    static consoleFinalPerdedor(qtdZumbis) {
+        console.log(`E então... o fim chegou\n${qtdZumbis} zumbis te cercaram e não há saída\nÉ hora de dar adeus.`);
     }
     static consoleInventario(inventario) {
         console.log(chalk.blue.bold("Seu inventário:"));

@@ -16,7 +16,7 @@ async function Main() {
 
     const playerComodoInicial = 7;
 
-    await Console.consoleName(sleep);
+    //await Console.consoleName(sleep);
 
     let jogador: Jogador = {
         idjogador: 6,
@@ -36,8 +36,9 @@ async function Main() {
     else 
         jogador = await Auth.register(input, pg);
 
-    await Console.consoleStart(sleep);
+    //await Console.consoleStart(sleep);
     //jogador.comodo=8;
+    let partida = await pg.getPartidaJogador(jogador.idjogador);
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = []
@@ -52,7 +53,7 @@ async function Main() {
     Console.consoleMenu(comodoJogador);
     let acao = Number(input(""));
 
-    while (acao != 0 && acao != 10) {
+    while (acao != 0) {
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
         
@@ -75,6 +76,16 @@ async function Main() {
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
+        else if (acao == 10){
+            const horas = Math.floor(partida.tempototal/ 60);          
+            const min = partida.tempototal % 60;
+            console.log(`Você ainda tem ${horas}h e ${min}min. \nTem certeza que deseja terminar a preparação e esperar pela horda? (s/n)`);
+            let confirmação = input("");
+            if (confirmação.toLowerCase() == 's' || confirmação.toLowerCase() == 'sim') {
+                await finalizarPartida(pg, jogador);
+                break;
+            }
+        }
 
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
@@ -82,9 +93,6 @@ async function Main() {
         Console.consoleMenu(comodoJogador)
         acao = Number(input(""));
     }
-    
-    if (acao == 10)
-        await finalizarPartida(pg, jogador);
     /*
         let inventario = await pg.getInventarioJogador(1);
         console.log("Seu inventario");
