@@ -7,13 +7,14 @@ import Login from "../model/Login.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
 import ChalkAnimation from "chalk-animation";
+import { Inventario } from "src/interfaces/inventario.js";
 
 const input = PromptSync({ sigint: true });
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
 async function Main() {
-    
+
     const playerComodoInicial = 7;
 
     await Console.consoleName(sleep);
@@ -27,6 +28,7 @@ async function Main() {
     };
 
     const pg: Postgree = new Postgree();
+
 
     let possuiConta = input("Você já possui uma conta? (s/n) ");
 
@@ -59,9 +61,8 @@ async function Main() {
             console.log("Iteragir com item")
         }
         else if (acao == 3) {
-            let inventario = await pg.getInventarioJogador(jogador.idjogador);
-            console.log("Seu inventario");
-            console.table(inventario);
+            let inventario: Array<Inventario> = await pg.getInventarioJogador(5);
+            Console.consoleInventario(inventario);
         }
         else if (acao == 4)
             await mudaComodo(pg, jogador, acao);
@@ -83,57 +84,6 @@ async function Main() {
     }
 
     console.log("Fim do jogo");
-    /*
-        let inventario = await pg.getInventarioJogador(1);
-        console.log("Seu inventario");
-        console.table(inventario);
-    
-        // const responsePostInventario = await pg.postInventarioJogador(1, 1);
-        // console.log("Seu inventario");
-        // inventario = await pg.getInventarioJogador(1);
-    
-    
-        const localidades = await pg.getLocalidades();
-        console.table(localidades);
-    
-        const comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
-    
-        console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
-    
-        let map = {
-            nome: "",
-            idcomodo: comodoInicial["comodoinicial"],
-            saidadireita: 0,
-            saidaesquerda: 0,
-            saidameio: 0,
-        };
-    
-        // map["idcomodo"] = comodoInicial["comodoinicial"];
-    
-        let abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
-    
-        while (abrirMapa.toLowerCase() == "s" || abrirMapa.toLowerCase() == "sim" ) {
-            map = await pg.openMap(map["idcomodo"]);
-            Console.consoleComodo(map)
-    
-            let lugares = await pg.getLugares();
-            console.table(lugares);
-    
-            console.log("Ir para \n1) Saida da direita \n2) Saída da esquerda\n3) Saída do meio\n");
-            let decisao = input("");
-    
-            if (decisao == "1") 
-                map = await pg.openMap(map["saidadireita"]);
-            if (decisao == "2") 
-                map = await pg.openMap(map["saidaesquerda"]);
-            if (decisao == "3") 
-                map = await pg.openMap(map["saidameio"]);
-     
-            console.log(`O comodo que você se encontra é : ${map["nome"]}`);
-            abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
-        }
-    
-        console.log("Fim do jogo");*/
 }
 
 // client.end();

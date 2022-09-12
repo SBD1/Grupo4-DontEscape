@@ -6,6 +6,7 @@ import { Npc } from "../interfaces/npc.js"
 import { Partida } from "src/interfaces/partida.js"
 import ChalkAnimation from "chalk-animation";
 import chalk from "chalk"
+import { Inventario } from "src/interfaces/inventario.js"
 class Console {
    
     constructor() {
@@ -184,6 +185,23 @@ class Console {
         niveisPartida.forEach((partida) => {
             console.log(`${partida.idpartida}) ${partida.dificuldadepartida}, ${partida.qtdzumbis} zumbis, ${partida.qtdzumbis} minutos`);
         });
+    }
+
+    static consoleInventario(inventario: Array<Inventario>) {
+        console.log(chalk.blue.bold("Seu inventário:"));
+        let ArrayInventario : Array<{
+            nome: string,
+            descricao: String,
+        }> = [];
+        
+        inventario.map((item) => {
+            ArrayInventario.push({
+                nome: item.nome,
+                descricao: item.descricao,
+            });
+        });
+
+        console.table(ArrayInventario);
     }
 }
 

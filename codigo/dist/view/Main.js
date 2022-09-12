@@ -40,9 +40,8 @@ async function Main() {
             console.log("Iteragir com item");
         }
         else if (acao == 3) {
-            let inventario = await pg.getInventarioJogador(jogador.idjogador);
-            console.log("Seu inventario");
-            console.table(inventario);
+            let inventario = await pg.getInventarioJogador(5);
+            Console.consoleInventario(inventario);
         }
         else if (acao == 4)
             await mudaComodo(pg, jogador, acao);

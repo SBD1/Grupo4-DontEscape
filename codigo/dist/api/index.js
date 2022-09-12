@@ -116,17 +116,17 @@ class Postgree {
         });
         return resultados[0];
     };
-    getInventarioJogador = async (idJogador) => {
+    getInventarioJogador = async (idJogador = 7) => {
         let resultados = [];
         await this.client.query(`
-            SELECT I.idItem, instanciacoletavel, nome, descricao, comodo, tipo, jogador FROM 
+            SELECT I.idItem, instanciacoletavel, nome, descricao FROM 
             (SELECT I.Jogador, instanciaColetavel, idItem 
-                 FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = 7 AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
+                 FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = ${idJogador} AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
             JOIN Item I ON n1.IdItem = I.idItem`)
             .then((results) => {
             resultados = results.rows;
         });
-        return resultados[0];
+        return resultados;
     };
     postInventarioJogador = async (idJogador, idInstanciaColetavel) => {
         let resultados = [];

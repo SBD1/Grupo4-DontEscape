@@ -148,17 +148,17 @@ class Postgree {
         return resultados[0];
     }
 
-    public getInventarioJogador = async (idJogador: number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public getInventarioJogador = async (idJogador: number = 7): Promise<any> => {
+        let resultados: Array<Inventario> = [];
         await this.client.query(`
-            SELECT I.idItem, instanciacoletavel, nome, descricao, comodo, tipo, jogador FROM 
+            SELECT I.idItem, instanciacoletavel, nome, descricao FROM 
             (SELECT I.Jogador, instanciaColetavel, idItem 
-                 FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = 7 AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
+                 FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = ${idJogador} AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
             JOIN Item I ON n1.IdItem = I.idItem`)
             .then((results: any) => {
                 resultados = results.rows
             })
-        return resultados[0];
+        return resultados;
     }
 
     public postInventarioJogador = async (idJogador: Number, idInstanciaColetavel: Number): Promise<Number> => {
