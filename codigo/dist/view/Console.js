@@ -27,23 +27,24 @@ class Console {
             || comodoJogador.idcomodo == 16;
         console.log(`\nO que você deseja fazer?`);
         console.log(`1) Inspecionar o cômodo`);
-        console.log(`2) Abrir o inventário`);
+        console.log(`2) Interagir com item`);
+        console.log(`3) Abrir o inventário`);
         if (comodoJogador.saidadireita)
-            console.log(`3) Ir para a direita`);
+            console.log(`4) Ir para a direita`);
         if (comodoJogador.saidaesquerda)
-            console.log(`4) Ir para a esquerda`);
+            console.log(`5) Ir para a esquerda`);
         else
-            console.log(`4) Ir para a esquerda (Indisponivel)`);
+            console.log(`5) Ir para a esquerda (Indisponivel)`);
         if (comodoJogador.saidameio)
-            console.log(`5) Ir para o meio`);
+            console.log(`6) Ir para o meio`);
         else
-            console.log("5) Ir para o meio (Indisponivel)");
+            console.log("6) Ir para o meio (Indisponivel)");
         if (isComodoInicial)
-            console.log(`6) Abrir o mapa`);
+            console.log(`7) Abrir o mapa`);
         else
-            console.log(`6) Abrir o mapa (Indisponivel)`);
-        console.log(`7) Procurar inimigos`);
-        console.log(`8) Procurar npcs`);
+            console.log(`7) Abrir o mapa (Indisponivel)`);
+        console.log(`8) Procurar inimigos`);
+        console.log(`9) Procurar npcs`);
         console.log(`0) Sair do jogo`);
     }
     static consoleComodo(comodo) {
