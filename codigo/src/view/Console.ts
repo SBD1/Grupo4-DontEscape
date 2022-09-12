@@ -80,7 +80,8 @@ class Console {
             itens.forEach((item, i) => {
                 console.log(`\t${i + 1}) ${item.nome}`);
             })
-            console.log("Selecione o item que deseja coletar");
+            console.log("\t0) Voltar");
+            console.log("Selecione o item que deseja coletar ou 0 para voltar");
     }
 
     static consoleListItems(itens: any[]) {

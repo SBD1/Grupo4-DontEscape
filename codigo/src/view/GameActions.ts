@@ -19,10 +19,15 @@ export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: an
         let coletaveis = await pg.getColetaveis(jogador, locais[localEscolhido-1]);
         let itens: Item[] = [];
 
-        coletaveis.forEach(async coletavel => {
-            itens.push(await pg.getItem(coletavel.idcoletavel))
-        })
-        input(Console.consoleColetaveis(itens));
+        for(let i=0; i<coletaveis.length; i++){
+            itens[i] = await pg.getItem(coletaveis[i].idcoletavel);
+        }
+        
+        let resposta = input(Console.consoleColetaveis(itens));
+        if(resposta != 0){
+            await pg.postInventarioJogador(jogador.idjogador, coletaveis[resposta-1].idcoletavel);
+            console.log(itens[resposta-1].descricao);
+        } 
     }
     else Console.consoleListLocais(locais);
 

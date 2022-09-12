@@ -2,6 +2,7 @@ import { env } from "process";
 import { Coletavel } from "../interfaces/coletavel";
 import { Comodo } from "../interfaces/comodo";
 import { Inimigo } from "../interfaces/inimigo";
+import { Inventario } from "../interfaces/inventario";
 import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
 import { Npc } from "../interfaces/npc";
@@ -137,8 +138,8 @@ class Postgree {
         return resultados[0];
     }
 
-    public postInventarioJogador = async (idJogador: number, idColetavel: number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public postInventarioJogador = async (idJogador: Number, idColetavel: Number): Promise<Inventario> => {
+        let resultados: Array<Inventario> = [];
         await this.client.query(`
             INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idColetavel})`)
             .then((results: any) => {
@@ -189,14 +190,15 @@ class Postgree {
         return resultados[0];
     }
 
-    public getItem = async (idItem: Number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public getItem = async (idItem: Number): Promise<Item> => {
+        let resultados: Item[] = [];
+
         await this.client.query(`
             SELECT * FROM Item WHERE IdItem = ${idItem}`)
             .then((results: any) => {
                 resultados = results.rows
             })
-
+            
         return resultados[0];
     }
 
