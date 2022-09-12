@@ -3,19 +3,21 @@ import { Inimigo } from "../interfaces/inimigo.js"
 import { Item } from "../interfaces/item.js"
 import { Npc } from "../interfaces/npc.js"
 import { Partida } from "src/interfaces/partida.js"
+import ChalkAnimation from "chalk-animation";
 class Console {
    
     constructor() {
 
     }
-
+    
     static consoleName() {
-        console.log('------------------------------------------------------')
-        console.log('------------------------------------------------------')
-        console.log('-------------------- DON´T ESCAPE --------------------')
-        console.log('------------------------------------------------------')
-        console.log('------------------------------------------------------')
-        console.log()
+        const t1 = `
+        ------------------------------------------------------
+        ------------------------------------------------------
+        -------------------- DON´T ESCAPE --------------------
+        ------------------------------------------------------
+        ------------------------------------------------------
+        `;
     }
 
     static consoleStart() {
