@@ -61,7 +61,6 @@ async function Main() {
             console.log("Seu inventario");
             console.table(inventario);
         }
-
         else if (acao == 4)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 5)
@@ -69,11 +68,13 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador);
+            await abrirMapa(pg, jogador, input);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
+        jogador = await pg.getLogin(jogador.nome);
+        comodoJogador = await pg.getComodo(jogador);
         console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         Console.consoleMenu(comodoJogador)
         acao = Number(input(""));
