@@ -2,6 +2,7 @@ import { env } from "process";
 import { Coletavel } from "../interfaces/coletavel";
 import { Comodo } from "../interfaces/comodo";
 import { Inimigo } from "../interfaces/inimigo";
+import { InstanciaColetavel } from "../interfaces/instanciaColetavel";
 import { Inventario } from "../interfaces/inventario";
 import { Item } from "../interfaces/item";
 import { Jogador } from "../interfaces/jogador";
@@ -94,10 +95,12 @@ class Postgree {
 
     public getLugares = async (jogador: Jogador): Promise<String[]> => {
         let resultados: String[] = [];
-        await this.client.query(`SELECT C.lugar 
-                                    from (SELECT I.idItem, I.tipo FROM Item I WHERE I.Comodo = ${jogador.comodo}
-                                            Group by I.idItem HAVING I.tipo='coletavel') n1 
-                                    join Coletavel C on C.idColetavel = n1.idItem; `)
+        await this.client.query(`SELECT C.lugar FROM
+                                    (SELECT I.idItem
+                                        FROM (SELECT * FROM InstanciaColetavel IC WHERE IC.foiColetado = false AND IC.jogador = ${jogador.idjogador}) n1
+                                        JOIN Item I on I.Comodo = ${jogador.comodo} AND I.idItem = n1.idItem
+                                            GROUP BY I.idItem HAVING I.tipo='coletavel') n2
+                                    JOIN Coletavel C on C.idColetavel = n2.idItem; `)
             .then((results: any) => {
                 resultados = results.rows
             })
@@ -145,14 +148,18 @@ class Postgree {
         return resultados[0];
     }
 
-    public postInventarioJogador = async (idJogador: Number, idColetavel: Number): Promise<Inventario> => {
+    public postInventarioJogador = async (idJogador: Number, idInstanciaColetavel: Number): Promise<Number> => {
         let resultados: Array<Inventario> = [];
-        await this.client.query(`
-            INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idColetavel})`)
-            .then((results: any) => {
-                resultados = results.rows
-            })
-        return resultados[0];
+        try {
+            await this.client.query(`
+                INSERT INTO Inventario (Jogador, InstanciaColetavel) VALUES (${idJogador}, ${idInstanciaColetavel})`)
+                .then((results: any) => {
+                    resultados = results.rows
+                })
+        } catch (error) {
+            return 0;
+        }
+        return 1;
     }
 
     public postEnfrentamento = async (idJogador: number, idInimigo: number, idArma?: number): Promise<any> => {
@@ -187,10 +194,10 @@ class Postgree {
         return resultados[0];
     }
 
-    public getInstanciaColetavel = async (idColetavel: number, idJogador: number): Promise<any> => {
-        let resultados: Array<any> = [];
+    public getInstanciaColetavel = async (idColetavel: Number, idJogador: Number): Promise<InstanciaColetavel> => {
+        let resultados: Array<InstanciaColetavel> = [];
         await this.client.query(`
-            SELECT * FROM InstanciaColetavel WHERE IdInstanciaColetavel = ${idColetavel} AND Jogador = ${idJogador}`)
+            SELECT * FROM InstanciaColetavel WHERE IdItem = ${idColetavel} AND Jogador = ${idJogador}`)
             .then((results: any) => {
                 resultados = results.rows
             })
