@@ -42,8 +42,8 @@ class Postgree {
         return response[0];
     };
 
-    public getLocalidades = async () => {
-        let resultados = ""
+    public getLocalidades = async (): Promise<any[]> => {
+        let resultados: Array<any> = [];
         await this.client.query(`SELECT * FROM Localidade ORDER BY idLocalidade ASC`)
             .then((results: any) => {
                 resultados = results.rows
@@ -269,6 +269,8 @@ class Postgree {
             })
         return resultados[0];
     }
+
+
 }
 
 export default Postgree;

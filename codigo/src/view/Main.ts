@@ -1,7 +1,7 @@
 import Postgree from "../api/index";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
-import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo } from "./GameActions";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions";
 import Login from "../model/Login";
 const input = require('prompt-sync')({ sigint: true });
 
@@ -13,7 +13,7 @@ async function Main() {
     let jogador: Jogador = {
         idjogador: 6,
         nome: 'a',
-        comodo: 8,
+        comodo: 9,
         partida: 2,
         situacao: 'normal'
     }
@@ -46,9 +46,10 @@ async function Main() {
     let comodoJogador = await pg.getComodo(jogador);
     
 
+    console.log(`Você está no cômodo : ${comodoJogador.nome}`);
     let acao = input(Console.consoleMenu(comodoJogador));
+
     while (acao != 0) {
-        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
         else if (acao == 2)
@@ -60,12 +61,12 @@ async function Main() {
         else if (acao == 5)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 6)
-            console.log("Abrir o mapa");
+            await abrirMapa(pg, jogador);
         else if (acao == 7)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 8)
             await procurarNpc(pg, jogador, input);
-
+        console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         acao = input(Console.consoleMenu(comodoJogador));
     }
 

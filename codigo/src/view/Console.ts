@@ -4,6 +4,7 @@ import { Item } from "../interfaces/item"
 import { Npc } from "../interfaces/npc"
 
 class Console {
+   
     constructor() {
 
     }
@@ -43,10 +44,11 @@ class Console {
         console.log(`2) Abrir o inventário`)
         if (comodoJogador.saidadireita) console.log(`3) Ir para a direita`)
         if (comodoJogador.saidaesquerda) console.log(`4) Ir para a esquerda`)
-        console.log(`4) Ir para a esquerda Indisponivel`)
+        else console.log(`4) Ir para a esquerda (Indisponivel)`)
         if (comodoJogador.saidameio) console.log(`5) Ir para o meio`)
-        console.log("5) Ir para o meio Indisponivel")
+        else console.log("5) Ir para o meio (Indisponivel)")
         if (isComodoInicial) console.log(`6) Abrir o mapa`)
+        else console.log(`6) Abrir o mapa (Indisponivel)`)
         console.log(`7) Procurar inimigos`)
         console.log(`8) Procurar npcs`)
         console.log(`0) Sair do jogo`)
@@ -124,6 +126,13 @@ class Console {
             console.table({ "Fala": npc.falaajuda,});
         }
     }
+
+    static consoleMapa(locais: any) {
+        console.table({
+            "Nome": locais.nome,
+        });
+    }
+
 }
 
 export default Console;
