@@ -14,31 +14,33 @@ export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: an
         if (!locais.includes(lugar)) locais.push(lugar);
     });
 
-    let localEscolhido;
     if (locais[0]){
-        localEscolhido = Number(input(Console.consoleListLocais(locais)));
-        let coletaveis = await pg.getColetaveis(jogador, locais[localEscolhido-1]);
-        let instanciaColetaveis: InstanciaColetavel[] = [];
-        let itens: Item[] = [];
+        let localEscolhido = Number(input(Console.consoleListLocais(locais)));
+        while(localEscolhido != 0 && locais[0]){
+            let coletaveis = await pg.getColetaveis(jogador, locais[localEscolhido-1]);
+            let instanciaColetaveis: InstanciaColetavel[] = [];
+            let itens: Item[] = [];
 
-        for(let i=0; i<coletaveis.length; i++){
-            itens[i] = await pg.getItem(coletaveis[i].idcoletavel);
-            instanciaColetaveis[i] = await pg.getInstanciaColetavel(coletaveis[i].idcoletavel, jogador.idjogador);
+            for(let i=0; i<coletaveis.length; i++){
+                itens[i] = await pg.getItem(coletaveis[i].idcoletavel);
+                instanciaColetaveis[i] = await pg.getInstanciaColetavel(coletaveis[i].idcoletavel, jogador.idjogador);
+            }
+
+            let resposta = Number(input(Console.consoleColetaveis(itens)));
+            if(resposta != 0){
+                let inventario = await pg.postInventarioJogador(jogador.idjogador, instanciaColetaveis[resposta-1].idinstanciacoletavel)
+                console.log();
+                if(inventario == 1) console.log("Item coletado!");
+                console.log(itens[resposta-1].descricao);
+            } 
+            locais = [];
+            (await pg.getLugares(jogador)).forEach(lugar => {
+                lugar = Object.values(lugar).toString()
+                if (!locais.includes(lugar)) locais.push(lugar);
+            });
+            localEscolhido = Number(input(Console.consoleListLocais(locais)));
         }
         
-        let resposta = Number(input(Console.consoleColetaveis(itens)));
-        if(resposta != 0){
-            let teste = await pg.postInventarioJogador(jogador.idjogador, instanciaColetaveis[resposta-1].idinstanciacoletavel)
-            console.log();
-            console.log(itens[resposta-1].descricao);
-            console.log();
-                
-            if(teste == 1){
-                // update instacia coletavel
-            }
-            
-            
-        } 
     }
     else Console.consoleListLocais(locais);
 
@@ -66,7 +68,7 @@ export async function procurarInimigo(pg: Postgree, jogador: Jogador, input: any
             await pg.postEnfrentamento(jogador.idjogador, inimigo.idinimigo, armas[arma] ? armas[arma].instanciacoletavel : null);
 
             if (armas[arma].iditem == 23 || armas[arma].iditem == 24 || armas[arma].iditem == 25)
-                await pg.postInventarioJogador(jogador.idjogador, armas[arma].iditem - 1);
+                await pg.postInventarioJogador(jogador.idjogador, armas[arma].idinstanciacoletavel - 1);
         }
     }
     else
@@ -122,26 +124,23 @@ export async function procurarNpc(pg: Postgree, jogador: Jogador, input: any) {
 
 
 export async function mudaComodo(pg: Postgree, jogador: Jogador, acao: Number) {
-    let comodo, novoComodo: Number | undefined;
+    let comodo;
 
     comodo = await pg.getComodo(jogador);
 
-    if (acao == 3 && comodo.saidadireita) 
-        novoComodo = comodo.saidadireita;
-    else if (acao == 4  && comodo.saidaesquerda)
-        novoComodo = comodo.saidaesquerda;
-    else if (acao == 5  && comodo.saidameio)
-        novoComodo = comodo.saidameio;
+    if (acao == 4 && comodo.saidadireita) 
+        pg.putJogador(jogador.idjogador, comodo.saidadireita);
+    else if (acao == 5  && comodo.saidaesquerda)
+        pg.putJogador(jogador.idjogador, comodo.saidaesquerda);
+    else if (acao == 6 && comodo.saidameio)
+        pg.putJogador(jogador.idjogador, comodo.saidameio);
     else
         console.log("Função indisponivel, cômodo não existe\n");
-
-    if(novoComodo)
-    pg.putJogador(jogador.idjogador, novoComodo);
 }
 
 
-export async function abrirMapa(pg: Postgree, jogador: Jogador) {
-
+export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
+    let localidade;
     let mapa = await pg.getLocalidades();
     let comodoAtual = await pg.getComodo(jogador);
 
@@ -153,17 +152,16 @@ export async function abrirMapa(pg: Postgree, jogador: Jogador) {
 
     if (isComodoInicial) {
         Console.consoleMapa(mapa);
+
+        localidade = Number(input(""));
+
+        if(localidade == 0)
+            return
+        
+        pg.putJogador(jogador.idjogador, mapa[localidade].comodoinicial);
+        
     } else {
         console.log("Mapa Indisponivel, você precisa estar em um cômodo inicial\n");
     }
-
-    // mapa.forEach(le => {
-    //     if(comodoAtual.idcomodo == le.comodoinicial) {
-    //         console.log("Mapa indisponivel, você precisa estar em um campo inicial");
-    //         return;
-    //     }
-    //     })
-
-    // Console.consoleMapa(mapa);
 
 }

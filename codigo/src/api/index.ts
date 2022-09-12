@@ -5,6 +5,7 @@ import chalk from "chalk";
 import { Coletavel } from "../interfaces/coletavel.js";
 import { Comodo } from "../interfaces/comodo.js";
 import { Inimigo } from "../interfaces/inimigo.js";
+import { Estado } from "../interfaces/estado.js";
 import { InstanciaColetavel } from "../interfaces/instanciaColetavel.js";
 import { Inventario } from "../interfaces/inventario.js";
 import { Item } from "../interfaces/item.js";
@@ -127,25 +128,33 @@ class Postgree {
         return resultados;
     }
 
-    /*public getItemById = async (itemid: Number): Promise<Item> => {
-        let resultados: Item[] = [];
-        await this.client.query(`SELECT * FROM Item WHERE idItem = ${itemid}`)
+    public getInteraveis = async (jogador: Jogador): Promise<any[]> => {
+        let resultados: any[] = [];
+        await this.client.query(`SELECT n1.nome, idInstanciaInteravel,  II.idItem, estadoAtual, jogador FROM
+                                (SELECT * FROM Item I WHERE I.Comodo = ${jogador.comodo} AND I.tipo = 'interavel') n1
+                                join InstanciaInteravel II on II.Jogador = ${jogador.idjogador} AND n1.idItem = II.idItem`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public getEstado = async (idEstado: Number): Promise<Estado> => {
+        let resultados: Estado[] = [];
+        await this.client.query(`SELECT * FROM Estado WHERE idestado = ${(idEstado)};`)
             .then((results: any) => {
                 resultados = results.rows
             })
         return resultados[0];
-    }*/
+    }
 
     public getInventarioJogador = async (idJogador: number): Promise<any> => {
         let resultados: Array<any> = [];
         await this.client.query(`
-            SELECT Item.nome 
-            FROM (
-            SELECT * 
-            FROM Inventario 
-            JOIN InstanciaColetavel ON Inventario.InstanciaColetavel = InstanciaColetavel.IdItem
-            JOIN Jogador ON Inventario.Jogador = ${idJogador}) I
-            JOIN Item on I.IdItem = Item.IdItem`)
+            SELECT I.idItem, instanciacoletavel, nome, descricao, comodo, tipo, jogador FROM 
+            (SELECT I.Jogador, instanciaColetavel, idItem 
+                 FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = 7 AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
+            JOIN Item I ON n1.IdItem = I.idItem`)
             .then((results: any) => {
                 resultados = results.rows
             })

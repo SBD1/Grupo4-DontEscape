@@ -98,16 +98,31 @@ class Postgree {
         });
         return resultados;
     };
+    getInteraveis = async (jogador) => {
+        let resultados = [];
+        await this.client.query(`SELECT n1.nome, idInstanciaInteravel,  II.idItem, estadoAtual, jogador FROM
+                                (SELECT * FROM Item I WHERE I.Comodo = ${jogador.comodo} AND I.tipo = 'interavel') n1
+                                join InstanciaInteravel II on II.Jogador = ${jogador.idjogador} AND n1.idItem = II.idItem`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados;
+    };
+    getEstado = async (idEstado) => {
+        let resultados = [];
+        await this.client.query(`SELECT * FROM Estado WHERE idestado = ${(idEstado)};`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados[0];
+    };
     getInventarioJogador = async (idJogador) => {
         let resultados = [];
         await this.client.query(`
-            SELECT Item.nome 
-            FROM (
-            SELECT * 
-            FROM Inventario 
-            JOIN InstanciaColetavel ON Inventario.InstanciaColetavel = InstanciaColetavel.IdItem
-            JOIN Jogador ON Inventario.Jogador = ${idJogador}) I
-            JOIN Item on I.IdItem = Item.IdItem`)
+            SELECT I.idItem, instanciacoletavel, nome, descricao, comodo, tipo, jogador FROM 
+            (SELECT I.Jogador, instanciaColetavel, idItem 
+                 FROM Inventario I JOIN InstanciaColetavel IC ON I.Jogador = 7 AND I.instanciaColetavel = IC.idInstanciaColetavel) n1
+            JOIN Item I ON n1.IdItem = I.idItem`)
             .then((results) => {
             resultados = results.rows;
         });
