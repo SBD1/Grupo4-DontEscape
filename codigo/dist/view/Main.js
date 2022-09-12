@@ -3,21 +3,25 @@ import Auth from "../model/Auth.js";
 import Console from "./Console.js";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
 import PromptSync from "prompt-sync";
-import chalk from "chalk";
 import ChalkAnimation from "chalk-animation";
 const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
     const playerComodoInicial = 7;
-    const t1 = chalk.red.bold(`
-    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    -------------------------------------------------------------------------- DON´T ESCAPE --------------------------------------------------------------------------
-    ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    `);
-    const tittle = ChalkAnimation.neon(t1);
-    await sleep(5000);
+    const t1 = `  
+        /$$$$$$$                           /$$           /$$$$$$$$                                                         / $$
+       | $$__  $                          | $$          | $$_____/                                                         | $$
+       | $$  \  $    /$$$$$$   /$$$$$$$   /$$$$$$        | $$         /$$$$$$$   /$$$$$$$   /$$$$$$    /$$$$$$    /$$$$$$   | $$
+       | $$  | $   /$$__  $$ | $$__  $$ |_  $$_/        | $$$$$     /$$_____/  /$$_____/  |____  $$  /$$__  $$  /$$__  $$  | $$
+       | $$  | $  | $$  \  $$ | $$  \  $$   | $$          | $$__/    |  $$$$$$  | $$         /$$$$$$$ | $$  \  $$ | $$$$$$$$  |__/
+       | $$  | $  | $$  | $$ | $$  | $$   | $$ /$$      | $$        \____  $$  | $$        /$$__  $$ | $$  | $$ | $$_____/      
+       | $$$$$$$  |  $$$$$$/ | $$  | $$   | $$$$/       | $$$$$$$$  /$$$$$$$/ |  $$$$$$$  |$$$$$$$  | $$$$$$$/ |  $$$$$$$   |$$
+       |_______/   \______/   |__/  |__/   |_____/       |________/ |_______/   |_______/  |_______/ | $$____/   |_______/  |__/
+                                                                                                    | $$                       
+                                                                                                    | $$                     
+                                                                                                    |__/`;
+    const tittle = ChalkAnimation.radar(t1);
+    await sleep(10000);
     tittle.stop();
     console.clear();
     let jogador = {
@@ -34,7 +38,6 @@ async function Main() {
     else
         jogador = await Auth.register(input, pg);
     Console.consoleStart();
-    jogador.comodo = 8;
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = [];
@@ -63,11 +66,13 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador);
+            await abrirMapa(pg, jogador, input);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
+        jogador = await pg.getLogin(jogador.nome);
+        comodoJogador = await pg.getComodo(jogador);
         console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));
