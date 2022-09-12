@@ -1,11 +1,11 @@
-import Postgree from "../api/index";
-import { Comodo } from "../interfaces/comodo";
-import { Inimigo } from "../interfaces/inimigo";
-import { InstanciaColetavel } from "../interfaces/instanciaColetavel";
-import { Item } from "../interfaces/item";
-import { Jogador } from "../interfaces/jogador";
-import { Npc } from "../interfaces/npc";
-import Console from "./Console";
+import Postgree from "../api/index.js";
+import { Comodo } from "../interfaces/comodo.js";
+import { Inimigo } from "../interfaces/inimigo.js";
+import { InstanciaColetavel } from "../interfaces/instanciaColetavel.js";
+import { Item } from "../interfaces/item.js";
+import { Jogador } from "../interfaces/jogador.js";
+import { Npc } from "../interfaces/npc.js";
+import Console from "./Console.js";
 
 export async function inspecionaComodo(pg: Postgree, jogador: Jogador, input: any) {
     let locais: String[] = [];

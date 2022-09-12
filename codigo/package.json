@@ -2,14 +2,17 @@
   "name": "dontescape",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "exports": "./dist/view/Main.js",
   "scripts": {
-    "server": "sucrase-node ./src/view/Main.ts",
+    "server": "tsc && node ./dist/view/Main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/prompt-sync": "^4.1.1",
+    "chalk": "^5.0.1",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "pg": "^8.8.0",
