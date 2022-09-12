@@ -311,5 +311,14 @@ class Postgree {
         });
         return resultados[0];
     };
+    getTempoTarefa = async (IdItemInterador, IdItemInteragido) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT tempo FROM Tarefa WHERE IdItemInterador = ${IdItemInterador} AND IdItemInteragido = ${IdItemInteragido}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados[0];
+    };
 }
 export default Postgree;

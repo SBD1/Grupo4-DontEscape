@@ -365,6 +365,16 @@ class Postgree {
             })
         return resultados[0];
     }
+    
+    public getTempoTarefa = async (IdItemInterador: Number, IdItemInteragido: Number): Promise<Number> => {
+        let resultados: Array<Number> = [];
+        await this.client.query(`
+            SELECT tempo FROM Tarefa WHERE IdItemInterador = ${IdItemInterador} AND IdItemInteragido = ${IdItemInteragido}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
 }
 
 export default Postgree;

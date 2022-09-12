@@ -16,7 +16,7 @@ async function Main() {
 
     const playerComodoInicial = 7;
 
-    //await Console.consoleName(sleep);
+    await Console.consoleName(sleep);
 
     let jogador: Jogador = {
         idjogador: 6,
@@ -36,7 +36,7 @@ async function Main() {
     else 
         jogador = await Auth.register(input, pg);
 
-    //await Console.consoleStart(sleep);
+    await Console.consoleStart(sleep);
     //jogador.comodo=8;
     let partida = await pg.getPartidaJogador(jogador.idjogador);
     let comodoJogador = await pg.getComodo(jogador);
@@ -45,8 +45,11 @@ async function Main() {
     for(let i=0; i<interaveis.length; i++){
         estados[i] = await pg.getEstado(interaveis[i].estadoatual);
     }
-    //console.log(interaveis);
     
+    let horas = Math.floor(partida.tempototal/ 60);          
+    let min = partida.tempototal % 60;
+    console.log(chalk.redBright(`\nTempo restante: ${horas}h e ${min}min\n`));
+
     console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
     Console.consoleInteraveis(estados);
 
@@ -86,64 +89,17 @@ async function Main() {
                 break;
             }
         }
-
+        
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
+        horas = Math.floor(partida.tempototal/ 60);          
+        min = partida.tempototal % 60;
+        console.log(chalk.redBright(`\nTempo restante: ${horas}h e ${min}min\n`));
         console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
         Console.consoleMenu(comodoJogador)
         acao = Number(input(""));
     }
-    /*
-        let inventario = await pg.getInventarioJogador(1);
-        console.log("Seu inventario");
-        console.table(inventario);
     
-        // const responsePostInventario = await pg.postInventarioJogador(1, 1);
-        // console.log("Seu inventario");
-        // inventario = await pg.getInventarioJogador(1);
-    
-    
-        const localidades = await pg.getLocalidades();
-        console.table(localidades);
-    
-        const comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
-    
-        console.log(`A Localidade que você se encontra é : ${comodoInicial["nome"]}`);
-    
-        let map = {
-            nome: "",
-            idcomodo: comodoInicial["comodoinicial"],
-            saidadireita: 0,
-            saidaesquerda: 0,
-            saidameio: 0,
-        };
-    
-        // map["idcomodo"] = comodoInicial["comodoinicial"];
-    
-        let abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
-    
-        while (abrirMapa.toLowerCase() == "s" || abrirMapa.toLowerCase() == "sim" ) {
-            map = await pg.openMap(map["idcomodo"]);
-            Console.consoleComodo(map)
-    
-            let lugares = await pg.getLugares();
-            console.table(lugares);
-    
-            console.log("Ir para \n1) Saida da direita \n2) Saída da esquerda\n3) Saída do meio\n");
-            let decisao = input("");
-    
-            if (decisao == "1") 
-                map = await pg.openMap(map["saidadireita"]);
-            if (decisao == "2") 
-                map = await pg.openMap(map["saidaesquerda"]);
-            if (decisao == "3") 
-                map = await pg.openMap(map["saidameio"]);
-     
-            console.log(`O comodo que você se encontra é : ${map["nome"]}`);
-            abrirMapa = input("Deseja abrir o mapa para saber onde pode ir ? (S | N ) ? ")
-        }
-    
-        console.log("Fim do jogo");*/
 }
 
 // client.end();

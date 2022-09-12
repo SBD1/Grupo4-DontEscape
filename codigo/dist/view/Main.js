@@ -28,6 +28,9 @@ async function Main() {
     for (let i = 0; i < interaveis.length; i++) {
         estados[i] = await pg.getEstado(interaveis[i].estadoatual);
     }
+    let horas = Math.floor(partida.tempototal / 60);
+    let min = partida.tempototal % 60;
+    console.log(chalk.red(`\nTempo restante: ${horas}h e ${min}min\n`));
     console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
     Console.consoleInteraveis(estados);
     Console.consoleMenu(comodoJogador);
@@ -66,6 +69,9 @@ async function Main() {
         }
         jogador = await pg.getLogin(jogador.nome);
         comodoJogador = await pg.getComodo(jogador);
+        horas = Math.floor(partida.tempototal / 60);
+        min = partida.tempototal % 60;
+        console.log(chalk.redBright(`\nTempo restante: ${horas}h e ${min}min\n`));
         console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));
