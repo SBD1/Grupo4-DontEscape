@@ -2,12 +2,12 @@ import Postgree from "../api/index";
 import { Jogador } from "../interfaces/jogador";
 import Console from "./Console";
 import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo } from "./GameActions";
-
+import Login from "../model/Login";
 const input = require('prompt-sync')({ sigint: true });
 
 async function Main() {
 
-    //const playerComodoInicial = 7;
+    const playerComodoInicial = 7;
     Console.consoleName();
 
     let jogador: Jogador = {
@@ -19,9 +19,25 @@ async function Main() {
     }
 
     const pg: Postgree = new Postgree();
-    const name: string = String(input("Digite seu nome: "));
-
-    Console.consoleStart();
+    let possuiConta = input("Você já possui uma conta? (s/n) ");
+    if (possuiConta.toLowerCase() == 's' || possuiConta.toLowerCase() == 'sim') {
+        while (true) {
+            jogador.nome = String(input("Digite seu nome: "));
+            const acharJogador = await pg.getLogin(jogador.nome);
+            const response = Login.validateLogin(acharJogador);
+            if (typeof response === "object") {
+                jogador = response;
+                break;
+            }
+     
+        }
+    }
+    else {
+        jogador.nome = String(input("Digite seu nome: "));
+        const response = await pg.postLogin(jogador.nome, 2, playerComodoInicial);
+        console.log("Jogador criado com sucesso");
+    }
+        Console.consoleStart();
     // const response = await pg.postPlayerName(name, 2, playerComodoInicial);
 
     //onst comodoInicial = await pg.getPlayerLocalidade(playerComodoInicial);
@@ -109,4 +125,3 @@ async function Main() {
 
 Main();
 // client.end();
-
