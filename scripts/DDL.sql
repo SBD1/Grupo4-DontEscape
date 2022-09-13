@@ -41,6 +41,7 @@ CREATE TABLE Comodo (
     CONSTRAINT id_SaidaDireita_fk FOREIGN KEY(SaidaDireita) REFERENCES Comodo(IdComodo),
     CONSTRAINT id_SaidaEsquerda_fk FOREIGN KEY(SaidaEsquerda) REFERENCES Comodo(IdComodo),
     CONSTRAINT id_SaidaMeio_fk FOREIGN KEY(SaidaMeio) REFERENCES Comodo(IdComodo)
+    
 );
 
 CREATE TABLE Localidade (
@@ -51,6 +52,11 @@ CREATE TABLE Localidade (
     CONSTRAINT Localidade_pk PRIMARY KEY(IdLocalidade),
     CONSTRAINT id_ComodoInicial_fk FOREIGN KEY(ComodoInicial) REFERENCES Comodo(IdComodo)
 );
+
+ALTER TABLE Comodo
+    ADD Localidade INTEGER,
+    ADD CONSTRAINT id_Localidade_fk FOREIGN KEY(Localidade) REFERENCES Localidade(IdLocalidade);
+
 
 CREATE TABLE Item (
     IdItem SERIAL,

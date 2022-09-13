@@ -141,20 +141,22 @@ export async function mudaComodo(pg: Postgree, jogador: Jogador, acao: Number) {
     comodo = await pg.getComodo(jogador);
 
     if (acao == 4 && comodo.saidadireita) 
-        pg.putJogador(jogador.idjogador, comodo.saidadireita);
+        pg.putComodoJogador(jogador.idjogador, comodo.saidadireita);
     else if (acao == 5  && comodo.saidaesquerda)
-        pg.putJogador(jogador.idjogador, comodo.saidaesquerda);
+        pg.putComodoJogador(jogador.idjogador, comodo.saidaesquerda);
     else if (acao == 6 && comodo.saidameio)
-        pg.putJogador(jogador.idjogador, comodo.saidameio);
+        pg.putComodoJogador(jogador.idjogador, comodo.saidameio);
     else
         console.log("Função indisponivel, cômodo não existe\n");
 }
 
 
-export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
+export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any, partida: any): Promise<any> {
     let localidade;
     let mapa = await pg.getLocalidades();
     let comodoAtual = await pg.getComodo(jogador);
+
+    mapa.splice(comodoAtual.localidade - 1,1)
 
     const isComodoInicial: Boolean = comodoAtual.idcomodo == 7
             || comodoAtual.idcomodo == 8
@@ -164,19 +166,30 @@ export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
 
     if (isComodoInicial) {
         Console.consoleMapa(mapa);
-
         localidade = Number(input(""));
 
+        if(localidade == comodoAtual.localidade){
+            console.log("Você já está nessa localização");
+            return partida;
+        }
         if(localidade == 0)
-            return
-        
-        pg.putJogador(jogador.idjogador, mapa[localidade].comodoinicial);
+            return partida;
+
+        let tempo = await pg.getEncaminha(comodoAtual.localidade, localidade);
+        if(tempo == undefined)
+            tempo = await pg.getEncaminha(localidade, comodoAtual.localidade);
+
+        console.log(`Você Perdeu ${Object.values(tempo)} minutos, nesse trajeto` );
+
+        partida.tempototal = partida.tempototal - tempo.tempo;
+
+        pg.putComodoJogador(jogador.idjogador, mapa[localidade].comodoinicial);
         
     } else {
         console.log("Mapa Indisponivel, você precisa estar em um cômodo inicial\n");
     }
 
-
+    return partida;
 }
 
 export async function interagirItem(pg: Postgree, jogador: Jogador, input: any, interaveis: any[]) {

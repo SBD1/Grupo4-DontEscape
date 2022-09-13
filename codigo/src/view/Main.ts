@@ -16,7 +16,7 @@ async function Main() {
 
     const playerComodoInicial = 7;
 
-    await Console.consoleName(sleep);
+    // await Console.consoleName(sleep);
 
     let jogador: Jogador = {
         idjogador: 6,
@@ -37,7 +37,7 @@ async function Main() {
         jogador = await Auth.register(input, pg);
 
     await Console.consoleStart(sleep);
-    jogador.comodo=7;
+    //jogador.comodo=7;
     let partida = await pg.getPartidaJogador(jogador.idjogador);
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
@@ -74,7 +74,7 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador, input);
+            partida = await abrirMapa(pg, jogador, input, partida);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
