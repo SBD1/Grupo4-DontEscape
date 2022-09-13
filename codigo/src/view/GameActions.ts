@@ -180,22 +180,37 @@ export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
 }
 
 export async function interagirItem(pg: Postgree, jogador: Jogador, input: any, interaveis: any[]) {
-    let possiveisEstados;
+    let possiveisEstados = [];
+    let inventario: any[] = await pg.getInventarioJogador(jogador.idjogador);
     console.log("Deseja interagir com qual item?");
     console.table({
         "Nome": interaveis.map(int => int.nome)
     })
     
     let item = Number(input(""));
+
     possiveisEstados = await pg.getMaquinaDeEstado(interaveis[item].estadoatual);
-    // console.log(possiveisEstados);
 
-    console.log("O que deseja fazer?");
-    console.table({
-        "Ação": possiveisEstados.map(acao => acao.acao)
-    })
+    for(let i=0; i<possiveisEstados.length; i++){
+        if(possiveisEstados[i].iditem!=null)
+        if(inventario.findIndex(inv=>inv.iditem == possiveisEstados[i].iditem)==-1){
+            possiveisEstados.splice(possiveisEstados[i], 1);
+            i--;
+        }
+    }
 
-    let escolha = Number(input(""))
+    if(possiveisEstados[0]){
+        console.log("O que deseja fazer?");
+        console.table({
+            "Ação": possiveisEstados.map(acao => acao.acao)
+        })
+        let escolha = Number(input(""));
+        await pg.putEstadoInstancia(interaveis[item].idinstanciainteravel, possiveisEstados[escolha].idestadopossivel);
+    }
+    else{
+        console.log("Você não está com o item adequado no inventário");
+    }
+
 
 
 

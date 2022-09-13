@@ -183,10 +183,12 @@ CREATE TABLE MaquinaDeEstados (
     IdEstado INTEGER,
     IdEstadoPossivel INTEGER,
 	Acao VARCHAR(100) NOT NULL,
+    idItem INTEGER,
     
     CONSTRAINT maquinaDeEstados_pk PRIMARY KEY(IdEstado, IdEstadoPossivel),
     CONSTRAINT id_estado_fk FOREIGN KEY(IdEstado) REFERENCES Estado(IdEstado),
-    CONSTRAINT id_estadoPossivel_fk FOREIGN KEY(IdEstadoPossivel) REFERENCES Estado(IdEstado)
+    CONSTRAINT id_estadoPossivel_fk FOREIGN KEY(IdEstadoPossivel) REFERENCES Estado(IdEstado),
+    CONSTRAINT id_item_fk FOREIGN KEY(idItem) REFERENCES Item(idItem)
 );
 
 CREATE TABLE Encaminha (

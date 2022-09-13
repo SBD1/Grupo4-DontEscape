@@ -146,10 +146,10 @@ class Console {
         });
         console.log("Deseja ir para qual local?\n");
     }
-    static consoleInteraveis(estados) {
+    static consoleInteraveis(estados, interaveis) {
         console.log("Itens interáveis:");
-        estados.forEach(estado => {
-            console.log(`\t- ${estado.descricao}`);
+        estados.forEach((estado, i) => {
+            console.log(`\t- ${interaveis[i].nome}: ${estado.descricao}`);
         });
         console.log();
     }

@@ -152,7 +152,7 @@ class Postgree {
 
     public getMaquinaDeEstado = async (idEstado: Number): Promise<MaquinaDeEstado []> => {
         let resultados: MaquinaDeEstado[] = [];
-        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${(idEstado)};`)
+        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${idEstado}`)
             .then((results: any) => {
                 resultados = results.rows
             })
@@ -390,6 +390,16 @@ class Postgree {
         let resultados: Array<Number> = [];
         await this.client.query(`
             SELECT tempo FROM Tarefa WHERE IdItemInterador = ${IdItemInterador} AND IdItemInteragido = ${IdItemInteragido}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public putEstadoInstancia = async (idInstanciaInteravel: number, idEstado: number): Promise<Number> => {
+        let resultados: Array<Number> = [];
+        await this.client.query(
+            `UPDATE InstanciaInteravel SET EstadoAtual = ${idEstado} WHERE IdInstanciaInteravel = ${idInstanciaInteravel}`)
             .then((results: any) => {
                 resultados = results.rows
             })

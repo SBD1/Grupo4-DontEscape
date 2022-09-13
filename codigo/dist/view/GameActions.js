@@ -136,18 +136,32 @@ export async function abrirMapa(pg, jogador, input) {
     }
 }
 export async function interagirItem(pg, jogador, input, interaveis) {
-    let possiveisEstados;
+    let possiveisEstados = [];
+    let inventario = await pg.getInventarioJogador(jogador.idjogador);
     console.log("Deseja interagir com qual item?");
     console.table({
         "Nome": interaveis.map(int => int.nome)
     });
     let item = Number(input(""));
     possiveisEstados = await pg.getMaquinaDeEstado(interaveis[item].estadoatual);
-    console.log("O que deseja fazer?");
-    console.table({
-        "Ação": possiveisEstados.map(acao => acao.acao)
-    });
-    let escolha = Number(input(""));
+    for (let i = 0; i < possiveisEstados.length; i++) {
+        if (possiveisEstados[i].iditem != null)
+            if (inventario.findIndex(inv => inv.iditem == possiveisEstados[i].iditem) == -1) {
+                possiveisEstados.splice(possiveisEstados[i], 1);
+                i--;
+            }
+    }
+    if (possiveisEstados[0]) {
+        console.log("O que deseja fazer?");
+        console.table({
+            "Ação": possiveisEstados.map(acao => acao.acao)
+        });
+        let escolha = Number(input(""));
+        await pg.putEstadoInstancia(interaveis[item].idinstanciainteravel, possiveisEstados[escolha].idestadopossivel);
+    }
+    else {
+        console.log("Você não está com o item adequado no inventário");
+    }
 }
 export async function finalizarPartida(pg, jogador) {
     console.clear();

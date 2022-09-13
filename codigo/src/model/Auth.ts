@@ -44,6 +44,8 @@ class Auth {
                 console.log("Dificuldade inválida, tente novamente!")
             }
             catch (err: any) {
+                console.log(err);
+                
                 console.log("Nome já cadastrado, insira outro!")
             }
         }

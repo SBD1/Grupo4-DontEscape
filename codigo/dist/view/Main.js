@@ -8,7 +8,6 @@ const input = PromptSync({ sigint: true });
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function Main() {
     const playerComodoInicial = 7;
-    await Console.consoleName(sleep);
     let jogador = {
         idjogador: 6,
         nome: '',
@@ -22,7 +21,7 @@ async function Main() {
         jogador = await Auth.login(input, pg);
     else
         jogador = await Auth.register(input, pg);
-    await Console.consoleStart(sleep);
+    jogador.comodo = 7;
     let partida = await pg.getPartidaJogador(jogador.idjogador);
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
@@ -34,7 +33,7 @@ async function Main() {
     let min = partida.tempototal % 60;
     console.log(chalk.redBright(`\nTempo restante: ${horas}h e ${min}min\n`));
     console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
-    Console.consoleInteraveis(estados);
+    Console.consoleInteraveis(estados, interaveis);
     Console.consoleMenu(comodoJogador);
     let acao = Number(input(""));
     while (acao != 0) {
@@ -75,6 +74,12 @@ async function Main() {
         min = partida.tempototal % 60;
         console.log(chalk.redBright(`\nTempo restante: ${horas}h e ${min}min\n`));
         console.log(chalk.yellow(`Você está no cômodo : ${comodoJogador.nome}`));
+        interaveis = await pg.getInteraveis(jogador);
+        estados = [];
+        for (let i = 0; i < interaveis.length; i++) {
+            estados[i] = await pg.getEstado(interaveis[i].estadoatual);
+        }
+        Console.consoleInteraveis(estados, interaveis);
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));
     }

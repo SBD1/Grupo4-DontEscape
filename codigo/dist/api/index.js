@@ -118,7 +118,7 @@ class Postgree {
     };
     getMaquinaDeEstado = async (idEstado) => {
         let resultados = [];
-        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${(idEstado)};`)
+        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${idEstado}`)
             .then((results) => {
             resultados = results.rows;
         });
@@ -332,6 +332,14 @@ class Postgree {
         let resultados = [];
         await this.client.query(`
             SELECT tempo FROM Tarefa WHERE IdItemInterador = ${IdItemInterador} AND IdItemInteragido = ${IdItemInteragido}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados[0];
+    };
+    putEstadoInstancia = async (idInstanciaInteravel, idEstado) => {
+        let resultados = [];
+        await this.client.query(`UPDATE InstanciaInteravel SET EstadoAtual = ${idEstado} WHERE IdInstanciaInteravel = ${idInstanciaInteravel}`)
             .then((results) => {
             resultados = results.rows;
         });
