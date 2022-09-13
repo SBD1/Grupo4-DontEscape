@@ -322,7 +322,7 @@ class Postgree {
         return resultados[0];
     }
 
-    public putJogador = async (oldIdJogador: number, idComodo: Number): Promise<any> => {
+    public putComodoJogador = async (oldIdJogador: number, idComodo: Number): Promise<any> => {
         let resultados: Array<any> = [];
         await this.client.query(`
             UPDATE Jogador SET comodo = ${idComodo} WHERE IdJogador = ${oldIdJogador}`)
@@ -360,6 +360,16 @@ class Postgree {
             SELECT Partida.idPartida, Partida.tempoTotal, Partida.qtdZumbis, Partida.DificuldadePartida FROM Partida
                 JOIN Jogador
                 ON Jogador.Partida = Partida.IdPartida AND Jogador.IdJogador = ${idJogador}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public getEncaminha = async (idLocalidade: Number, idLocalidadeAdjacente: Number): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            SELECT tempo FROM Encaminha WHERE Encaminha.idlocalidade = ${idLocalidade} AND Encaminha.idlocalidadeadjacente = ${idLocalidadeAdjacente}`)
             .then((results: any) => {
                 resultados = results.rows
             })

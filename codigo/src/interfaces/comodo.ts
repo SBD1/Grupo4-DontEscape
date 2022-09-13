@@ -4,5 +4,6 @@ export interface Comodo {
     descricao: String,
     saidadireita?: Number,
     saidaesquerda?: Number,
-    saidameio?: Number
+    saidameio?: Number,
+    localidade: Number,
 }

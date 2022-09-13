@@ -1,20 +1,20 @@
-INSERT INTO Comodo (Nome, Descricao, SaidaDireita, SaidaEsquerda, SaidaMeio) VALUES 
-('Fundo da garagem da base', 'Cômodo pequeno com um poço', null, null, null),
-('Entrada da garagem da base', 'Cômodo com grande entrada e com mofo no teto', null, null, null),
-('Meio da garagem da base', 'Cômodo com paredes descascadas e vigas aparentes', null, null, null),
-('Porão da garagem da base', 'Lugar estreito com bastante sujeira', null, null, null),
-('Exterior Frontal da base', 'Chão com grama seca com vista para uma floresta', null, null, null),
-('Exterior Lateral da base', 'Uma parede que já esteve em melhores condições', null, null, null),
-('Saída da base', 'Local rodeado por altas cercas', null, null, null),
-('Exterior da igreja', 'Local bem arrumado para o fim do mundo, posso ver uma estátua de anjo', null, null, null),
-('Interior da igreja', 'O reflexo do sol nos vitrais geram uma atmosfera sombria', null, null, null),
-('Entrada do posto de gasolina', 'Três cheias e solitárias bombas de gasolina', null, null, null),
-('Exterior do posto de gasolina', 'As prateleiras que um foram cheias, estão vazias', null, null, null),
-('Escritório do posto de gasolina', 'Local bem arrumado cum uma poltrona e livros ao fundo', null, null, null),
-('Exterior da loja', 'Uma grande área pavimentada com uma loja ao fundo', null, null, null),
-('Interior da loja', 'Local escuro com grandes prateleiras vazias', null, null, null),
-('Buraco extranho na loja', 'Local que um dia foi utilizado para guardar estoque', null, null, null),
-('Cruzamento da rodovia', 'Cruzamento de três vias com dois carros colididos no meio', null, null, null);
+INSERT INTO Comodo (Nome, Descricao, SaidaDireita, SaidaEsquerda, SaidaMeio, Localidade) VALUES 
+('Fundo da garagem da base', 'Cômodo pequeno com um poço', null, null, null, null),
+('Entrada da garagem da base', 'Cômodo com grande entrada e com mofo no teto', null, null, null, null),
+('Meio da garagem da base', 'Cômodo com paredes descascadas e vigas aparentes', null, null, null, null),
+('Porão da garagem da base', 'Lugar estreito com bastante sujeira', null, null, null, null),
+('Exterior Frontal da base', 'Chão com grama seca com vista para uma floresta', null, null, null, null),
+('Exterior Lateral da base', 'Uma parede que já esteve em melhores condições', null, null, null, null),
+('Saída da base', 'Local rodeado por altas cercas', null, null, null, null),
+('Exterior da igreja', 'Local bem arrumado para o fim do mundo, posso ver uma estátua de anjo', null, null, null, null),
+('Interior da igreja', 'O reflexo do sol nos vitrais geram uma atmosfera sombria', null, null, null, null),
+('Entrada do posto de gasolina', 'Três cheias e solitárias bombas de gasolina', null, null, null, null),
+('Exterior do posto de gasolina', 'As prateleiras que um foram cheias, estão vazias', null, null, null, null),
+('Escritório do posto de gasolina', 'Local bem arrumado cum uma poltrona e livros ao fundo', null, null, null, null),
+('Exterior da loja', 'Uma grande área pavimentada com uma loja ao fundo', null, null, null, null),
+('Interior da loja', 'Local escuro com grandes prateleiras vazias', null, null, null, null),
+('Buraco extranho na loja', 'Local que um dia foi utilizado para guardar estoque', null, null, null, null),
+('Cruzamento da rodovia', 'Cruzamento de três vias com dois carros colididos no meio', null, null, null, null);
 
 INSERT INTO Localidade (ComodoInicial, nome) VALUES 
 (7, 'Base'),
@@ -211,19 +211,20 @@ INSERT INTO Tarefa (IdItemInterador, IdItemInteragido, Tempo) VALUES
 (26, 32, 120);
 
 -- Adicionando comodos adjacentes
-UPDATE Comodo SET SaidaDireita = 3, SaidaEsquerda = 4 WHERE IdComodo = 1;
-UPDATE Comodo SET SaidaDireita = 5, SaidaEsquerda = 3 WHERE IdComodo = 2;
-UPDATE Comodo SET SaidaDireita = 2, SaidaEsquerda = 1 WHERE IdComodo = 3;
-UPDATE Comodo SET SaidaDireita = 1 WHERE IdComodo = 4;
-UPDATE Comodo SET SaidaDireita = 7, SaidaMeio = 2, SaidaEsquerda = 6 WHERE IdComodo = 5;
-UPDATE Comodo SET SaidaDireita = 5 WHERE IdComodo = 6;
-UPDATE Comodo SET SaidaEsquerda = 5 WHERE IdComodo = 7;
-UPDATE Comodo SET SaidaDireita = 9 WHERE IdComodo = 8;
-UPDATE Comodo SET SaidaDireita = 8 WHERE IdComodo = 9;
-UPDATE Comodo SET SaidaDireita = 12, SaidaEsquerda = 11 WHERE IdComodo = 10;
-UPDATE Comodo SET SaidaDireita = 10 WHERE IdComodo = 11;
-UPDATE Comodo SET SaidaDireita = 10 WHERE IdComodo = 12;
-UPDATE Comodo SET SaidaDireita = 14 WHERE IdComodo = 13;
-UPDATE Comodo SET SaidaDireita = 15, SaidaEsquerda = 13 WHERE IdComodo = 14;
-UPDATE Comodo SET SaidaEsquerda = 14 WHERE IdComodo = 15;
+UPDATE Comodo SET SaidaDireita = 3, SaidaEsquerda = 4, Localidade = 1 WHERE IdComodo = 1;
+UPDATE Comodo SET SaidaDireita = 5, SaidaEsquerda = 3, Localidade = 1 WHERE IdComodo = 2;
+UPDATE Comodo SET SaidaDireita = 2, SaidaEsquerda = 1, Localidade = 1 WHERE IdComodo = 3;
+UPDATE Comodo SET SaidaDireita = 1, Localidade = 1 WHERE IdComodo = 4;
+UPDATE Comodo SET SaidaDireita = 7, SaidaMeio = 2, SaidaEsquerda = 6, Localidade = 1 WHERE IdComodo = 5;
+UPDATE Comodo SET SaidaDireita = 5, Localidade = 1 WHERE IdComodo = 6;
+UPDATE Comodo SET SaidaEsquerda = 5, Localidade = 1 WHERE IdComodo = 7;
+UPDATE Comodo SET SaidaDireita = 9, Localidade = 2 WHERE IdComodo = 8;
+UPDATE Comodo SET SaidaDireita = 8, Localidade = 2 WHERE IdComodo = 9;
+UPDATE Comodo SET SaidaDireita = 12, SaidaEsquerda = 11, Localidade = 3 WHERE IdComodo = 10;
+UPDATE Comodo SET SaidaDireita = 10, Localidade = 3 WHERE IdComodo = 11;
+UPDATE Comodo SET SaidaDireita = 10, Localidade = 3 WHERE IdComodo = 12;
+UPDATE Comodo SET SaidaDireita = 14, Localidade = 4 WHERE IdComodo = 13;
+UPDATE Comodo SET SaidaDireita = 15, SaidaEsquerda = 13, Localidade = 4 WHERE IdComodo = 14;
+UPDATE Comodo SET SaidaEsquerda = 14, Localidade = 4 WHERE IdComodo = 15;
+UPDATE Comodo SET Localidade = 5 WHERE IdComodo = 16;
 
