@@ -1,7 +1,7 @@
 import Postgree from "../api/index.js";
 import Auth from "../model/Auth.js";
 import Console from "./Console.js";
-import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa, interagirItem } from "./GameActions.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
 import ChalkAnimation from "chalk-animation";
@@ -17,7 +17,6 @@ async function Main() {
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------
     `);
     const tittle = ChalkAnimation.neon(t1);
-    await sleep(5000);
     tittle.stop();
     console.clear();
     let jogador = {
@@ -34,7 +33,6 @@ async function Main() {
     else
         jogador = await Auth.register(input, pg);
     Console.consoleStart();
-    jogador.comodo = 8;
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
     let estados = [];
@@ -49,7 +47,7 @@ async function Main() {
         if (acao == 1)
             await inspecionaComodo(pg, jogador, input);
         else if (acao == 2) {
-            console.log("Iteragir com item");
+            await interagirItem(pg, jogador, input, interaveis);
         }
         else if (acao == 3) {
             let inventario = await pg.getInventarioJogador(jogador.idjogador);
@@ -63,11 +61,13 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador);
+            await abrirMapa(pg, jogador, input);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
             await procurarNpc(pg, jogador, input);
+        jogador = await pg.getLogin(jogador.nome);
+        comodoJogador = await pg.getComodo(jogador);
         console.log(`Você está no cômodo : ${comodoJogador.nome}`);
         Console.consoleMenu(comodoJogador);
         acao = Number(input(""));

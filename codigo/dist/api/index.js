@@ -116,6 +116,14 @@ class Postgree {
         });
         return resultados[0];
     };
+    getMaquinaDeEstado = async (idEstado) => {
+        let resultados = [];
+        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${(idEstado)};`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados;
+    };
     getInventarioJogador = async (idJogador) => {
         let resultados = [];
         await this.client.query(`

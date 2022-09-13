@@ -12,6 +12,7 @@ import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
 import { Partida } from "../interfaces/partida.js";
+import { MaquinaDeEstado } from 'src/interfaces/maquinaDeEstado.js';
 
 const PgClient = Pg.Client;
 dotenv.config();
@@ -142,6 +143,25 @@ class Postgree {
     public getEstado = async (idEstado: Number): Promise<Estado> => {
         let resultados: Estado[] = [];
         await this.client.query(`SELECT * FROM Estado WHERE idestado = ${(idEstado)};`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public getMaquinaDeEstado = async (idEstado: Number): Promise<MaquinaDeEstado []> => {
+        let resultados: MaquinaDeEstado[] = [];
+        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${(idEstado)};`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public postInstanciaMaquinaDeEstado = async (idJogador: number, idInimigo: number): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            INSERT INTO estado() VALUES ()`)
             .then((results: any) => {
                 resultados = results.rows
             })

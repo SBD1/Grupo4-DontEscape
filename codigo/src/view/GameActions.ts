@@ -1,3 +1,5 @@
+import { connect } from "http2";
+import { Estado } from "src/interfaces/estado.js";
 import Postgree from "../api/index.js";
 import { Comodo } from "../interfaces/comodo.js";
 import { Inimigo } from "../interfaces/inimigo.js";
@@ -164,4 +166,25 @@ export async function abrirMapa(pg: Postgree, jogador: Jogador, input: any) {
         console.log("Mapa Indisponivel, você precisa estar em um cômodo inicial\n");
     }
 
+}
+
+export async function interagirItem(pg: Postgree, jogador: Jogador, input: any, interaveis: any[]) {
+    let possiveisEstados;
+    console.log("Deseja interagir com qual item?");
+    console.table({
+        "Nome": interaveis.map(int => int.nome)
+    })
+    
+    let item = Number(input(""));
+    possiveisEstados = await pg.getMaquinaDeEstado(interaveis[item].estadoatual);
+    // console.log(possiveisEstados);
+
+    console.log("O que deseja fazer?");
+    console.table({
+        "Ação": possiveisEstados.map(acao => acao.acao)
+    })
+
+    let escolha = Number(input(""))
+
+    
 }

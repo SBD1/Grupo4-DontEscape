@@ -2,7 +2,7 @@ import Postgree from "../api/index.js";
 import Auth from "../model/Auth.js";
 import { Jogador } from "../interfaces/jogador.js";
 import Console from "./Console.js";
-import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa } from "./GameActions.js";
+import { procurarInimigo, inspecionaComodo, procurarNpc, mudaComodo, abrirMapa, interagirItem } from "./GameActions.js";
 import Login from "../model/Login.js";
 import PromptSync from "prompt-sync";
 import chalk from "chalk";
@@ -25,7 +25,7 @@ async function Main() {
     `);
 
     const tittle = ChalkAnimation.neon(t1);
-    await sleep(5000);
+    // await sleep(5000);
     tittle.stop();
     console.clear();
 
@@ -67,7 +67,7 @@ async function Main() {
             await inspecionaComodo(pg, jogador, input);
         
         else if (acao == 2) {
-            console.log("Iteragir com item")
+            await interagirItem(pg, jogador, input, interaveis);
         }
         else if (acao == 3) {
             let inventario = await pg.getInventarioJogador(jogador.idjogador);

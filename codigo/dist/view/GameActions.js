@@ -127,3 +127,18 @@ export async function abrirMapa(pg, jogador, input) {
         console.log("Mapa Indisponivel, você precisa estar em um cômodo inicial\n");
     }
 }
+export async function interagirItem(pg, jogador, input, interaveis) {
+    let possiveisEstados;
+    console.log("Deseja interagir com qual item?");
+    console.table({
+        "Nome": interaveis.map(int => int.nome)
+    });
+    let item = Number(input(""));
+    possiveisEstados = await pg.getMaquinaDeEstado(interaveis[item].estadoatual);
+    console.log(possiveisEstados);
+    console.log("O que deseja fazer?");
+    console.table({
+        "Ação": possiveisEstados.map(acao => acao.acao)
+    });
+    let escolha = Number(input(""));
+}
