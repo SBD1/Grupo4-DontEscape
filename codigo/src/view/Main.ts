@@ -74,7 +74,7 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador, input);
+            partida = await abrirMapa(pg, jogador, input, partida);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)

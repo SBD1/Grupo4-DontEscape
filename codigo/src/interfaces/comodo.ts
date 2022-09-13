@@ -5,5 +5,5 @@ export interface Comodo {
     saidadireita?: Number,
     saidaesquerda?: Number,
     saidameio?: Number,
-    localidade: Number,
+    localidade: number,
 }
