@@ -12,6 +12,7 @@ import { Item } from "../interfaces/item.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Npc } from "../interfaces/npc.js";
 import { Partida } from "../interfaces/partida.js";
+import { MaquinaDeEstado } from 'src/interfaces/maquinaDeEstado.js';
 import { Amizade } from 'src/interfaces/amizade.js';
 
 const PgClient = Pg.Client;
@@ -149,8 +150,27 @@ class Postgree {
         return resultados[0];
     }
 
-    public getInventarioJogador = async (idJogador: number = 7): Promise<any> => {
-        let resultados: Array<Inventario> = [];
+    public getMaquinaDeEstado = async (idEstado: Number): Promise<MaquinaDeEstado []> => {
+        let resultados: MaquinaDeEstado[] = [];
+        await this.client.query(`SELECT * FROM maquinadeestados WHERE idestado = ${(idEstado)};`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados;
+    }
+
+    public postInstanciaMaquinaDeEstado = async (idJogador: number, idInimigo: number): Promise<any> => {
+        let resultados: Array<any> = [];
+        await this.client.query(`
+            INSERT INTO estado() VALUES ()`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public getInventarioJogador = async (idJogador: number): Promise<any> => {
+        let resultados: Array<any> = [];
         await this.client.query(`
             SELECT I.idItem, instanciacoletavel, nome, descricao FROM 
             (SELECT I.Jogador, instanciaColetavel, idItem 
@@ -370,6 +390,16 @@ class Postgree {
         let resultados: Array<any> = [];
         await this.client.query(`
             SELECT tempo FROM Encaminha WHERE Encaminha.idlocalidade = ${idLocalidade} AND Encaminha.idlocalidadeadjacente = ${idLocalidadeAdjacente}`)
+            .then((results: any) => {
+                resultados = results.rows
+            })
+        return resultados[0];
+    }
+
+    public getTempoTarefa = async (IdItemInterador: Number, IdItemInteragido: Number): Promise<Number> => {
+        let resultados: Array<Number> = [];
+        await this.client.query(`
+            SELECT tempo FROM Tarefa WHERE IdItemInterador = ${IdItemInterador} AND IdItemInteragido = ${IdItemInteragido}`)
             .then((results: any) => {
                 resultados = results.rows
             })
