@@ -288,7 +288,7 @@ class Postgree {
         });
         return resultados[0];
     };
-    putJogador = async (oldIdJogador, idComodo) => {
+    putComodoJogador = async (oldIdJogador, idComodo) => {
         let resultados = [];
         await this.client.query(`
             UPDATE Jogador SET comodo = ${idComodo} WHERE IdJogador = ${oldIdJogador}`)
@@ -323,6 +323,15 @@ class Postgree {
             SELECT Partida.idPartida, Partida.tempoTotal, Partida.qtdZumbis, Partida.DificuldadePartida FROM Partida
                 JOIN Jogador
                 ON Jogador.Partida = Partida.IdPartida AND Jogador.IdJogador = ${idJogador}`)
+            .then((results) => {
+            resultados = results.rows;
+        });
+        return resultados[0];
+    };
+    getEncaminha = async (idLocalidade, idLocalidadeAdjacente) => {
+        let resultados = [];
+        await this.client.query(`
+            SELECT tempo FROM Encaminha WHERE Encaminha.idlocalidade = ${idLocalidade} AND Encaminha.idlocalidadeadjacente = ${idLocalidadeAdjacente}`)
             .then((results) => {
             resultados = results.rows;
         });

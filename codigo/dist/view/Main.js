@@ -21,7 +21,6 @@ async function Main() {
         jogador = await Auth.login(input, pg);
     else
         jogador = await Auth.register(input, pg);
-    jogador.comodo = 7;
     let partida = await pg.getPartidaJogador(jogador.idjogador);
     let comodoJogador = await pg.getComodo(jogador);
     let interaveis = await pg.getInteraveis(jogador);
@@ -53,7 +52,7 @@ async function Main() {
         else if (acao == 6)
             await mudaComodo(pg, jogador, acao);
         else if (acao == 7)
-            await abrirMapa(pg, jogador, input);
+            partida = await abrirMapa(pg, jogador, input, partida);
         else if (acao == 8)
             await procurarInimigo(pg, jogador, input);
         else if (acao == 9)
