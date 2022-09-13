@@ -2,7 +2,7 @@ import Postgree from "../api/index.js";
 import { Jogador } from "../interfaces/jogador.js";
 import { Partida } from "../interfaces/partida.js";
 import Console from "../view/Console.js";
-
+import chalk from "chalk";
 class Auth {
 
     public static async login(input: any, pg: Postgree): Promise<Jogador> {
@@ -13,10 +13,13 @@ class Auth {
 
             const jogador: Jogador = await pg.getLogin(nomeJogador);
 
-            if (jogador)
+            if (jogador) {
+                console.log(chalk.greenBright.bold("Jogador Conectado!, Bem vindo " + jogador.nome));
+                console.clear();
                 return jogador;
+            }
             else
-                console.log("Jogador não encontrado, Tem certeza que digitou seu nome corretamente?");
+                console.log(chalk.red.bold("Jogador não encontrado, Tem certeza que digitou seu nome corretamente?"));
         }
     }
 

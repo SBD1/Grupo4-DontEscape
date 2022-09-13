@@ -5,31 +5,60 @@ import { Item } from "../interfaces/item.js"
 import { Npc } from "../interfaces/npc.js"
 import { Partida } from "src/interfaces/partida.js"
 import ChalkAnimation from "chalk-animation";
+import chalk from "chalk"
+import { Inventario } from "src/interfaces/inventario.js"
 class Console {
    
     constructor() {
 
     }
     
-    static consoleName() {
-        const t1 = `
-        ------------------------------------------------------
-        ------------------------------------------------------
-        -------------------- DON´T ESCAPE --------------------
-        ------------------------------------------------------
-        ------------------------------------------------------
-        `;
+    static async consoleName(sleep) {
+        const text = `  
+        /$$$$$$$                           /$$           /$$$$$$$$                                                         / $$
+       | $$__  $                          | $$          | $$_____/                                                         | $$
+       | $$  \  $    /$$$$$$   /$$$$$$$   /$$$$$$        | $$         /$$$$$$$   /$$$$$$$   /$$$$$$    /$$$$$$    /$$$$$$   | $$
+       | $$  | $   /$$__  $$ | $$__  $$ |_  $$_/        | $$$$$     /$$_____/  /$$_____/  |____  $$  /$$__  $$  /$$__  $$  | $$
+       | $$  | $  | $$  \  $$ | $$  \  $$   | $$          | $$__/    |  $$$$$$  | $$         /$$$$$$$ | $$  \  $$ | $$$$$$$$  |__/
+       | $$  | $  | $$  | $$ | $$  | $$   | $$ /$$      | $$        \____  $$  | $$        /$$__  $$ | $$  | $$ | $$_____/      
+       | $$$$$$$  |  $$$$$$/ | $$  | $$   | $$$$/       | $$$$$$$$  /$$$$$$$/ |  $$$$$$$  |$$$$$$$  | $$$$$$$/ |  $$$$$$$   |$$
+       |_______/   \______/   |__/  |__/   |_____/       |________/ |_______/   |_______/  |_______/ | $$____/   |_______/  |__/
+                                                                                                    | $$                       
+                                                                                                    | $$                     
+                                                                                                    |__/`;
+
+    const tittle = ChalkAnimation.radar(text);
+    await sleep(10000);
+    tittle.stop();
+    console.clear();
     }
 
-    static consoleStart() {
-        console.log('\nQuando os zumbis atacaram, nós não estávamos preparados.');
-        console.log('Pensando bem, nós nunca estivemos realmente preparados para isso.');
-        console.log('O surto começou duas semanas atrás e foi piorando a cada dia.');
-        console.log('Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa...');
-        console.log('Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.');
-        console.log('Precisamos descansar e dormir.');
-        console.log('Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.');
-        console.log('Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.\n');
+    static async consoleStart(sleep) {
+        
+        let str = 'Loading';
+        const loading = ChalkAnimation.karaoke(str);
+
+        setInterval(() => {
+            loading.replace(str += '.');
+        }, 500);
+        await sleep(2500);
+        console.clear();
+
+        const text = 
+        `  
+        Quando os zumbis atacaram, nós não estávamos preparados.  \n
+        Pensando bem, nós nunca estivemos realmente preparados para isso.  \n
+        O surto começou duas semanas atrás e foi piorando a cada dia.  \n
+        Desta vez nós mal conseguimos sobreviver. Nós escapamos, mas Bill foi mordido e nós dois sabemos o que isso significa..  \n
+        Nós decidimos ficar nessa construção abandonada por enquanto, ela será a nossa base.  \n
+        Precisamos descansar e dormir \n
+        Uma enorme horda de mortos vivos está vindo para cá. Eles vão nos alcançar no pôr do sol.  \n
+        Preciso trancar este lugar antes que isso aconteça e talvez, só talvez, eu consiga viver para ver outro dia.  \n`
+
+            const tittle = ChalkAnimation.neon(chalk.redBright(text));
+            await sleep(30000);
+            tittle.stop();
+            console.clear();
  
     }
 
@@ -46,15 +75,16 @@ class Console {
         console.log(`2) Interagir com item`)
         console.log(`3) Abrir o inventário`)
         if (comodoJogador.saidadireita) console.log(`4) Ir para a direita`)
-        else console.log(`4) Ir para a direita (Indisponivel)`)
+        else console.log(chalk.gray(`4) Ir para a direita (Indisponivel)`))
         if (comodoJogador.saidaesquerda) console.log(`5) Ir para a esquerda`)
-        else console.log(`5) Ir para a esquerda (Indisponivel)`)
+        else console.log(chalk.gray(`5) Ir para a esquerda (Indisponivel)`))
         if (comodoJogador.saidameio) console.log(`6) Ir para o meio`)
-        else console.log("6) Ir para o meio (Indisponivel)")
+        else console.log(chalk.gray("6) Ir para o meio (Indisponivel)"))
         if (isComodoInicial) console.log(`7) Abrir o mapa`)
-        else console.log(`7) Abrir o mapa (Indisponivel)`)
+        else console.log(chalk.gray(`7) Abrir o mapa (Indisponivel)`))
         console.log(`8) Procurar inimigos`)
         console.log(`9) Procurar npcs`)
+        console.log(`10) Terminar preparação`)
         console.log(`0) Sair do jogo`)
     }
 
@@ -156,6 +186,31 @@ class Console {
         niveisPartida.forEach((partida) => {
             console.log(`${partida.idpartida}) ${partida.dificuldadepartida}, ${partida.qtdzumbis} zumbis, ${partida.qtdzumbis} minutos`);
         });
+    }
+
+    static consoleFinalVencedor() {
+        console.log(`E então... houve silêncio.\nVocê sobreviveu a noite.\nÉ hora de seguir em frente e sair desse lugar.`);
+    }
+
+    static consoleFinalPerdedor(qtdZumbis: number) {
+        console.log(`E então... o fim chegou\n${qtdZumbis} zumbis te cercaram e não há saída\nÉ hora de dar adeus.`);
+    }
+
+    static consoleInventario(inventario: Array<Inventario>) {
+        console.log(chalk.blue.bold("Seu inventário:"));
+        let ArrayInventario : Array<{
+            nome: string,
+            descricao: String,
+        }> = [];
+        
+        inventario.map((item) => {
+            ArrayInventario.push({
+                nome: item.nome,
+                descricao: item.descricao,
+            });
+        });
+
+        console.table(ArrayInventario);
     }
 }
 
