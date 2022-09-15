@@ -70,7 +70,6 @@ INSERT INTO Item (Nome, Descricao, Comodo, Tipo) VALUES
 ('Aquário', 'Todos os peixes estão mortos', 12, null),
 ('Máquina registradora', 'Está vazia', 14, null);
 
--- Colocar trigger
 INSERT INTO Coletavel (IdColetavel, Lugar) VALUES
 (1, 'parede da esquerda'),
 (2, 'Lixeira'),
@@ -99,7 +98,6 @@ INSERT INTO Coletavel (IdColetavel, Lugar) VALUES
 (25, 'Chão'),
 (26, 'Árvores');
 
---conferir pontuação correta
 INSERT INTO Estado (Descricao, Pontos) VALUES
 ('Uma porta resistente aberta', 0), --1--
 ('Uma porta resistente fechada', 5), --2--
@@ -160,7 +158,6 @@ INSERT INTO Npc (IdNpc, Nome, Comodo, AjudaEmTempo, FalaInicial, FalaAjuda, Item
 (3, 'Bill', 3, 0, 'A dor... não consigo suportar a dor', 'Obrigado, não sinto mais dor. Mas ainda estou infectado', null, 14),
 (4, 'Jeremy', 15, 50, 'Oi, me chamo Jeremy. Me desculpe, não consigo ver perfeitamente, eu perdi meus óculos. Eu posso te ajudar se você encontrá-los para mim. Perdi eles em algum lugar dentro da loja', 'Obrigado, agora consigo ver perfeitamente', 17, 21);
 
--- Apos inserir itens
 INSERT INTO MaquinaDeEstados(IdEstado, IdEstadoPossivel, Acao, idItem) VALUES
 (01, 02, 'fechar', null),
 (02, 01, 'Abrir', null ),

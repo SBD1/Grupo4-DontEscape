@@ -1,28 +1,4 @@
-DROP TABLE Comodo CASCADE;
-DROP TABLE Localidade CASCADE;
-DROP TABLE Item CASCADE;
-DROP TABLE Coletavel CASCADE;
-DROP TABLE InstanciaColetavel CASCADE;
-DROP TABLE Estado CASCADE;
-DROP TABLE Interavel CASCADE;
-DROP TABLE InstanciaInteravel CASCADE;
-DROP TABLE Partida CASCADE;
-DROP TABLE Personagem CASCADE;
-DROP TABLE Inimigo CASCADE;
-DROP TABLE Npc CASCADE;
-DROP TABLE Jogador CASCADE;
-DROP TABLE Amizade CASCADE;
-DROP TABLE MaquinaDeEstados CASCADE;
-DROP TABLE Encaminha CASCADE;
-DROP TABLE Inventario CASCADE;
-DROP TABLE Tarefa CASCADE;
-DROP TABLE Enfrenta CASCADE;
-
-DROP TYPE Dificuldade CASCADE;
-DROP TYPE TipoPersonagem CASCADE;
-DROP TYPE TipoItem CASCADE;
-DROP TYPE TipoSituacao CASCADE;
-
+create database dontEscape;
 
 CREATE TYPE Dificuldade AS ENUM('Fácil', 'Médio', 'Difícil');
 CREATE TYPE TipoPersonagem AS ENUM('inimigo', 'npc', 'jogador');

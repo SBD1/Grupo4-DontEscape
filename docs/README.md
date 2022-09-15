@@ -16,6 +16,37 @@
 
 Repositório para desenvolvimento do projeto Dont Escape da disciplina SBD1.
 
+## Como rodar o projeto
+
+**Pré-requisitos**: NodeJs > 17 e Postgresql
+
+1. Após clonar o repositório, abra a pasta ./scripts
+
+2. Rode os arquivos DDL.sql, Triggers.sql e DML.sql
+
+3. Acesse a pasta ./codigo
+
+4. Crie um arquivo .env com as seguintes informações:
+```
+USER = "postgres"       -- Seu usuario do postgres
+HOST = "localhost"      -- Host configurado no postgres
+DATABASE = "dontEscape" -- Nome do banco do jogo
+PASSWORD = "1423asd"    -- Senha do banco
+PORT = "5432"           -- Porta utilizada pelo postgresql
+```
+
+5. Rode o seguinte comando para instalar os pacotes do node:
+```
+npm i
+```
+
+6. Para iniciar o jogo, execute o comando:
+```
+npm run server
+```
+
+*Recomenda-se que o terminal do jogo tenha 140 colunas e 48 linhas
+
 <hr>
 
 ## Módulo 1
